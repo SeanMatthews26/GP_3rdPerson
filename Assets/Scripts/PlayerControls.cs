@@ -23,8 +23,11 @@ public class PlayerControls : MonoBehaviour
     //Camera
     [SerializeField] private Camera playerCam;
 
+    private Animator animator;
+
     private void Awake()
     {
+        animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody>();
         playerActionAsset = new ThirdPersonInput();
     }
@@ -32,9 +35,12 @@ public class PlayerControls : MonoBehaviour
     private void OnEnable()
     {
         playerActionAsset.PlayerActions.Jump.started += DoJump;
+        playerActionAsset.PlayerActions.Attack.started += DoAttack;
         move = playerActionAsset.PlayerActions.Move;
         playerActionAsset.PlayerActions.Enable();
     }
+
+  
 
     private void OnDisable()
     {
@@ -55,13 +61,13 @@ public class PlayerControls : MonoBehaviour
         Ray ray = new Ray(this.transform.position + Vector3.up * 0.25f, Vector3.down);
         if(Physics.Raycast(ray,out RaycastHit hit, 0.3f))
         {
-            Debug.Log("HI");
+            animator.SetBool("grounded", true);
             return true;
         }
         else
         {
-            Debug.Log("NO");
-            return true;
+            animator.SetBool("grounded", false);
+            return false;
         }
     }
 
@@ -82,6 +88,7 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
+        IsGrounded();
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
 
@@ -116,4 +123,10 @@ public class PlayerControls : MonoBehaviour
         right.y = 0;
         return right.normalized;
     }
+
+    private void DoAttack(InputAction.CallbackContext obj)
+    {
+        animator.SetTrigger("attack");
+    }
+
 }

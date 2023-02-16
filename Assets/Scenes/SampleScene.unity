@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementForce: 1
-  jumpForce: 5
+  jumpForce: 10
   maxSpeed: 5
   extraGravity: 1.5
   playerCam: {fileID: 963194227}
