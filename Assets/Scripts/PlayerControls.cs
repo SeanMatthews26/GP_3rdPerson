@@ -10,6 +10,7 @@ public class PlayerControls : MonoBehaviour
     //Input
     private ThirdPersonInput playerActionAsset;
     private InputAction move;
+    private InputAction look;
 
     //movement
     private Rigidbody rb;
@@ -22,6 +23,10 @@ public class PlayerControls : MonoBehaviour
 
     //Camera
     [SerializeField] private Camera playerCam;
+    private float pitch;
+    private float yaw;
+    [SerializeField] private float camSensitivity = 1f;
+    private float dstToCam = 10f;
 
     private Animator animator;
 
@@ -37,6 +42,7 @@ public class PlayerControls : MonoBehaviour
         playerActionAsset.PlayerActions.Jump.started += DoJump;
         playerActionAsset.PlayerActions.Attack.started += DoAttack;
         move = playerActionAsset.PlayerActions.Move;
+        look = playerActionAsset.PlayerActions.Look;
         playerActionAsset.PlayerActions.Enable();
     }
 
@@ -88,6 +94,8 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+
         IsGrounded();
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
@@ -127,6 +135,20 @@ public class PlayerControls : MonoBehaviour
     private void DoAttack(InputAction.CallbackContext obj)
     {
         animator.SetTrigger("attack");
+    }
+
+    private void LateUpdate()
+    {
+        Debug.Log(look.ReadValue<Vector2>().x);
+
+        //Camera Stuff
+        yaw += look.ReadValue<Vector2>().x * camSensitivity;
+        pitch -= look.ReadValue<Vector2>().y * camSensitivity;
+
+        Vector3 targetRotation = new Vector3(pitch, yaw);
+        playerCam.transform.eulerAngles = targetRotation;
+
+        playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam;
     }
 
 }

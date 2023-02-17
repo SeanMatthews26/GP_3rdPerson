@@ -56,9 +56,18 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Look"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""392f7a24-5520-4a83-9cfa-55ee0581839f"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Test"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c2baa17-6635-46c7-a59d-f975d4fec759"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -196,6 +205,17 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""974732a7-8f0d-4794-9f50-74b746aea929"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +228,7 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_Attack = m_PlayerActions.FindAction("Attack", throwIfNotFound: true);
         m_PlayerActions_Look = m_PlayerActions.FindAction("Look", throwIfNotFound: true);
+        m_PlayerActions_Test = m_PlayerActions.FindAction("Test", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +292,7 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_Attack;
     private readonly InputAction m_PlayerActions_Look;
+    private readonly InputAction m_PlayerActions_Test;
     public struct PlayerActionsActions
     {
         private @ThirdPersonInput m_Wrapper;
@@ -279,6 +301,7 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @Attack => m_Wrapper.m_PlayerActions_Attack;
         public InputAction @Look => m_Wrapper.m_PlayerActions_Look;
+        public InputAction @Test => m_Wrapper.m_PlayerActions_Test;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -300,6 +323,9 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLook;
+                @Test.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTest;
+                @Test.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTest;
+                @Test.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnTest;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -316,6 +342,9 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Test.started += instance.OnTest;
+                @Test.performed += instance.OnTest;
+                @Test.canceled += instance.OnTest;
             }
         }
     }
@@ -326,5 +355,6 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnTest(InputAction.CallbackContext context);
     }
 }
