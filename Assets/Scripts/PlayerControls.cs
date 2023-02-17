@@ -26,7 +26,9 @@ public class PlayerControls : MonoBehaviour
     private float pitch;
     private float yaw;
     [SerializeField] private float camSensitivity = 1f;
-    private float dstToCam = 10f;
+    [SerializeField] private float dstToCam = 10f;
+    [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
+    [SerializeField] float targetAbovePlayer;
 
     private Animator animator;
 
@@ -139,16 +141,16 @@ public class PlayerControls : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log(look.ReadValue<Vector2>().x);
-
         //Camera Stuff
         yaw += look.ReadValue<Vector2>().x * camSensitivity;
         pitch -= look.ReadValue<Vector2>().y * camSensitivity;
+        pitch = Mathf.Clamp (pitch, pitchLimits.x, pitchLimits.y);
+        Debug.Log(pitch);
 
         Vector3 targetRotation = new Vector3(pitch, yaw);
         playerCam.transform.eulerAngles = targetRotation;
 
-        playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam;
+        playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam + new Vector3 (0, targetAbovePlayer, 0);
     }
 
 }

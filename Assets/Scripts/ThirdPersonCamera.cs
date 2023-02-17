@@ -34,10 +34,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void LateUpdate()
     {
-
- 
-
-        Vector3 target = player.position + (transform.position - player.position).normalized * distance;
+        /*Vector3 target = player.position + (transform.position - player.position).normalized * distance;
         transform.position = Vector3.SmoothDamp(transform.position, target, ref currentVelocity, smoothTime);
         transform.LookAt(player);
 
@@ -45,7 +42,7 @@ public class ThirdPersonCamera : MonoBehaviour
         if (target.y < player.position.y)
         {
             target.y = player.position.y;
-        }
+        }*/
     }
 }
     
