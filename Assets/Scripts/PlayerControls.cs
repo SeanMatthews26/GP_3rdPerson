@@ -38,6 +38,8 @@ public class PlayerControls : MonoBehaviour
     private float offsetSqur;
     private Vector3 offsetNorm;
     private bool lockedOn = false;
+    private Vector3 lockOnCamPos;
+    private Vector3 freeCamPos;
 
     private void Awake()
     {
@@ -163,24 +165,27 @@ public class PlayerControls : MonoBehaviour
     private void LateUpdate()
     {
         //Camera Stuff
-        yaw += look.ReadValue<Vector2>().x * camSensitivity;
-        pitch -= look.ReadValue<Vector2>().y * camSensitivity;
-        pitch = Mathf.Clamp (pitch, pitchLimits.x, pitchLimits.y);
-
-        Vector3 targetRotation = new Vector3(pitch, yaw);
-        playerCam.transform.eulerAngles = targetRotation;
-
+   
        
 
        
         if(lockedOn) 
         {
-            playerCam.transform.position = new Vector3(transform.position.x + offsetNorm.x, transform.position.y + 3, transform.position.z + offsetNorm.z);
+            lockOnCamPos = new Vector3(transform.position.x + offsetNorm.x, transform.position.y + 4, transform.position.z + offsetNorm.z);
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, 0.1f);
             playerCam.transform.LookAt(cylinderPos);
         }
         else 
         {
-            playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam + new Vector3(0, targetAbovePlayer, 0);
+            yaw += look.ReadValue<Vector2>().x * camSensitivity;
+            pitch -= look.ReadValue<Vector2>().y * camSensitivity;
+            pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
+
+            Vector3 targetRotation = new Vector3(pitch, yaw);
+            playerCam.transform.eulerAngles = targetRotation;
+
+            freeCamPos = transform.position - playerCam.transform.forward * dstToCam + new Vector3(0, targetAbovePlayer, 0);
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, 0.1f);
         }
     }
 
