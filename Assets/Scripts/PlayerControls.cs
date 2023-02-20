@@ -32,6 +32,13 @@ public class PlayerControls : MonoBehaviour
 
     private Animator animator;
 
+    [SerializeField] GameObject cylinder;
+    private Vector3 cylinderPos;
+    private Vector3 offset;
+    private float offsetSqur;
+    private Vector3 offsetNorm;
+    private bool lockedOn = false;
+
     private void Awake()
     {
         animator = this.GetComponent<Animator>();
@@ -43,12 +50,13 @@ public class PlayerControls : MonoBehaviour
     {
         playerActionAsset.PlayerActions.Jump.started += DoJump;
         playerActionAsset.PlayerActions.Attack.started += DoAttack;
+        playerActionAsset.PlayerActions.LockOn.started += DoLockOn;
         move = playerActionAsset.PlayerActions.Move;
         look = playerActionAsset.PlayerActions.Look;
         playerActionAsset.PlayerActions.Enable();
     }
 
-  
+   
 
     private void OnDisable()
     {
@@ -60,7 +68,6 @@ public class PlayerControls : MonoBehaviour
         if(IsGrounded())
         {
             forceDirection += Vector3.up * jumpForce;
-            Debug.Log("Jump");
         }
     }
 
@@ -139,18 +146,42 @@ public class PlayerControls : MonoBehaviour
         animator.SetTrigger("attack");
     }
 
+    private void DoLockOn(InputAction.CallbackContext obj)
+    {
+        lockedOn = !lockedOn;
+        Debug.Log(lockedOn);
+    }
+
+    private void Update()
+    {
+        cylinderPos = cylinder.transform.position;
+        offset = transform.position - cylinderPos;
+        offsetSqur = offset.sqrMagnitude;
+        offsetNorm = offset.normalized;
+    }
+
     private void LateUpdate()
     {
         //Camera Stuff
         yaw += look.ReadValue<Vector2>().x * camSensitivity;
         pitch -= look.ReadValue<Vector2>().y * camSensitivity;
         pitch = Mathf.Clamp (pitch, pitchLimits.x, pitchLimits.y);
-        Debug.Log(pitch);
 
         Vector3 targetRotation = new Vector3(pitch, yaw);
         playerCam.transform.eulerAngles = targetRotation;
 
-        playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam + new Vector3 (0, targetAbovePlayer, 0);
+       
+
+       
+        if(lockedOn) 
+        {
+            playerCam.transform.position = new Vector3(transform.position.x + offsetNorm.x, transform.position.y + 3, transform.position.z + offsetNorm.z);
+            playerCam.transform.LookAt(cylinderPos);
+        }
+        else 
+        {
+            playerCam.transform.position = transform.position - playerCam.transform.forward * dstToCam + new Vector3(0, targetAbovePlayer, 0);
+        }
     }
 
 }

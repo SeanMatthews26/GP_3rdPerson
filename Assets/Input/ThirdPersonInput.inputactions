@@ -42,7 +42,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Test",
+                    "name": "LockOn",
                     "type": "Button",
                     "id": "3c2baa17-6635-46c7-a59d-f975d4fec759",
                     "expectedControlType": "Button",
@@ -187,11 +187,22 @@
                 {
                     "name": "",
                     "id": "974732a7-8f0d-4794-9f50-74b746aea929",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Test",
+                    "action": "LockOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08d86f81-0d84-41bf-b392-154af824bc71",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LockOn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
