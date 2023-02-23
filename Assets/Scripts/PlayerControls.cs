@@ -2,6 +2,7 @@ using RPGCharacterAnims.Actions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,19 +34,23 @@ public class PlayerControls : MonoBehaviour
     //Animation
     private Animator animator;
     private bool attacking = false;
- 
+
 
     //LockOn
-    [SerializeField] GameObject cylinder;
     [SerializeField] float camSwitchSpeed;
-    private Vector3 cylinderPos;
     private Vector3 offset;
     private float offsetSqur;
     private Vector3 offsetNorm;
     private bool lockedOn = false;
     private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
+    private GameObject lockOnTarget;
 
+    //Testing
+    Vector3 test;
+    float test2;
+    [SerializeField] float targetDist;
+    [SerializeField] float sphereRad;
 
     private void Awake()
     {
@@ -111,8 +116,6 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
         IsGrounded();
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
@@ -157,17 +160,16 @@ public class PlayerControls : MonoBehaviour
     private void DoLockOn(InputAction.CallbackContext obj)
     {
         lockedOn = !lockedOn;
-        Debug.Log(lockedOn);
     }
 
     private void Update()
     {
         //Camera
-        cylinderPos = cylinder.transform.position;
-        offset = transform.position - cylinderPos;
+        offset = transform.position - FindTarget().transform.position;
         offsetSqur = offset.sqrMagnitude;
         offsetNorm = offset.normalized;
 
+        //FindTarget();
     }
 
     private void LateUpdate()
@@ -177,7 +179,7 @@ public class PlayerControls : MonoBehaviour
         {
             lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
             playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
-            playerCam.transform.LookAt(cylinderPos);
+            playerCam.transform.LookAt(FindTarget().transform.position);
         }
         else 
         {
@@ -193,5 +195,37 @@ public class PlayerControls : MonoBehaviour
 
         }
     }
+
+    private GameObject FindTarget()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, sphereRad);
+        List<GameObject> possibleTarget = new List<GameObject>();
+        float minDist = Mathf.Infinity;
+        GameObject target= null;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.tag == "Target" && hit.gameObject.GetComponent<Renderer>().isVisible)
+            {
+                possibleTarget.Add(hit.gameObject);
+            }
+        }
+
+        foreach (GameObject t in possibleTarget)
+        {
+            float distance = Vector3.Distance(transform.position, t.transform.position);
+
+            if(distance < minDist)
+            {
+                target = t;
+                minDist = distance;
+            }
+        }
+
+        Debug.Log(target.name);
+
+        return target;
+    }
+
 
 }
