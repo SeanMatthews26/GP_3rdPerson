@@ -170,7 +170,16 @@ public class PlayerControls : MonoBehaviour
         if(!lockedOn)
         {
             currentTarget = FindTarget();
-            lockedOn = !lockedOn;
+
+            if(currentTarget == null) 
+            {
+                lockedOn = false;
+            }
+            else
+            {
+                lockedOn = !lockedOn;
+            }
+
         }
         else if(lockedOn)
         {
@@ -242,7 +251,15 @@ public class PlayerControls : MonoBehaviour
                 minDist = distance;
             }
         }
-        return target;
+
+        if(minDist == Mathf.Infinity)
+        {
+            return null;
+        }
+        else
+        {
+            return target;
+        }
     }
 
     private void OnDrawGizmos()
