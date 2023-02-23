@@ -62,6 +62,11 @@ public class PlayerControls : MonoBehaviour
         playerActionAsset = new ThirdPersonInput();
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void OnEnable()
     {
         playerActionAsset.PlayerActions.Jump.started += DoJump;
@@ -203,7 +208,7 @@ public class PlayerControls : MonoBehaviour
 
     private GameObject FindTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, sphereRad);
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * sphereOffset, sphereRad);
         List<GameObject> possibleTarget = new List<GameObject>();
         float minDist = Mathf.Infinity;
         GameObject target= null;
@@ -227,5 +232,11 @@ public class PlayerControls : MonoBehaviour
             }
         }
         return target;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * sphereOffset, sphereRad);
     }
 }
