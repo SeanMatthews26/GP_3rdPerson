@@ -38,17 +38,17 @@ public class PlayerControls : MonoBehaviour
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
-    private Vector3 offset;
+    private Vector3 offset2D;
     private float offsetSqur;
     private Vector3 offsetNorm;
     private bool lockedOn = false;
-    private Vector3 lockOnCamPos;
+    private Vector3 lockOnCamPos1;
+    private Vector3 lockOnCamPos2;
+    private Vector3 lockOnCamPos3;
     private Vector3 freeCamPos;
-    private GameObject lockOnTarget;
+
 
     //Testing
-    Vector3 test;
-    float test2;
     [SerializeField] float targetDist;
     [SerializeField] float sphereRad;
 
@@ -165,9 +165,9 @@ public class PlayerControls : MonoBehaviour
     private void Update()
     {
         //Camera
-        offset = transform.position - FindTarget().transform.position;
-        offsetSqur = offset.sqrMagnitude;
-        offsetNorm = offset.normalized;
+        offset2D = transform.position - FindTarget().transform.position;
+        offsetSqur = offset2D.sqrMagnitude;
+        offsetNorm = offset2D.normalized;
 
         //FindTarget();
     }
@@ -177,8 +177,8 @@ public class PlayerControls : MonoBehaviour
         //Camera Stuff
         if(lockedOn) 
         {
-            lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
+            lockOnCamPos1 = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos1, camSwitchSpeed * Time.deltaTime);
             playerCam.transform.LookAt(FindTarget().transform.position);
         }
         else 

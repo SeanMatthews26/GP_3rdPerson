@@ -1296,7 +1296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: camSwitchSpeed
-      value: 200
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1477524617, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_Camera
