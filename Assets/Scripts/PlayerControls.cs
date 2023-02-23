@@ -38,6 +38,7 @@ public class PlayerControls : MonoBehaviour
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
+    [SerializeField] float sphereOffset;
     private Vector3 offset2D;
     private float offsetSqur;
     private Vector3 offsetNorm;
@@ -46,6 +47,8 @@ public class PlayerControls : MonoBehaviour
     private Vector3 lockOnCamPos2;
     private Vector3 lockOnCamPos3;
     private Vector3 freeCamPos;
+    private GameObject currentTarget;
+
 
 
     //Testing
@@ -159,13 +162,14 @@ public class PlayerControls : MonoBehaviour
 
     private void DoLockOn(InputAction.CallbackContext obj)
     {
+        currentTarget = FindTarget();
         lockedOn = !lockedOn;
     }
 
     private void Update()
     {
         //Camera
-        offset2D = transform.position - FindTarget().transform.position;
+        offset2D = transform.position - currentTarget.transform.position;
         offsetSqur = offset2D.sqrMagnitude;
         offsetNorm = offset2D.normalized;
     }
@@ -177,8 +181,9 @@ public class PlayerControls : MonoBehaviour
         {
             lockOnCamPos1 = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
             playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos1, camSwitchSpeed * Time.deltaTime);
-            //playerCam.transform.LookAt(FindTarget().transform.position);
-            var x = Quaternion.LookRotation(FindTarget().transform.position - playerCam.transform.position);
+
+            //playerCam.transform.LookAt(currentTarget.transform.position);
+            var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
             playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
         }
         else 
@@ -223,6 +228,4 @@ public class PlayerControls : MonoBehaviour
         }
         return target;
     }
-
-
 }

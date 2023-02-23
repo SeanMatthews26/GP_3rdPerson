@@ -220,7 +220,7 @@ public partial class @ThirdPersonInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""08d86f81-0d84-41bf-b392-154af824bc71"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
