@@ -167,12 +167,23 @@ public class PlayerControls : MonoBehaviour
 
     private void DoLockOn(InputAction.CallbackContext obj)
     {
-        currentTarget = FindTarget();
-        lockedOn = !lockedOn;
+        if(!lockedOn)
+        {
+            currentTarget = FindTarget();
+            lockedOn = !lockedOn;
+        }
+        else if(lockedOn)
+        {
+            pitch = playerCam.transform.eulerAngles.x;
+            yaw = playerCam.transform.eulerAngles.y;
+
+            lockedOn = !lockedOn;
+        }
     }
 
     private void Update()
     {
+        Debug.Log(pitch);
         //Camera
         offset2D = transform.position - currentTarget.transform.position;
         offsetSqur = offset2D.sqrMagnitude;
