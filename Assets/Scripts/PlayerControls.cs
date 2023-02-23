@@ -30,9 +30,14 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
     [SerializeField] float targetAbovePlayer;
 
+    //Animation
     private Animator animator;
+    private bool attacking = false;
+ 
 
+    //LockOn
     [SerializeField] GameObject cylinder;
+    [SerializeField] float camSwitchSpeed;
     private Vector3 cylinderPos;
     private Vector3 offset;
     private float offsetSqur;
@@ -40,6 +45,7 @@ public class PlayerControls : MonoBehaviour
     private bool lockedOn = false;
     private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
+
 
     private void Awake()
     {
@@ -156,10 +162,12 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
+        //Camera
         cylinderPos = cylinder.transform.position;
         offset = transform.position - cylinderPos;
         offsetSqur = offset.sqrMagnitude;
         offsetNorm = offset.normalized;
+
     }
 
     private void LateUpdate()
@@ -167,8 +175,8 @@ public class PlayerControls : MonoBehaviour
         //Camera Stuff
         if(lockedOn) 
         {
-            lockOnCamPos = new Vector3(transform.position.x + offsetNorm.x, transform.position.y + 4, transform.position.z + offsetNorm.z);
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, 0.1f);
+            lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
             playerCam.transform.LookAt(cylinderPos);
         }
         else 
@@ -181,7 +189,8 @@ public class PlayerControls : MonoBehaviour
             playerCam.transform.eulerAngles = targetRotation;
 
             freeCamPos = transform.position - playerCam.transform.forward * dstToCam + new Vector3(0, targetAbovePlayer, 0);
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, 0.1f);
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+
         }
     }
 
