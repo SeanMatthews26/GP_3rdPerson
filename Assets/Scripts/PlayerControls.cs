@@ -168,8 +168,6 @@ public class PlayerControls : MonoBehaviour
         offset2D = transform.position - FindTarget().transform.position;
         offsetSqur = offset2D.sqrMagnitude;
         offsetNorm = offset2D.normalized;
-
-        //FindTarget();
     }
 
     private void LateUpdate()
@@ -179,7 +177,9 @@ public class PlayerControls : MonoBehaviour
         {
             lockOnCamPos1 = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
             playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos1, camSwitchSpeed * Time.deltaTime);
-            playerCam.transform.LookAt(FindTarget().transform.position);
+            //playerCam.transform.LookAt(FindTarget().transform.position);
+            var x = Quaternion.LookRotation(FindTarget().transform.position - playerCam.transform.position);
+            playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
         }
         else 
         {
@@ -221,9 +221,6 @@ public class PlayerControls : MonoBehaviour
                 minDist = distance;
             }
         }
-
-        Debug.Log(target.name);
-
         return target;
     }
 
