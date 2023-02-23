@@ -1271,37 +1271,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806510371}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2002558485
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2002558486}
-  m_Layer: 0
-  m_Name: NullTarget
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2002558486
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002558485}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2520568, y: 1.9115629, z: 4.9141264}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6796439527013325014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1324,7 +1293,7 @@ PrefabInstance:
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: nullTarget
       value: 
-      objectReference: {fileID: 2002558485}
+      objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: targetDist
       value: 20
