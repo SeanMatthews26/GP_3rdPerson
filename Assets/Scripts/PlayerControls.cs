@@ -165,10 +165,6 @@ public class PlayerControls : MonoBehaviour
     private void LateUpdate()
     {
         //Camera Stuff
-   
-       
-
-       
         if(lockedOn) 
         {
             lockOnCamPos = new Vector3(transform.position.x + offsetNorm.x, transform.position.y + 4, transform.position.z + offsetNorm.z);
