@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
@@ -29,7 +30,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float camSensitivity = 1f;
     [SerializeField] private float dstToCam = 10f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
-    [SerializeField] float targetAbovePlayer;
+    [SerializeField] Vector3 camTargetAbovePlayer;
 
     //Animation
     private Animator animator;
@@ -39,13 +40,12 @@ public class PlayerControls : MonoBehaviour
     //LockOn
     [SerializeField] float camSwitchSpeed;
     [SerializeField] float sphereOffset;
+    [SerializeField] Image targetImage;
     private Vector3 offset2D;
     private float offsetSqur;
     private Vector3 offsetNorm;
     private bool lockedOn = false;
-    private Vector3 lockOnCamPos1;
-    private Vector3 lockOnCamPos2;
-    private Vector3 lockOnCamPos3;
+    private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
     private GameObject currentTarget;
 
@@ -192,7 +192,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(pitch);
+        Debug.Log(Vector3.Distance(transform.position, playerCam.transform.position));
         //Camera
         offset2D = transform.position - currentTarget.transform.position;
         offsetSqur = offset2D.sqrMagnitude;
@@ -204,8 +204,9 @@ public class PlayerControls : MonoBehaviour
         //Camera Stuff
         if(lockedOn) 
         {
-            lockOnCamPos1 = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos1, camSwitchSpeed * Time.deltaTime);
+            targetImage.enabled = true;
+            lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
 
             //playerCam.transform.LookAt(currentTarget.transform.position);
             var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
@@ -213,6 +214,7 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
+            targetImage.enabled = false;
             yaw += look.ReadValue<Vector2>().x * camSensitivity;
             pitch -= look.ReadValue<Vector2>().y * camSensitivity;
             pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
@@ -220,9 +222,9 @@ public class PlayerControls : MonoBehaviour
             Vector3 targetRotation = new Vector3(pitch, yaw);
             playerCam.transform.eulerAngles = targetRotation;
 
-            freeCamPos = transform.position - playerCam.transform.forward * dstToCam + new Vector3(0, targetAbovePlayer, 0);
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+            freeCamPos = transform.position - (playerCam.transform.forward * dstToCam) + camTargetAbovePlayer;
 
+            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
         }
     }
 
