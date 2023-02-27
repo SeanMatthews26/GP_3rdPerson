@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     private Rigidbody rb;
     private Vector3 forceDirection = Vector3.zero;
 
-    [SerializeField] private float movementForce = 1f;
+    [SerializeField] public float movementForce = 1f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float extraGravity = 1.5f;
@@ -192,7 +192,6 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Vector3.Distance(transform.position, playerCam.transform.position));
         //Camera
         offset2D = transform.position - currentTarget.transform.position;
         offsetSqur = offset2D.sqrMagnitude;
