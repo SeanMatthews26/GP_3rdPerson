@@ -211,6 +211,8 @@ public class PlayerControls : MonoBehaviour
             //playerCam.transform.LookAt(currentTarget.transform.position);
             var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
             playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
+
+            LockOnTarget();
         }
         else 
         {
@@ -268,5 +270,10 @@ public class PlayerControls : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * sphereOffset, sphereRad);
+    }
+
+    private void LockOnTarget()
+    {
+        targetImage.transform.position = playerCam.WorldToScreenPoint(currentTarget.transform.position);
     }
 }
