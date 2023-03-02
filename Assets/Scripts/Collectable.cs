@@ -33,11 +33,12 @@ public class Collectable : MonoBehaviour
 
         mesh.enabled = false;
         boxCollider.enabled = false;
-        Invoke("Reset", 3f);
+        Invoke("Reset", pd);
     }
 
     public void Reset()
     {
+        activated = false;
         mesh.enabled = true;
         boxCollider.enabled = true;
     }

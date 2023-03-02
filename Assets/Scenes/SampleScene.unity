@@ -465,7 +465,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0ef5a3d5deb88234a909421391724ec2, type: 2}
+  - {fileID: 2100000, guid: fd3619eef46537347a3946889f3de92f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -745,7 +745,8 @@ MonoBehaviour:
   activated: 0
   pd: 0
   rotation: {x: 0, y: 30, z: 0}
-  powerDuration: 20
+  powerDuration: 10
+  boostedSpeed: 8
 --- !u!54 &950686567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -795,7 +796,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6ed7ca80195b1134784bc34c79888f84, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1684,6 +1685,10 @@ PrefabInstance:
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: sphereOffset
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: movementForce
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: camSwitchSpeed

@@ -20,8 +20,12 @@ public class SpeedBoostCollectable : Collectable
     private void Update()
     {
         Rotate();
+        Power();
+    }
 
-        if(activated)
+    private void Power()
+    {
+        if (activated)
         {
             playerControls.movementForce = boostedSpeed;
         }
@@ -30,6 +34,4 @@ public class SpeedBoostCollectable : Collectable
             playerControls.movementForce = normalSpeed;
         }
     }
-
-
 }
