@@ -29,7 +29,7 @@ public class Collectable : MonoBehaviour
 
      private void OnTriggerEnter(Collider other)
     {
-        activated= true;
+        activated = true;
 
         mesh.enabled = false;
         boxCollider.enabled = false;
