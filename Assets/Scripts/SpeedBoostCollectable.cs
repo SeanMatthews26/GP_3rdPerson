@@ -28,10 +28,12 @@ public class SpeedBoostCollectable : Collectable
         if (activated)
         {
             playerControls.movementForce = boostedSpeed;
+            playerControls.speedBoostParticles.Play();
         }
         else
         {
             playerControls.movementForce = normalSpeed;
+            playerControls.speedBoostParticles.Stop();
         }
     }
 }

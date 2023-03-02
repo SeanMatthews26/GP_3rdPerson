@@ -51,6 +51,8 @@ public class PlayerControls : MonoBehaviour
     private Vector3 freeCamPos;
     private GameObject currentTarget;
 
+    //Particles
+    public ParticleSystem speedBoostParticles;
 
 
     //Testing
@@ -62,11 +64,13 @@ public class PlayerControls : MonoBehaviour
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody>();
         playerActionAsset = new ThirdPersonInput();
+        speedBoostParticles = GetComponent<ParticleSystem>();
+        speedBoostParticles.Stop();
     }
 
     private void Start()
     {
-        //jumpsLeft = extraJumps;
+
     }
 
     private void OnEnable()
