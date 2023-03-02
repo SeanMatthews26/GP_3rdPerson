@@ -5,6 +5,8 @@ using UnityEngine;
 public class ExtraJump : Collectable
 {
     [SerializeField] float powerDuration;
+    [SerializeField] int boostedExtraJumps = 1;
+    [SerializeField] int normalExtraJumps = 0;
     PlayerControls playerControls;
 
     public void Awake()
@@ -24,7 +26,11 @@ public class ExtraJump : Collectable
     {
         if(activated)
         {
-            Debug.Log("Power");
+            playerControls.extraJumps = boostedExtraJumps;
+        }
+        else
+        {
+            playerControls.extraJumps = normalExtraJumps;
         }
     }
 }

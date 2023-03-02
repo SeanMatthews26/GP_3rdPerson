@@ -22,6 +22,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float extraGravity = 1.5f;
+    [HideInInspector] public int extraJumps = 0;
+    public int jumpsLeft;
 
     //Camera
     [SerializeField] private Camera playerCam;
@@ -64,7 +66,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
-        
+        //jumpsLeft = extraJumps;
     }
 
     private void OnEnable()
@@ -90,6 +92,14 @@ public class PlayerControls : MonoBehaviour
         {
             forceDirection += Vector3.up * jumpForce;
         }
+        else
+        {
+            if(jumpsLeft > 0)
+            {
+                forceDirection += Vector3.up * jumpForce;
+                jumpsLeft--;
+            }
+        }
     }
 
     private bool IsGrounded()
@@ -98,6 +108,7 @@ public class PlayerControls : MonoBehaviour
         if(Physics.Raycast(ray,out RaycastHit hit, 0.3f))
         {
             animator.SetBool("grounded", true);
+            jumpsLeft = extraJumps;
             return true;
         }
         else
