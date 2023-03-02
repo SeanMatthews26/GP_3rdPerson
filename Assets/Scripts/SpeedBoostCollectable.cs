@@ -5,18 +5,31 @@ using UnityEngine;
 public class SpeedBoostCollectable : Collectable
 {
     [SerializeField] float powerDuration;
-    [SerializeField] PlayerControls playerControls;
+    [SerializeField] float boostedSpeed;
+    float normalSpeed;
+    PlayerControls playerControls;
 
     public void Awake()
     {
         pd = powerDuration;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        playerControls = player.GetComponent<PlayerControls>();
+        normalSpeed = playerControls.movementForce;
     }
 
-    public void Update()
+    private void Update()
     {
+        Rotate();
 
+        if(activated)
+        {
+            playerControls.movementForce = boostedSpeed;
+        }
+        else
+        {
+            playerControls.movementForce = normalSpeed;
+        }
     }
 
-  
 
 }

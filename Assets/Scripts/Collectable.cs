@@ -22,14 +22,23 @@ public class Collectable : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    public void Rotate()
     {
         rb.transform.Rotate(rotation * Time.deltaTime);
     }
 
      private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
+        activated= true;
 
+        mesh.enabled = false;
+        boxCollider.enabled = false;
+        Invoke("Reset", 3f);
+    }
+
+    public void Reset()
+    {
+        mesh.enabled = true;
+        boxCollider.enabled = true;
     }
 }
