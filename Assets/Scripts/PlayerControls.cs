@@ -207,10 +207,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        //Camera
-        offset2D = transform.position - currentTarget.transform.position;
-        offsetSqur = offset2D.sqrMagnitude;
-        offsetNorm = offset2D.normalized;
+
     }
 
     private void LateUpdate()
@@ -218,6 +215,9 @@ public class PlayerControls : MonoBehaviour
         //Camera Stuff
         if(lockedOn) 
         {
+            offset2D = transform.position - currentTarget.transform.position;
+            offsetNorm = offset2D.normalized;
+
             targetImage.enabled = true;
             lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
             playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
