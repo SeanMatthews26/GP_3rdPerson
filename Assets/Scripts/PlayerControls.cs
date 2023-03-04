@@ -52,8 +52,8 @@ public class PlayerControls : MonoBehaviour
     private GameObject currentTarget;
 
     //Particles
-    public ParticleSystem speedBoostParticles;
-
+    [SerializeField] public ParticleSystem speedBoostParticles;
+    [SerializeField] public ParticleSystem extraJumpParticles;
 
     //Testing
     [SerializeField] float targetDist;
@@ -64,8 +64,8 @@ public class PlayerControls : MonoBehaviour
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody>();
         playerActionAsset = new ThirdPersonInput();
-        speedBoostParticles = GetComponent<ParticleSystem>();
         speedBoostParticles.Stop();
+        extraJumpParticles.Stop();
     }
 
     private void Start()

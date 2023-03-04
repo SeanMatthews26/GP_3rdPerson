@@ -27,10 +27,12 @@ public class ExtraJump : Collectable
         if(activated)
         {
             playerControls.extraJumps = boostedExtraJumps;
+            playerControls.extraJumpParticles.Play();
         }
         else
         {
             playerControls.extraJumps = normalExtraJumps;
+            playerControls.extraJumpParticles.Stop();
         }
     }
 }
