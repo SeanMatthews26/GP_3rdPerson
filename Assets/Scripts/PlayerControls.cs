@@ -37,7 +37,7 @@ public class PlayerControls : MonoBehaviour
     //Animation
     private Animator animator;
     private bool attacking = false;
-
+    public bool jumping;
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
@@ -111,13 +111,13 @@ public class PlayerControls : MonoBehaviour
         Ray ray = new Ray(this.transform.position + Vector3.up * 0.25f, Vector3.down);
         if(Physics.Raycast(ray,out RaycastHit hit, 0.3f))
         {
-            animator.SetBool("grounded", true);
+            jumping = false;
             jumpsLeft = extraJumps;
             return true;
         }
         else
         {
-            animator.SetBool("grounded", false);
+            jumping = true;
             return false;
         }
     }
