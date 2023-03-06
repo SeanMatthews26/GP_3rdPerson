@@ -40,26 +40,28 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetBool("lockedOn", playerControls.lockedOn);
         animator.SetFloat("VeloX", playerControls.move.ReadValue<Vector2>().x);
         animator.SetFloat("VeloY", playerControls.move.ReadValue<Vector2>().y);
-        animator.SetBool("Attacking", playerControls.attacking);
-
-        Attack();
-        Jump();
-        Debug.Log(playerControls.attacking);
 
         //Speed
         playerSpeed = rb.velocity.magnitude / maxSpeed;
         animator.SetFloat("speed", playerSpeed);
-    }
 
-    private void Jump()
-    {
-        if (playerControls.jumping)
+        //Attack
+        if(playerControls.attackPressed)
         {
-            ChangeAnimation(jump);
+            Attack();
+            return;
         }
-        else
+
+        //Jump
+        if(playerControls.jumping)
         {
-            if (!playerControls.lockedOn)
+            Jump();
+            return;
+        }
+
+        if(!playerControls.attacking)
+        {
+            if(!playerControls.lockedOn)
             {
                 ChangeAnimation(idle);
             }
@@ -70,15 +72,14 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    private void Jump()
+    {
+        ChangeAnimation(jump);
+    }
+
     private void Attack()
     {
-        if (!playerControls.attackPressed)
-        {
-            return;
-        }
-
-        //Current State
-        if(currentState == idle)
+        if(currentState == idle || currentState == strafe)
         {
             if (playerSpeed < 0.2)
             {
