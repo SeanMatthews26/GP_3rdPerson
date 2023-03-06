@@ -79,13 +79,13 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Attack()
     {
-        if(currentState == idle || currentState == strafe)
+        if (currentState == idle || currentState == strafe)
         {
             if (playerSpeed < 0.2)
             {
                 playerControls.attackPressed = false;
                 ChangeAnimation(attack1);
-                Invoke("ResetAttack",1);
+                Invoke("ResetAttack", 1);
                 return;
             }
             else

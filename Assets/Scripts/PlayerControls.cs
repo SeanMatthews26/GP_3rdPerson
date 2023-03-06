@@ -22,6 +22,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float maxSpeed = 5f;
     [SerializeField] private float extraGravity = 1.5f;
+    [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
     public int jumpsLeft;
 

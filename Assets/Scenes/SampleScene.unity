@@ -11257,6 +11257,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speed Boost
       objectReference: {fileID: 0}
+    - target: {fileID: 5460401900784830591, guid: 31e9bbeae117059498eb0f53d9a5a0c8, type: 3}
+      propertyPath: boostedSpeed
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31e9bbeae117059498eb0f53d9a5a0c8, type: 3}
 --- !u!1001 &6796439527013325014
@@ -11270,6 +11274,18 @@ PrefabInstance:
       propertyPath: cylinder
       value: 
       objectReference: {fileID: 1446988887}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: maxSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: jumpForce
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: move.m_Id
+      value: 3f97ffb5-aadd-49fe-bb74-a7337cdd0c2e
+      objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: playerCam
       value: 
@@ -11287,9 +11303,17 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: move.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: targetImage
       value: 
       objectReference: {fileID: 1680679603}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: extraGravity
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: sphereOffset
       value: 20
