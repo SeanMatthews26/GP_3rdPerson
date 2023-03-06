@@ -96,6 +96,11 @@ public class PlayerAnimation : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            playerControls.attackPressed = false;
+            ResetAttack();
+        }
     }
 
     void ChangeAnimation(string newState)
