@@ -19,7 +19,10 @@ public class PlayerAnimation : MonoBehaviour
     const string jump = "Jump";
     const string idle = "Idle";
     const string attack1 = "Attack1";
+    const string attack2 = "Attack2";
     const string runAttack1 = "RunAttack1";
+
+    private string lastAttack = "none";
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +36,16 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         Attack();
+        Jump();
+        Debug.Log(playerControls.attacking);
 
         //Speed
         playerSpeed = rb.velocity.magnitude / maxSpeed;
         animator.SetFloat("speed", playerSpeed);
+    }
 
-        //Jumping
+    private void Jump()
+    {
         if (playerControls.jumping)
         {
             ChangeAnimation(jump);
@@ -51,27 +58,28 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Attack()
     {
-        //Attacking
         if (!playerControls.attackPressed)
         {
             return;
         }
 
-        if (currentState != idle)
+        //Current State
+        if(currentState == idle)
         {
-            playerControls.attackPressed = false;
-            return;
-        }
-
-        if (playerSpeed < 0.2)
-        {
-            playerControls.attackPressed = false;
-            ChangeAnimation(attack1);
-        }
-        else
-        {
-            playerControls.attackPressed = false;
-            ChangeAnimation(runAttack1);
+            if (playerSpeed < 0.2)
+            {
+                playerControls.attackPressed = false;
+                ChangeAnimation(attack1);
+                Invoke("ResetAttack",1);
+                return;
+            }
+            else
+            {
+                playerControls.attackPressed = false;
+                ChangeAnimation(runAttack1);
+                Invoke("ResetAttack", 1);
+                return;
+            }
         }
     }
 
@@ -84,6 +92,11 @@ public class PlayerAnimation : MonoBehaviour
 
         animator.Play(newState);
         currentState = newState;
+    }
+
+    private void ResetAttack()
+    {
+        playerControls.attacking = false;
     }
 
 }

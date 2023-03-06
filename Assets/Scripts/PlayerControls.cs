@@ -36,6 +36,7 @@ public class PlayerControls : MonoBehaviour
 
     //Animation
     public bool attackPressed = false;
+    public bool attacking = false;
     public bool jumping;
 
     //LockOn
@@ -175,7 +176,11 @@ public class PlayerControls : MonoBehaviour
 
     private void DoAttack(InputAction.CallbackContext obj)
     {
-        attackPressed = true;
+        if(!attacking)
+        {
+            attackPressed = true;
+            attacking = true;
+        }
     }
 
     private void DoLockOn(InputAction.CallbackContext obj)
