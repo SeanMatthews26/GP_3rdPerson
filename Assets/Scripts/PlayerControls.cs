@@ -126,13 +126,22 @@ public class PlayerControls : MonoBehaviour
         Vector3 direction = rb.velocity;
         direction.y = 0f;
 
-        if(move.ReadValue<Vector2>().sqrMagnitude > 0.1f && direction.sqrMagnitude > 0.1f)
+       
+
+        if(lockedOn)
         {
-            this.rb.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.LookAt(currentTarget.transform.position);
         }
         else
         {
-            rb.angularVelocity = Vector3.zero;
+            if (move.ReadValue<Vector2>().sqrMagnitude > 0.1f && direction.sqrMagnitude > 0.1f)
+            {
+                this.rb.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            }
+            else
+            {
+                rb.angularVelocity = Vector3.zero;
+            }
         }
     }
 
@@ -210,7 +219,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-
+      
     }
 
     private void LateUpdate()
@@ -225,7 +234,6 @@ public class PlayerControls : MonoBehaviour
             lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
             playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
 
-            //playerCam.transform.LookAt(currentTarget.transform.position);
             var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
             playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
 
