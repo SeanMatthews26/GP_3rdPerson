@@ -9,12 +9,18 @@ public class PlayerAnimation : MonoBehaviour
     private Rigidbody rb;
     private float maxSpeed = 5f;
     private string currentState;
-
     PlayerControls playerControls;
+    private float playerSpeed;
+
+    //Attack
+    private float attackTime;
+    private bool attacking = false;
 
     //Animation Strings
     const string jump = "Jump";
     const string idle = "Idle";
+    const string attack1 = "Attack1";
+    const string runAttack1 = "RunAttack1";
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +33,33 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat("speed", rb.velocity.magnitude / maxSpeed);
+        //Attacking
+        if(!attacking)
+        {
+            if (playerControls.attackPressed)
+            {
+                if(playerSpeed < 0.2)
+                {
+                    playerControls.attackPressed = false;
+                    attacking = true;
+                    ChangeAnimation(attack1);
+                    Invoke("StopAttack", 1f);
+                }
+                else
+                {
+                    playerControls.attackPressed = false;
+                    attacking = true;
+                    ChangeAnimation(runAttack1);
+                    Invoke("StopAttack", 1f);
+                }
+            }
+        }
 
+        //Speed
+        playerSpeed = rb.velocity.magnitude / maxSpeed;
+        animator.SetFloat("speed", playerSpeed);
+
+        //Jumping
         if(playerControls.jumping)
         {
             ChangeAnimation(jump);
@@ -48,5 +79,9 @@ public class PlayerAnimation : MonoBehaviour
 
         animator.Play(newState);
         currentState = newState;
+    }
+    void StopAttack()
+    {
+        attacking = false;
     }
 }

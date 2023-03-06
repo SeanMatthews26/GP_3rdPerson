@@ -35,8 +35,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] Vector3 camTargetAbovePlayer;
 
     //Animation
-    private Animator animator;
-    private bool attacking = false;
+    public bool attackPressed = false;
     public bool jumping;
 
     //LockOn
@@ -61,7 +60,6 @@ public class PlayerControls : MonoBehaviour
 
     private void Awake()
     {
-        animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody>();
         playerActionAsset = new ThirdPersonInput();
         speedBoostParticles.Stop();
@@ -177,7 +175,7 @@ public class PlayerControls : MonoBehaviour
 
     private void DoAttack(InputAction.CallbackContext obj)
     {
-        animator.SetTrigger("attack");
+        attackPressed = true;
     }
 
     private void DoLockOn(InputAction.CallbackContext obj)
