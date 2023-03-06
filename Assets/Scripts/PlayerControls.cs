@@ -11,7 +11,7 @@ public class PlayerControls : MonoBehaviour
 {
     //Input
     private ThirdPersonInput playerActionAsset;
-    private InputAction move;
+    public InputAction move;
     private InputAction look;
 
     //movement
@@ -46,7 +46,7 @@ public class PlayerControls : MonoBehaviour
     private Vector3 offset2D;
     private float offsetSqur;
     private Vector3 offsetNorm;
-    private bool lockedOn = false;
+    public bool lockedOn = false;
     private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
     private GameObject currentTarget;

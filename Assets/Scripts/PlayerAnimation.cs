@@ -18,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
     //Animation Strings
     const string jump = "Jump";
     const string idle = "Idle";
+    const string strafe = "Strafe";
     const string attack1 = "Attack1";
     const string attack2 = "Attack2";
     const string runAttack1 = "RunAttack1";
@@ -35,6 +36,12 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //parameters
+        animator.SetBool("lockedOn", playerControls.lockedOn);
+        animator.SetFloat("VeloX", playerControls.move.ReadValue<Vector2>().x);
+        animator.SetFloat("VeloY", playerControls.move.ReadValue<Vector2>().y);
+        animator.SetBool("Attacking", playerControls.attacking);
+
         Attack();
         Jump();
         Debug.Log(playerControls.attacking);
@@ -52,7 +59,14 @@ public class PlayerAnimation : MonoBehaviour
         }
         else
         {
-            ChangeAnimation(idle);
+            if (!playerControls.lockedOn)
+            {
+                ChangeAnimation(idle);
+            }
+            else
+            {
+                ChangeAnimation(strafe);
+            }
         }
     }
 
