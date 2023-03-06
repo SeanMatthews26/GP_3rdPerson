@@ -14,7 +14,6 @@ public class PlayerAnimation : MonoBehaviour
 
     //Attack
     private float attackTime;
-    private bool attacking = false;
 
     //Animation Strings
     const string jump = "Jump";
@@ -33,40 +32,46 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Attacking
-        if(!attacking)
-        {
-            if (playerControls.attackPressed)
-            {
-                if(playerSpeed < 0.2)
-                {
-                    playerControls.attackPressed = false;
-                    attacking = true;
-                    ChangeAnimation(attack1);
-                    Invoke("StopAttack", 1f);
-                }
-                else
-                {
-                    playerControls.attackPressed = false;
-                    attacking = true;
-                    ChangeAnimation(runAttack1);
-                    Invoke("StopAttack", 1f);
-                }
-            }
-        }
+        Attack();
 
         //Speed
         playerSpeed = rb.velocity.magnitude / maxSpeed;
         animator.SetFloat("speed", playerSpeed);
 
         //Jumping
-        if(playerControls.jumping)
+        if (playerControls.jumping)
         {
             ChangeAnimation(jump);
         }
         else
         {
             ChangeAnimation(idle);
+        }
+    }
+
+    private void Attack()
+    {
+        //Attacking
+        if (!playerControls.attackPressed)
+        {
+            return;
+        }
+
+        if (currentState != idle)
+        {
+            playerControls.attackPressed = false;
+            return;
+        }
+
+        if (playerSpeed < 0.2)
+        {
+            playerControls.attackPressed = false;
+            ChangeAnimation(attack1);
+        }
+        else
+        {
+            playerControls.attackPressed = false;
+            ChangeAnimation(runAttack1);
         }
     }
 
@@ -80,8 +85,5 @@ public class PlayerAnimation : MonoBehaviour
         animator.Play(newState);
         currentState = newState;
     }
-    void StopAttack()
-    {
-        attacking = false;
-    }
+
 }
