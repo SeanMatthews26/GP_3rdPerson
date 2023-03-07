@@ -1471,6 +1471,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: jumpForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: playerCam
       value: 
       objectReference: {fileID: 963194227}
@@ -1478,6 +1482,18 @@ PrefabInstance:
       propertyPath: targetImage
       value: 
       objectReference: {fileID: 1680679603}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: movementForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: normalMaxSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: strafeMaxSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1477524617, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_Camera
       value: 

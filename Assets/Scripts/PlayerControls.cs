@@ -129,11 +129,13 @@ public class PlayerControls : MonoBehaviour
         Vector3 direction = rb.velocity;
         direction.y = 0f;
 
-       
-
         if(lockedOn)
         {
-            transform.LookAt(currentTarget.transform.position);
+            Vector3 lockOnDirection = (transform.position - currentTarget.transform.position).normalized;
+            lockOnDirection.y = 0f;
+
+            //transform.LookAt(currentTarget.transform.position);
+            this.rb.rotation = Quaternion.LookRotation(-lockOnDirection, Vector3.up);
         }
         else
         {
@@ -247,7 +249,7 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
-            maxSpeed = normalMaxSpeed;
+            maxSpeed = strafeMaxSpeed;
             targetImage.enabled = false;
             yaw += look.ReadValue<Vector2>().x * camSensitivity;
             pitch -= look.ReadValue<Vector2>().y * camSensitivity;
