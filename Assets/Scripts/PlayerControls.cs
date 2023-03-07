@@ -40,8 +40,10 @@ public class PlayerControls : MonoBehaviour
     //Animation
     public bool attackPressed = false;
     public bool attacking = false;
-    public bool jumping;
-    public bool doubleJumping;
+    public bool jumping = false;
+    public bool doubleJumping = false;
+    public bool interactPressed = false;
+    public bool interacting = false;
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
@@ -81,12 +83,11 @@ public class PlayerControls : MonoBehaviour
         playerActionAsset.PlayerActions.Jump.started += DoJump;
         playerActionAsset.PlayerActions.Attack.started += DoAttack;
         playerActionAsset.PlayerActions.LockOn.started += DoLockOn;
+        playerActionAsset.PlayerActions.Interact.started += DoInteract;
         move = playerActionAsset.PlayerActions.Move;
         look = playerActionAsset.PlayerActions.Look;
         playerActionAsset.PlayerActions.Enable();
     }
-
-   
 
     private void OnDisable()
     {
@@ -107,6 +108,15 @@ public class PlayerControls : MonoBehaviour
                 forceDirection += Vector3.up * jumpForce;
                 jumpsLeft--;
             }
+        }
+    }
+
+    private void DoInteract(InputAction.CallbackContext obj)
+    {
+        if (!interacting)
+        {
+            interactPressed = true;
+            interacting = true;
         }
     }
 

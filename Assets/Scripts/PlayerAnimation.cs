@@ -1,4 +1,5 @@
 using RPGCharacterAnims.Actions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,13 @@ public class PlayerAnimation : MonoBehaviour
         playerSpeed = rb.velocity.magnitude / maxSpeed;
         animator.SetFloat("speed", playerSpeed);
 
+        //Interact
+        if(playerControls.interacting)
+        {
+            Interact();
+            return;
+        }
+
         //Attack
         if(playerControls.attackPressed)
         {
@@ -78,6 +86,14 @@ public class PlayerAnimation : MonoBehaviour
                 ChangeAnimation(strafe);
             }
         }
+    }
+
+    private void Interact()
+    {
+        playerControls.interactPressed = false;
+        ChangeAnimation(interact);
+        Invoke("ResetInteract", 1);
+        return;
     }
 
     private void Jump()
@@ -130,6 +146,11 @@ public class PlayerAnimation : MonoBehaviour
     private void ResetAttack()
     {
         playerControls.attacking = false;
+    }
+
+    private void ResetInteract()
+    {
+        playerControls.interacting = false;
     }
 
 }
