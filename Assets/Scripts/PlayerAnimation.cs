@@ -17,11 +17,13 @@ public class PlayerAnimation : MonoBehaviour
 
     //Animation Strings
     const string jump = "Jump";
+    const string doubleJump = "DoubleJump";
     const string idle = "Idle";
     const string strafe = "Strafe";
     const string attack1 = "Attack1";
     const string attack2 = "Attack2";
     const string runAttack1 = "RunAttack1";
+    const string interact = "Interact";
 
     private string lastAttack = "none";
 
@@ -53,6 +55,12 @@ public class PlayerAnimation : MonoBehaviour
         }
 
         //Jump
+        if(playerControls.doubleJumping)
+        {
+            DoubleJump();
+            return;
+        }
+
         if(playerControls.jumping)
         {
             Jump();
@@ -75,6 +83,11 @@ public class PlayerAnimation : MonoBehaviour
     private void Jump()
     {
         ChangeAnimation(jump);
+    }
+
+    private void DoubleJump()
+    {
+        ChangeAnimation(doubleJump);
     }
 
     private void Attack()

@@ -41,6 +41,7 @@ public class PlayerControls : MonoBehaviour
     public bool attackPressed = false;
     public bool attacking = false;
     public bool jumping;
+    public bool doubleJumping;
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
@@ -102,6 +103,7 @@ public class PlayerControls : MonoBehaviour
         {
             if(jumpsLeft > 0)
             {
+                doubleJumping = true;
                 forceDirection += Vector3.up * jumpForce;
                 jumpsLeft--;
             }
@@ -114,6 +116,7 @@ public class PlayerControls : MonoBehaviour
         if(Physics.Raycast(ray,out RaycastHit hit, 0.3f))
         {
             jumping = false;
+            doubleJumping = false;
             jumpsLeft = extraJumps;
             return true;
         }
