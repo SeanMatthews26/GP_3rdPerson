@@ -22,7 +22,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
-    private float maxSpeed;
+    [SerializeField] private float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
@@ -55,7 +55,7 @@ public class PlayerControls : MonoBehaviour
     public bool lockedOn = false;
     private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
-    private GameObject currentTarget;
+    public GameObject currentTarget;
 
     //Particles
     [SerializeField] public ParticleSystem speedBoostParticles;
@@ -262,7 +262,7 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
-            maxSpeed = strafeMaxSpeed;
+            maxSpeed = normalMaxSpeed;
             targetImage.enabled = false;
             yaw += look.ReadValue<Vector2>().x * camSensitivity;
             pitch -= look.ReadValue<Vector2>().y * camSensitivity;

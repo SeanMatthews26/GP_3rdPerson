@@ -92,7 +92,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         playerControls.interactPressed = false;
         ChangeAnimation(interact);
-        Invoke("ResetInteract", 1);
+        Invoke("ResetInteract", 0.6f);
         return;
     }
 
