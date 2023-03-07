@@ -20,7 +20,9 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField] public float movementForce = 1f;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private float normalMaxSpeed;
+    [SerializeField] private float strafeMaxSpeed;
+    private float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
@@ -162,6 +164,8 @@ public class PlayerControls : MonoBehaviour
 
         Vector3 horizontalVelo = rb.velocity;
         horizontalVelo.y = 0;
+
+
         if(horizontalVelo.sqrMagnitude > maxSpeed * maxSpeed)
         {
             rb.velocity = horizontalVelo.normalized * maxSpeed + Vector3.up * rb.velocity.y;
@@ -228,6 +232,7 @@ public class PlayerControls : MonoBehaviour
         //Camera Stuff
         if(lockedOn) 
         {
+            maxSpeed = strafeMaxSpeed;
             offset2D = transform.position - currentTarget.transform.position;
             offsetNorm = offset2D.normalized;
 
@@ -242,6 +247,7 @@ public class PlayerControls : MonoBehaviour
         }
         else 
         {
+            maxSpeed = normalMaxSpeed;
             targetImage.enabled = false;
             yaw += look.ReadValue<Vector2>().x * camSensitivity;
             pitch -= look.ReadValue<Vector2>().y * camSensitivity;
