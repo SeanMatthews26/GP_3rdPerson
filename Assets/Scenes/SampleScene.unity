@@ -151,7 +151,7 @@ Transform:
   m_GameObject: {fileID: 71556990}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.60365075, y: 2.559253, z: 10.309138}
-  m_LocalScale: {x: 0.8354876, y: 16.634893, z: 13.778199}
+  m_LocalScale: {x: 0.8354876, y: 16.634893, z: 13.778202}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 880899654}
@@ -816,7 +816,7 @@ GameObject:
   - component: {fileID: 880899658}
   m_Layer: 0
   m_Name: DoorSwitch
-  m_TagString: Target
+  m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1232,8 +1232,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176755986}
-  m_LocalRotation: {x: -0, y: 0.30222335, z: -0, w: 0.9532372}
-  m_LocalPosition: {x: -8.020012, y: 2.113982, z: 1.9057245}
+  m_LocalRotation: {x: -0, y: 0.89338315, z: -0, w: 0.4492957}
+  m_LocalPosition: {x: -8.820642, y: 2.113982, z: 6.9001446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1243,7 +1243,7 @@ Transform:
   - {fileID: 397003036}
   m_Father: {fileID: 0}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 35.182, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 126.603, z: 0}
 --- !u!1 &1254453422
 GameObject:
   m_ObjectHideFlags: 0

@@ -119,15 +119,35 @@ public class PlayerControls : MonoBehaviour
     {
         if (!interacting)
         {
-            interactPressed = true;
-            interacting = true;
+            bool switchInArea = false;
+            Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
+
+            foreach (Collider hit in hits)
+            {
+                if (hit.tag == "Switch")
+                {
+                    if(hit.GetComponent<Renderer>().isVisible)
+                    {
+                        switchInArea = true;
+                        hit.GetComponent<DoorSwitch>().Switch();
+                    }
+                }
+            }
+
+            if(switchInArea)
+            {
+                interactPressed = true;
+                interacting = true;
+            }
         }
+
     }
 
     private bool IsGrounded()
     {
         Ray ray = new Ray(this.transform.position + Vector3.up * 0.25f, Vector3.down);
-        if(Physics.Raycast(ray,out RaycastHit hit, 0.3f))
+        Debug.DrawRay(this.transform.position + Vector3.up * 0.25f, Vector3.down, Color.green);
+        if (Physics.Raycast(ray, out RaycastHit hit, 0.45f))
         {
             jumping = false;
             doubleJumping = false;
@@ -324,7 +344,10 @@ public class PlayerControls : MonoBehaviour
         //Gizmos.DrawWireSphere(transform.position + transform.forward * lockOnSphereOffset, lockOnSphereRad);
 
         //Interact Sphere
-        Gizmos.DrawWireSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
+        //Gizmos.DrawWireSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
+
+        //IsGrounded
+
     }
 
     private void LockOnTarget()

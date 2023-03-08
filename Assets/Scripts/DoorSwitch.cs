@@ -34,26 +34,22 @@ public class DoorSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerControls.interacting)
-        {
-            Collider[] hits = Physics.OverlapSphere(player.transform.position + player.transform.forward * playerControls.interactSphereOffset, playerControls.interactSphereRad);
-            
-            foreach(Collider hit in hits)
-            {
-                if(hit == col)
-                {
-                    Switch();
-                }
-            }
-        }
+        
     }
 
-    void Switch()
+    public void Switch()
     {
         Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
-        player.transform.position = Vector3.MoveTowards(player.transform.position, newPos, playerControls.maxSpeed);
+        player.transform.position = Vector3.MoveTowards(player.transform.position, newPos, 5000 * Time.deltaTime);
         player.transform.forward = -transform.right;
-
-        Destroy(door);
+        Debug.Log("Door");
+        if(door.active)
+        {
+            door.SetActive(false);
+        }
+        else
+        {
+            door.SetActive(true);
+        }
     }
 }
