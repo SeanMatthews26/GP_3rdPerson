@@ -22,7 +22,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
-    [SerializeField] private float maxSpeed;
+    [SerializeField] public float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
@@ -47,7 +47,8 @@ public class PlayerControls : MonoBehaviour
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
-    [SerializeField] float sphereOffset;
+    [SerializeField] float lockOnSphereOffset;
+    [SerializeField] float lockOnSphereRad;
     [SerializeField] Image targetImage;
     private Vector3 offset2D;
     private float offsetSqur;
@@ -61,9 +62,12 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] public ParticleSystem speedBoostParticles;
     [SerializeField] public ParticleSystem extraJumpParticles;
 
+    //Interact
+    [SerializeField] public float interactSphereOffset;
+    [SerializeField] public float interactSphereRad;
+
     //Testing
     [SerializeField] float targetDist;
-    [SerializeField] float sphereRad;
 
     private void Awake()
     {
@@ -146,8 +150,6 @@ public class PlayerControls : MonoBehaviour
         {
             Vector3 lockOnDirection = (transform.position - currentTarget.transform.position).normalized;
             lockOnDirection.y = 0f;
-
-            //transform.LookAt(currentTarget.transform.position);
             this.rb.rotation = Quaternion.LookRotation(-lockOnDirection, Vector3.up);
         }
         else
@@ -165,13 +167,14 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Movement
         IsGrounded();
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
-
         rb.AddForce(forceDirection, ForceMode.Impulse);
         forceDirection = Vector3.zero;
 
+        //Extra Gravity
         if(rb.velocity.y < 0)
         {
             rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime * extraGravity;
@@ -180,7 +183,7 @@ public class PlayerControls : MonoBehaviour
         Vector3 horizontalVelo = rb.velocity;
         horizontalVelo.y = 0;
 
-
+        //MaxSpeed
         if(horizontalVelo.sqrMagnitude > maxSpeed * maxSpeed)
         {
             rb.velocity = horizontalVelo.normalized * maxSpeed + Vector3.up * rb.velocity.y;
@@ -279,7 +282,7 @@ public class PlayerControls : MonoBehaviour
 
     private GameObject FindTarget()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * sphereOffset, sphereRad);
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * lockOnSphereOffset, lockOnSphereRad);
         List<GameObject> possibleTarget = new List<GameObject>();
         float minDist = Mathf.Infinity;
         GameObject target= null;
@@ -316,7 +319,12 @@ public class PlayerControls : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * sphereOffset, sphereRad);
+
+        //LockOn Sphere
+        //Gizmos.DrawWireSphere(transform.position + transform.forward * lockOnSphereOffset, lockOnSphereRad);
+
+        //Interact Sphere
+        Gizmos.DrawWireSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
     }
 
     private void LockOnTarget()

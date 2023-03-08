@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class DoorSwitch : MonoBehaviour
     GameObject player;
     Vector3 playerSwitchPos;
     [SerializeField] float offset;
-    
+    Collider col;
     
 
     // Start is called before the first frame update
@@ -18,18 +19,31 @@ public class DoorSwitch : MonoBehaviour
         playerControls = FindObjectOfType<PlayerControls>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerSwitchPos = transform.position + (transform.right * offset);
+        col = GetComponent<Collider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 switchDistance = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
-
-        Debug.Log(switchDistance);
-
-        if (playerControls.currentTarget == this.gameObject)
+        /*if (playerControls.currentTarget == this.gameObject && playerControls.lockedOn)
         {
-            player.transform.position = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
+            Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
+            player.transform.position = Vector3.MoveTowards(player.transform.position, newPos, playerControls.maxSpeed);
+        }*/
+
+        if(playerControls.interacting)
+        {
+            Collider[] hits = Physics.OverlapSphere(player.transform.position + player.transform.forward * playerControls.interactSphereOffset, playerControls.interactSphereRad);
+            
+            foreach(Collider hit in hits)
+            {
+                if(hit == col)
+                {
+                    Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
+                    player.transform.position = Vector3.MoveTowards(player.transform.position, newPos, playerControls.maxSpeed);
+                    player.transform.forward = -transform.right;
+                }
+            }
         }
     }
 }
