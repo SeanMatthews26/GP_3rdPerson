@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 71556993}
   - component: {fileID: 71556992}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,13 +149,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71556990}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.3306, z: 3.5488}
-  m_LocalScale: {x: 0.23529, y: 6.1459045, z: 5.090808}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.60365075, y: 2.559253, z: 10.309138}
+  m_LocalScale: {x: 0.8354876, y: 16.634893, z: 13.778199}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1176755987}
-  m_RootOrder: 4
+  m_Father: {fileID: 880899654}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!65 &71556992
 BoxCollider:
@@ -833,7 +833,7 @@ Transform:
   m_LocalScale: {x: 0.28162, y: 0.36948285, z: 0.36945862}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1465374955}
+  - {fileID: 71556991}
   m_Father: {fileID: 1176755987}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1232,8 +1232,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176755986}
-  m_LocalRotation: {x: -0, y: 0.6493313, z: -0, w: 0.7605057}
-  m_LocalPosition: {x: -9.438039, y: 2.113982, z: 4.25476}
+  m_LocalRotation: {x: -0, y: 0.30222335, z: -0, w: 0.9532372}
+  m_LocalPosition: {x: -8.020012, y: 2.113982, z: 1.9057245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1241,10 +1241,9 @@ Transform:
   - {fileID: 880899654}
   - {fileID: 844292783}
   - {fileID: 397003036}
-  - {fileID: 71556991}
   m_Father: {fileID: 0}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 80.982, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 35.182, z: 0}
 --- !u!1 &1254453422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,37 +1544,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446988887}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1465374954
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1465374955}
-  m_Layer: 0
-  m_Name: PlayerSwitchPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1465374955
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465374954}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.37, y: -1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 880899654}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605543074
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,6 +2028,22 @@ PrefabInstance:
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: strafeMaxSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: lockOnSphereRad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: interactSphereRad
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: lockOnSphereOffset
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: interactSphereOffset
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1477524617, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_Camera
