@@ -79,7 +79,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
-
+        
     }
 
     private void OnEnable()
@@ -242,7 +242,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-      
+
     }
 
     private void LateUpdate()

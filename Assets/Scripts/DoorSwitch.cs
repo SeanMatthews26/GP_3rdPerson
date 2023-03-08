@@ -8,6 +8,7 @@ public class DoorSwitch : MonoBehaviour
 {
     PlayerControls playerControls;
     GameObject player;
+    PlayerAnimation playerAnimation;
     Vector3 playerSwitchPos;
     [SerializeField] float offset;
     Collider col;
@@ -25,6 +26,7 @@ public class DoorSwitch : MonoBehaviour
         playerControls = FindObjectOfType<PlayerControls>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerSwitchPos = transform.position + (transform.right * offset);
+        playerAnimation= FindObjectOfType<PlayerAnimation>();
         col = GetComponent<Collider>();
         door = transform.GetChild(0).gameObject;
     }
