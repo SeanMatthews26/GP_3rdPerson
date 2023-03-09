@@ -30,6 +30,7 @@ public class PlayerControls : MonoBehaviour
 
     //Camera
     [SerializeField] public Camera playerCam;
+    public bool camEnabled = true;
     private float pitch;
     private float yaw;
     [SerializeField] private float camSensitivity = 1f;
@@ -266,36 +267,39 @@ public class PlayerControls : MonoBehaviour
 
     private void LateUpdate()
     {
-        //Camera Stuff
-        if(lockedOn) 
+        if(camEnabled)
         {
-            maxSpeed = strafeMaxSpeed;
-            offset2D = transform.position - currentTarget.transform.position;
-            offsetNorm = offset2D.normalized;
+            //Camera Stuff
+            if (lockedOn)
+            {
+                maxSpeed = strafeMaxSpeed;
+                offset2D = transform.position - currentTarget.transform.position;
+                offsetNorm = offset2D.normalized;
 
-            targetImage.enabled = true;
-            lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
+                targetImage.enabled = true;
+                lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
+                playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
 
-            var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
-            playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
+                var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
+                playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
 
-            LockOnTarget();
-        }
-        else 
-        {
-            maxSpeed = normalMaxSpeed;
-            targetImage.enabled = false;
-            yaw += look.ReadValue<Vector2>().x * camSensitivity;
-            pitch -= look.ReadValue<Vector2>().y * camSensitivity;
-            pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
+                LockOnTarget();
+            }
+            else
+            {
+                maxSpeed = normalMaxSpeed;
+                targetImage.enabled = false;
+                yaw += look.ReadValue<Vector2>().x * camSensitivity;
+                pitch -= look.ReadValue<Vector2>().y * camSensitivity;
+                pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
 
-            Vector3 targetRotation = new Vector3(pitch, yaw);
-            playerCam.transform.eulerAngles = targetRotation;
+                Vector3 targetRotation = new Vector3(pitch, yaw);
+                playerCam.transform.eulerAngles = targetRotation;
 
-            freeCamPos = transform.position - (playerCam.transform.forward * dstToCam) + camTargetAbovePlayer;
+                freeCamPos = transform.position - (playerCam.transform.forward * dstToCam) + camTargetAbovePlayer;
 
-            playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+                playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+            }
         }
     }
 
