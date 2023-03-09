@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class PlayerControls : MonoBehaviour
 {
     //Input
-    private ThirdPersonInput playerActionAsset;
+    public ThirdPersonInput playerActionAsset;
     public InputAction move;
     private InputAction look;
 
