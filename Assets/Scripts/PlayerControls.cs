@@ -268,6 +268,10 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("player");
         }
+        else
+        {
+            
+        }
     }
 
     private void LateUpdate()
