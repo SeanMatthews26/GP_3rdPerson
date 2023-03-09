@@ -29,7 +29,7 @@ public class PlayerControls : MonoBehaviour
     public int jumpsLeft;
 
     //Camera
-    [SerializeField] private Camera playerCam;
+    [SerializeField] public Camera playerCam;
     private float pitch;
     private float yaw;
     [SerializeField] private float camSensitivity = 1f;
@@ -140,7 +140,6 @@ public class PlayerControls : MonoBehaviour
                 interacting = true;
             }
         }
-
     }
 
     private bool IsGrounded()
