@@ -262,7 +262,12 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
+        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerCam.transform.forward, dstToCam);
 
+        if (hits[0].collider == this.gameObject.GetComponent<Collider>())
+        {
+            Debug.Log("player");
+        }
     }
 
     private void LateUpdate()
