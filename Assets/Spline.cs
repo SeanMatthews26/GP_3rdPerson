@@ -32,4 +32,15 @@ public class Spline : MonoBehaviour
         Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));
 
     }
+
+    private void Update()
+    {
+        /*if(pointCount> 0)
+        {
+            for (int i = 0; i < pointCount; i++)
+            {
+                Debug.DrawLine(splinePoints[i].position, splinePoints[i + 1].position, Color.white);
+            }
+        }*/
+    }
 }
