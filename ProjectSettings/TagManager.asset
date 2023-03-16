@@ -8,6 +8,7 @@ TagManager:
   - Collide
   - Target
   - Switch
+  - Platform
   layers:
   - Default
   - TransparentFX

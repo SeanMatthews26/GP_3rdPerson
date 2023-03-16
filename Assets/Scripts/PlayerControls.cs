@@ -16,9 +16,10 @@ public class PlayerControls : MonoBehaviour
 
     //movement
     private Rigidbody rb;
-    private Vector3 forceDirection = Vector3.zero;
-
-    [SerializeField] public float movementForce = 1f;
+    public Vector3 forceDirection = Vector3.zero;
+    public float movementForce;
+    [SerializeField] public float normalMovementSpeed;
+    [SerializeField] public float onPlatSpeed;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
@@ -69,6 +70,9 @@ public class PlayerControls : MonoBehaviour
 
     //Testing
     [SerializeField] float targetDist;
+
+    //Platform
+    [HideInInspector] public bool onPlatform = false;
 
     private void Awake()
     {
@@ -189,9 +193,9 @@ public class PlayerControls : MonoBehaviour
     {
         //Movement
         IsGrounded();
-        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
-        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
+
         rb.AddForce(forceDirection, ForceMode.Impulse);
+
         forceDirection = Vector3.zero;
 
         //Extra Gravity
@@ -262,16 +266,23 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
+        //Move Input
+        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
+        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
+
+
         RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerCam.transform.forward, dstToCam);
 
         if (hits[0].collider == this.gameObject.GetComponent<Collider>())
         {
-            Debug.Log("player");
+
         }
         else
         {
             
         }
+
+        Debug.Log(onPlatform);
     }
 
     private void LateUpdate()

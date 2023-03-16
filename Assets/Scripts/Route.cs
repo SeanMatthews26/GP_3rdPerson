@@ -6,14 +6,13 @@ public class Route : MonoBehaviour
 {
     [SerializeField] private Transform[] routes;
     [SerializeField] private GameObject obj;
+    [SerializeField] private float speedModifier;
 
     private int routeToGo;
 
     private float tParam;
 
     private Vector3 objectPosition;
-
-    private float speedModifier;
 
     private bool coroutineAllowed;
 
@@ -22,12 +21,11 @@ public class Route : MonoBehaviour
     {
         routeToGo = 0;
         tParam = 0f;
-        speedModifier = 0.5f;
         coroutineAllowed = true;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (coroutineAllowed)
         {
