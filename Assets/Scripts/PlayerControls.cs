@@ -73,7 +73,10 @@ public class PlayerControls : MonoBehaviour
 
     //Platform
     public bool onPlatform = false;
-
+    public GameObject currentPlat = null;
+    MovingPlatform movingPlatform;
+    Vector3 currentPlatVelo;
+    
     //SpeedBoost
     public bool speedBoosted;
     [SerializeField] float boostedSpeed;
@@ -88,7 +91,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
-        
+        movingPlatform = FindObjectOfType<MovingPlatform>();
     }
 
     private void OnEnable()
@@ -199,7 +202,15 @@ public class PlayerControls : MonoBehaviour
         IsGrounded();
 
         //rb.AddForce(forceDirection, ForceMode.Impulse);
-        rb.velocity = rb.velocity + forceDirection;
+        if(!onPlatform)
+        {
+            rb.velocity = rb.velocity + forceDirection;
+        }
+        else
+        {
+            rb.velocity = (rb.velocity + forceDirection) + currentPlatVelo;
+            Debug.Log(currentPlatVelo);
+        }
 
         forceDirection = Vector3.zero;
 
@@ -271,6 +282,12 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
+        //Update current platform velocity
+        if(currentPlat != null)
+        {
+            currentPlatVelo = currentPlat.GetComponent<MovingPlatform>().platVelo;
+        }
+
         //Move Input
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
@@ -391,11 +408,13 @@ public class PlayerControls : MonoBehaviour
             return;
         }
 
-        if (onPlatform)
+        /*if (onPlatform)
         {
             movementSpeed = onPlatSpeed;
+
+
             return;
-        }
+        }*/
 
         movementSpeed = normalMovementSpeed;
     }
