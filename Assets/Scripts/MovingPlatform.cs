@@ -31,7 +31,7 @@ public class MovingPlatform : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Platform");
-            //other.transform.parent = transform;
+            other.transform.parent = transform;
             other.GetComponent<PlayerControls>().onPlatform = true;
             other.GetComponent<PlayerControls>().currentPlat = this.gameObject;
         }
@@ -41,7 +41,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //other.transform.parent = null;
+            other.transform.parent = null;
             other.GetComponent<PlayerControls>().onPlatform = false;
         }
     }

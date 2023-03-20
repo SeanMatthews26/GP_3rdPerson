@@ -16,12 +16,17 @@ public class Route : MonoBehaviour
 
     private bool coroutineAllowed;
 
+    private Rigidbody rb;
+    private Vector3 velocity;
+
     // Start is called before the first frame update
     void Start()
     {
         routeToGo = 0;
         tParam = 0f;
         coroutineAllowed = true;
+
+        rb = obj.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -48,7 +53,11 @@ public class Route : MonoBehaviour
 
             objectPosition = Mathf.Pow(1 - tParam, 3) * p0 + 3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 + 3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 + Mathf.Pow(tParam, 3) * p3;
 
-            obj.transform.position = objectPosition;
+            velocity = objectPosition - obj.transform.position;
+
+            //obj.transform.position = objectPosition;
+            //rb.AddForce(velocity, ForceMode.Impulse);
+            rb.MovePosition(objectPosition);
             yield return new WaitForEndOfFrame();
         }
 
