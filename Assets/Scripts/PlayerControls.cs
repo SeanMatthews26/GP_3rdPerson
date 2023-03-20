@@ -17,7 +17,7 @@ public class PlayerControls : MonoBehaviour
     //movement
     private Rigidbody rb;
     public Vector3 forceDirection = Vector3.zero;
-    public float movementForce;
+    public float movementSpeed;
     [SerializeField] public float normalMovementSpeed;
     [SerializeField] public float onPlatSpeed;
     [SerializeField] private float jumpForce = 5f;
@@ -72,7 +72,11 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] float targetDist;
 
     //Platform
-    [HideInInspector] public bool onPlatform = false;
+    public bool onPlatform = false;
+
+    //SpeedBoost
+    public bool speedBoosted;
+    [SerializeField] float boostedSpeed;
 
     private void Awake()
     {
@@ -194,7 +198,8 @@ public class PlayerControls : MonoBehaviour
         //Movement
         IsGrounded();
 
-        rb.AddForce(forceDirection, ForceMode.Impulse);
+        //rb.AddForce(forceDirection, ForceMode.Impulse);
+        rb.velocity = rb.velocity + forceDirection;
 
         forceDirection = Vector3.zero;
 
@@ -208,10 +213,10 @@ public class PlayerControls : MonoBehaviour
         horizontalVelo.y = 0;
 
         //MaxSpeed
-        if(horizontalVelo.sqrMagnitude > maxSpeed * maxSpeed)
+        /*if(horizontalVelo.sqrMagnitude > maxSpeed * maxSpeed)
         {
             rb.velocity = horizontalVelo.normalized * maxSpeed + Vector3.up * rb.velocity.y;
-        }
+        }*/
 
         LookAt();
     }
@@ -267,8 +272,8 @@ public class PlayerControls : MonoBehaviour
     private void Update()
     {
         //Move Input
-        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementForce;
-        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementForce;
+        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
+        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
 
 
         RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerCam.transform.forward, dstToCam);
@@ -282,7 +287,7 @@ public class PlayerControls : MonoBehaviour
             
         }
 
-        Debug.Log(onPlatform);
+        SetSpeed();
     }
 
     private void LateUpdate()
@@ -376,5 +381,22 @@ public class PlayerControls : MonoBehaviour
     private void LockOnTarget()
     {
         targetImage.transform.position = playerCam.WorldToScreenPoint(currentTarget.transform.position);
+    }
+
+    private void SetSpeed()
+    {
+        if(speedBoosted)
+        {
+            movementSpeed = boostedSpeed;
+            return;
+        }
+
+        if (onPlatform)
+        {
+            movementSpeed = onPlatSpeed;
+            return;
+        }
+
+        movementSpeed = normalMovementSpeed;
     }
 }

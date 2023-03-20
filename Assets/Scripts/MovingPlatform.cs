@@ -23,7 +23,6 @@ public class MovingPlatform : MonoBehaviour
             Debug.Log("Platform");
             other.transform.parent = transform;
             other.GetComponent<PlayerControls>().onPlatform = true;
-            //other.GetComponent<PlayerControls>().movementForce = other.GetComponent<PlayerControls>().onPlatSpeed;
         }
     }
 
@@ -33,7 +32,6 @@ public class MovingPlatform : MonoBehaviour
         {
             other.transform.parent = null;
             other.GetComponent<PlayerControls>().onPlatform = false;
-            //other.GetComponent<PlayerControls>().movementForce = other.GetComponent<PlayerControls>().normalMovementSpeed;
         }
     }
 }

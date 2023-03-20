@@ -14,7 +14,7 @@ public class SpeedBoostCollectable : Collectable
         pd = powerDuration;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerControls = player.GetComponent<PlayerControls>();
-        normalSpeed = playerControls.movementForce;
+        normalSpeed = playerControls.movementSpeed;
     }
 
     private void Update()
@@ -27,12 +27,12 @@ public class SpeedBoostCollectable : Collectable
     {
         if (activated)
         {
-            playerControls.movementForce = boostedSpeed;
+            playerControls.speedBoosted = true;
             playerControls.speedBoostParticles.Play();
         }
         else
         {
-            playerControls.movementForce = normalSpeed;
+            playerControls.speedBoosted = false;
             playerControls.speedBoostParticles.Stop();
         }
     }
