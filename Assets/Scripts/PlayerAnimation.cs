@@ -45,7 +45,7 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat("VeloY", playerControls.move.ReadValue<Vector2>().y);
 
         //Speed
-        playerSpeed = rb.velocity.magnitude / maxSpeed;
+        playerSpeed = playerControls.move.ReadValue<Vector2>().sqrMagnitude;
         animator.SetFloat("speed", playerSpeed);
 
         //Interact

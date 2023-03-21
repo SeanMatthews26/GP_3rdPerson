@@ -19,8 +19,7 @@ public class MovingPlatform : MonoBehaviour
     void Update()
     {
         //Velocity
-        Vector3 platVelo = (transform.position - lastPosition) / Time.deltaTime;
-        lastPosition = transform.position;
+        Vector3 platVelo = rb.velocity;
 
         
         //Debug.Log(platVelo);

@@ -35,9 +35,10 @@ public class PlayerControls : MonoBehaviour
     private float pitch;
     private float yaw;
     [SerializeField] private float camSensitivity = 1f;
-    [SerializeField] private float dstToCam = 10f;
+    [SerializeField] private float dstToCam2D = 10f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
     [SerializeField] Vector3 camTargetAbovePlayer;
+    private Vector2 playerToCamDirection;
 
     //Animation
     public bool attackPressed = false;
@@ -76,7 +77,10 @@ public class PlayerControls : MonoBehaviour
     public GameObject currentPlat = null;
     MovingPlatform movingPlatform;
     Vector3 currentPlatVelo;
-    
+    private const int normalDrag = 4;
+    private const int onPlatDrag = 2;
+
+
     //SpeedBoost
     public bool speedBoosted;
     [SerializeField] float boostedSpeed;
@@ -205,10 +209,12 @@ public class PlayerControls : MonoBehaviour
         if(!onPlatform)
         {
             rb.velocity = rb.velocity + forceDirection;
+            rb.drag = normalDrag;
         }
         else
         {
             rb.velocity = (rb.velocity + forceDirection) + currentPlatVelo;
+            rb.drag = onPlatDrag;
             Debug.Log(currentPlatVelo);
         }
 
@@ -292,17 +298,10 @@ public class PlayerControls : MonoBehaviour
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
 
+        playerToCamDirection = (transform.position - playerCam.transform.position).normalized;
+        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection);
 
-        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerCam.transform.forward, dstToCam);
-
-        if (hits[0].collider == this.gameObject.GetComponent<Collider>())
-        {
-
-        }
-        else
-        {
-            
-        }
+ 
 
         SetSpeed();
     }
@@ -319,7 +318,7 @@ public class PlayerControls : MonoBehaviour
                 offsetNorm = offset2D.normalized;
 
                 targetImage.enabled = true;
-                lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam));
+                lockOnCamPos = new Vector3(transform.position.x + (offsetNorm.x * dstToCam2D), playerCam.transform.position.y, transform.position.z + (offsetNorm.z * dstToCam2D));
                 playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, lockOnCamPos, camSwitchSpeed * Time.deltaTime);
 
                 var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
@@ -338,7 +337,7 @@ public class PlayerControls : MonoBehaviour
                 Vector3 targetRotation = new Vector3(pitch, yaw);
                 playerCam.transform.eulerAngles = targetRotation;
 
-                freeCamPos = transform.position - (playerCam.transform.forward * dstToCam) + camTargetAbovePlayer;
+                freeCamPos = transform.position - (playerCam.transform.forward * dstToCam2D) + camTargetAbovePlayer;
 
                 playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
             }
