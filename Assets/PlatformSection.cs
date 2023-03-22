@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlatformSection : MonoBehaviour
 {
-    [SerializeField] Transform[] splines;
-    
+    //[SerializeField] Transform[] splines;
+    [SerializeField] GameObject mainSpline;
+    [SerializeField] GameObject camSpline;
+
     // Start is called before the first frame update
     void Start()
     {
