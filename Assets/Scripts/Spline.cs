@@ -7,6 +7,12 @@ public class Spline : MonoBehaviour
     [SerializeField] private Transform[] splinePoints;
     private int pointCount;
 
+    //2.5D Test
+    [SerializeField] GameObject player;
+    float currentClosestDistance = Mathf.Infinity;
+    float tDistance = 0;
+    Vector3 currentClosestPosition = Vector3.zero;
+
     private Vector3 gizmosPosition;
 
     private void Start()
@@ -21,12 +27,41 @@ public class Spline : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        for (float t = 0; t <= 1; t += 0.05f)
+        
+
+        for (float t = 0; t <= 1; t += 0.04f)
         {
             gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
 
             Gizmos.DrawSphere(gizmosPosition, 0.25f);
         }
+
+        //2.5D Test
+        for (float t = 0; t <= 1; t += 0.04f)
+        {
+            gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
+
+            //Gizmos.DrawSphere(gizmosPosition, 0.25f);
+
+            //currentClosest = (gizmosPosition - player.transform.position).sqrMagnitude;
+
+            tDistance = (player.transform.position - gizmosPosition).sqrMagnitude;
+
+            //Check if this is closest
+            if(gizmosPosition == currentClosestPosition)
+            {
+                currentClosestDistance = tDistance;
+            }
+
+            if (currentClosestDistance > tDistance)
+            {
+                currentClosestDistance = tDistance;
+                currentClosestPosition = gizmosPosition;
+            }
+
+            
+        }
+        Gizmos.DrawLine(currentClosestPosition, player.transform.position);
 
         Gizmos.DrawLine(new Vector3(splinePoints[0].position.x, splinePoints[0].position.y, splinePoints[0].position.z), new Vector3(splinePoints[1].position.x, splinePoints[1].position.y, splinePoints[1].position.z));
         Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));

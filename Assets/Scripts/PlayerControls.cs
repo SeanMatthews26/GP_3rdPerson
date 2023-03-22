@@ -42,6 +42,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] Vector3 camTargetAbovePlayer;
     private Vector2 playerToCamDirection;
 
+
     //Animation
     [HideInInspector] public bool attackPressed = false;
     [HideInInspector] public bool attacking = false;
