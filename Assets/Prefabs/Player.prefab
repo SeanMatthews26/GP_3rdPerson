@@ -227,8 +227,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e55f119ffa43340831a82f398e8d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementForce: 1
-  jumpForce: 5
+  move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f35fc492-b856-4232-a700-58e15056bf0e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  forceDirection: {x: 0, y: 0, z: 0}
+  movementSpeed: 0
+  normalMovementSpeed: 0
+  normalMaxSpeed: 0
+  strafeMaxSpeed: 0
   maxSpeed: 5
   extraGravity: 2
+  maxFallSpeed: 0
+  extraJumps: 0
+  jumpForce: 5
+  jumpsLeft: 0
   playerCam: {fileID: 0}
+  camEnabled: 1
+  camSensitivity: 1
+  dstToCam2D: 10
+  pitchLimits: {x: -40, y: 85}
+  camTargetAbovePlayer: {x: 0, y: 0, z: 0}
+  attackPressed: 0
+  attacking: 0
+  jumping: 0
+  doubleJumping: 0
+  interactPressed: 0
+  interacting: 0
+  camSwitchSpeed: 0
+  lockOnSphereOffset: 0
+  lockOnSphereRad: 0
+  targetImage: {fileID: 0}
+  lockedOn: 0
+  currentTarget: {fileID: 0}
+  speedBoostParticles: {fileID: 0}
+  extraJumpParticles: {fileID: 0}
+  interactSphereOffset: 0
+  interactSphereRad: 0
+  targetDist: 0
+  onPlatform: 0
+  currentPlat: {fileID: 0}
+  speedBoosted: 0
+  boostedMaxSpeed: 0

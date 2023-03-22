@@ -2101,11 +2101,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: extraGravity
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: movementForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: movementSpeed
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: camSensitivity
@@ -2113,11 +2117,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: normalMaxSpeed
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: strafeMaxSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: boostedMaxSpeed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: lockOnSphereRad

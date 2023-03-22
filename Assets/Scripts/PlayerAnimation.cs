@@ -26,8 +26,6 @@ public class PlayerAnimation : MonoBehaviour
     const string runAttack1 = "RunAttack1";
     const string interact = "Interact";
 
-    private string lastAttack = "none";
-
     // Start is called before the first frame update
     void Start()
     {

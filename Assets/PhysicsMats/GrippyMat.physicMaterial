@@ -6,7 +6,7 @@ PhysicMaterial:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MovPlatMat
+  m_Name: GrippyMat
   dynamicFriction: 10
   staticFriction: 0.5
   bounciness: 0

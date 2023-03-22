@@ -16,26 +16,24 @@ public class PlayerControls : MonoBehaviour
 
     //movement
     private Rigidbody rb;
-    public Vector3 forceDirection = Vector3.zero;
+    [HideInInspector] public Vector3 forceDirection = Vector3.zero;
     public float movementSpeed;
     [SerializeField] public float normalMovementSpeed;
-    [SerializeField] public float onPlatSpeed;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
     [SerializeField] public float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
-    private Vector2 moveXZ;
 
     //Jump
     [SerializeField] private float jumpForce = 5f;
-    public int jumpsLeft;
+    [HideInInspector] public int jumpsLeft;
     private float jumpDirection;
 
     //Camera
     [SerializeField] public Camera playerCam;
-    public bool camEnabled = true;
+    [HideInInspector] public bool camEnabled = true;
     private float pitch;
     private float yaw;
     [SerializeField] private float camSensitivity = 1f;
@@ -45,12 +43,12 @@ public class PlayerControls : MonoBehaviour
     private Vector2 playerToCamDirection;
 
     //Animation
-    public bool attackPressed = false;
-    public bool attacking = false;
-    public bool jumping = false;
-    public bool doubleJumping = false;
-    public bool interactPressed = false;
-    public bool interacting = false;
+    [HideInInspector] public bool attackPressed = false;
+    [HideInInspector] public bool attacking = false;
+    [HideInInspector] public bool jumping = false;
+    [HideInInspector] public bool doubleJumping = false;
+    [HideInInspector] public bool interactPressed = false;
+    [HideInInspector] public bool interacting = false;
 
     //LockOn
     [SerializeField] float camSwitchSpeed;
@@ -60,10 +58,10 @@ public class PlayerControls : MonoBehaviour
     private Vector3 offset2D;
     private float offsetSqur;
     private Vector3 offsetNorm;
-    public bool lockedOn = false;
+    [HideInInspector] public bool lockedOn = false;
     private Vector3 lockOnCamPos;
     private Vector3 freeCamPos;
-    public GameObject currentTarget;
+    [HideInInspector] public GameObject currentTarget;
 
     //Particles
     [SerializeField] public ParticleSystem speedBoostParticles;
@@ -77,8 +75,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] float targetDist;
 
     //Platform
-    public bool onPlatform = false;
-    public GameObject currentPlat = null;
+    [HideInInspector] public bool onPlatform = false;
+    [HideInInspector] public GameObject currentPlat = null;
     MovingPlatform movingPlatform;
     Vector3 currentPlatVelo;
     private const int normalDrag = 4;
@@ -86,8 +84,8 @@ public class PlayerControls : MonoBehaviour
 
 
     //SpeedBoost
-    public bool speedBoosted;
-    [SerializeField] float boostedSpeed;
+    [HideInInspector] public bool speedBoosted;
+    [SerializeField] float boostedMaxSpeed;
 
     private void Awake()
     {
@@ -319,7 +317,6 @@ public class PlayerControls : MonoBehaviour
             //Camera Stuff
             if (lockedOn)
             {
-                maxSpeed = strafeMaxSpeed;
                 offset2D = transform.position - currentTarget.transform.position;
                 offsetNorm = offset2D.normalized;
 
@@ -334,7 +331,6 @@ public class PlayerControls : MonoBehaviour
             }
             else
             {
-                maxSpeed = normalMaxSpeed;
                 targetImage.enabled = false;
                 yaw += look.ReadValue<Vector2>().x * camSensitivity;
                 pitch -= look.ReadValue<Vector2>().y * camSensitivity;
@@ -407,20 +403,21 @@ public class PlayerControls : MonoBehaviour
 
     private void SetSpeed()
     {
+        //Speed Boosted
         if(speedBoosted)
         {
-            movementSpeed = boostedSpeed;
+            maxSpeed = boostedMaxSpeed;
             return;
         }
 
-        /*if (onPlatform)
+        //Strafing
+        if(lockedOn)
         {
-            movementSpeed = onPlatSpeed;
-
-
+            maxSpeed = strafeMaxSpeed;
             return;
-        }*/
+        }
 
-        movementSpeed = normalMovementSpeed;
+        //Regular Speed
+        maxSpeed = normalMaxSpeed;
     }
 }
