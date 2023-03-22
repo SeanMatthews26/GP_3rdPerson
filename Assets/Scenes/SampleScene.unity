@@ -2081,7 +2081,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: jumpForce
-      value: 15
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: playerCam
@@ -2100,6 +2100,10 @@ PrefabInstance:
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: extraGravity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: movementForce
       value: 1
       objectReference: {fileID: 0}
@@ -2109,7 +2113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: normalMaxSpeed
-      value: 7.2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: strafeMaxSpeed

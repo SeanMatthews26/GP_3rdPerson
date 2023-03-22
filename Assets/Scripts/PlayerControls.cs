@@ -20,14 +20,18 @@ public class PlayerControls : MonoBehaviour
     public float movementSpeed;
     [SerializeField] public float normalMovementSpeed;
     [SerializeField] public float onPlatSpeed;
-    [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
     [SerializeField] public float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
     [HideInInspector] public int extraJumps = 0;
+    private Vector2 moveXZ;
+
+    //Jump
+    [SerializeField] private float jumpForce = 5f;
     public int jumpsLeft;
+    private float jumpDirection;
 
     //Camera
     [SerializeField] public Camera playerCam;
@@ -118,14 +122,14 @@ public class PlayerControls : MonoBehaviour
     {
         if(IsGrounded())
         {
-            forceDirection += Vector3.up * jumpForce;
+            jumpDirection = jumpForce;
         }
         else
         {
             if(jumpsLeft > 0)
             {
                 doubleJumping = true;
-                forceDirection += Vector3.up * jumpForce;
+                jumpDirection = jumpForce;
                 jumpsLeft--;
             }
         }
@@ -204,26 +208,28 @@ public class PlayerControls : MonoBehaviour
     {
         //Movement
         IsGrounded();
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity + forceDirection, maxSpeed);
+        rb.velocity += jumpDirection * Vector3.up;
+        
 
-        //rb.AddForce(forceDirection, ForceMode.Impulse);
-        if(!onPlatform)
+        if (!onPlatform)
         {
-            rb.velocity = rb.velocity + forceDirection;
             rb.drag = normalDrag;
         }
         else
         {
-            rb.velocity = (rb.velocity + forceDirection) + currentPlatVelo;
-            rb.drag = onPlatDrag;
-            Debug.Log(currentPlatVelo);
+            rb.velocity += currentPlatVelo;
+            rb.drag = onPlatDrag;;
         }
 
         forceDirection = Vector3.zero;
+        jumpDirection = 0;
 
         //Extra Gravity
-        if(rb.velocity.y < 0)
+        if(rb.velocity.y < -0.1)
         {
-            rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime * extraGravity;
+            //rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime * extraGravity;
+            rb.velocity += Vector3.down * extraGravity;
         }
 
         Vector3 horizontalVelo = rb.velocity;
