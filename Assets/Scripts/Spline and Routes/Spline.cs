@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spline : MonoBehaviour
 {
-    [SerializeField] private Transform[] splinePoints;
+    [SerializeField] public Transform[] splinePoints;
     private int pointCount;
 
     //2.5D Test
@@ -30,7 +30,7 @@ public class Spline : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        
+
 
         for (float t = 0; t <= 1; t += 0.04f)
         {
@@ -39,17 +39,28 @@ public class Spline : MonoBehaviour
             Gizmos.DrawSphere(gizmosPosition, 0.25f);
         }
 
+        FindClosestSplinePoint();
+
+       if(findClosest)
+        {
+            //Find closest line
+            Gizmos.DrawLine(currentClosestPosition, player.transform.position);
+        }
+
+        //Anchors
+        Gizmos.DrawLine(new Vector3(splinePoints[0].position.x, splinePoints[0].position.y, splinePoints[0].position.z), new Vector3(splinePoints[1].position.x, splinePoints[1].position.y, splinePoints[1].position.z));
+        Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));
+
+    }
+
+    private void FindClosestSplinePoint()
+    {
         //2.5D Test
-        if(findClosest)
+        if (findClosest)
         {
             for (float t = 0; t <= 1; t += 0.04f)
             {
                 gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
-
-                //Gizmos.DrawSphere(gizmosPosition, 0.25f);
-
-                //currentClosest = (gizmosPosition - player.transform.position).sqrMagnitude;
-
                 tDistance = (player.transform.position - gizmosPosition).sqrMagnitude;
 
                 //Check if this is closest
@@ -64,25 +75,12 @@ public class Spline : MonoBehaviour
                     currentClosestPosition = gizmosPosition;
                     Debug.Log(t);
                 }
-
-
             }
-            Gizmos.DrawLine(currentClosestPosition, player.transform.position);
         }
-
-        Gizmos.DrawLine(new Vector3(splinePoints[0].position.x, splinePoints[0].position.y, splinePoints[0].position.z), new Vector3(splinePoints[1].position.x, splinePoints[1].position.y, splinePoints[1].position.z));
-        Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));
-
     }
 
     private void Update()
     {
-        /*if(pointCount> 0)
-        {
-            for (int i = 0; i < pointCount; i++)
-            {
-                Debug.DrawLine(splinePoints[i].position, splinePoints[i + 1].position, Color.white);
-            }
-        }*/
+
     }
 }

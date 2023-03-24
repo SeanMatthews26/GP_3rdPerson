@@ -45,6 +45,7 @@ public class DoorSwitch : MonoBehaviour
     public void Switch()
     {
         playerControls.playerActionAsset.Disable();
+        playerControls.forceDirection = Vector3.zero;
 
         //Change Player Pos
         Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);

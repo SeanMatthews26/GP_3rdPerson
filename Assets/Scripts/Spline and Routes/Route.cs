@@ -8,10 +8,13 @@ public class Route : MonoBehaviour
 
     [HideInInspector] public int routeToGo;
     [HideInInspector] public float tParam;
+    [HideInInspector] public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         routeToGo = 0;
         tParam = 0f;
     }

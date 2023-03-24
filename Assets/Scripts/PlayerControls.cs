@@ -17,6 +17,8 @@ public class PlayerControls : MonoBehaviour
     //movement
     private Rigidbody rb;
     [HideInInspector] public Vector3 forceDirection = Vector3.zero;
+
+    [Header("---Movement---")]
     public float movementSpeed;
     [SerializeField] public float normalMovementSpeed;
     [SerializeField] private float normalMaxSpeed;
@@ -24,14 +26,19 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] public float maxSpeed;
     [SerializeField] private float extraGravity = 1.5f;
     [SerializeField] private float maxFallSpeed;
-    [HideInInspector] public int extraJumps = 0;
+    [HideInInspector] public bool speedBoosted;
+    [SerializeField] float boostedMaxSpeed;
+
 
     //Jump
+    [Header("---Jump---")]
     [SerializeField] private float jumpForce = 5f;
     [HideInInspector] public int jumpsLeft;
     private float jumpDirection;
+    [HideInInspector] public int extraJumps = 0;
 
     //Camera
+    [Header("---Camera---")]
     [SerializeField] public Camera playerCam;
     [HideInInspector] public bool camEnabled = true;
     private float pitch;
@@ -52,6 +59,7 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector] public bool interacting = false;
 
     //LockOn
+    [Header("---Lock On---")]
     [SerializeField] float camSwitchSpeed;
     [SerializeField] float lockOnSphereOffset;
     [SerializeField] float lockOnSphereRad;
@@ -65,15 +73,14 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector] public GameObject currentTarget;
 
     //Particles
+    [Header("---Particles---")]
     [SerializeField] public ParticleSystem speedBoostParticles;
     [SerializeField] public ParticleSystem extraJumpParticles;
 
     //Interact
+    [Header("---Interact---")]
     [SerializeField] public float interactSphereOffset;
     [SerializeField] public float interactSphereRad;
-
-    //Testing
-    [SerializeField] float targetDist;
 
     //Platform
     [HideInInspector] public bool onPlatform = false;
@@ -82,11 +89,6 @@ public class PlayerControls : MonoBehaviour
     Vector3 currentPlatVelo;
     private const int normalDrag = 4;
     private const int onPlatDrag = 2;
-
-
-    //SpeedBoost
-    [HideInInspector] public bool speedBoosted;
-    [SerializeField] float boostedMaxSpeed;
 
     private void Awake()
     {

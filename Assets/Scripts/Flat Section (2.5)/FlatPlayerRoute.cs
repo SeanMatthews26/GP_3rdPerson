@@ -5,18 +5,26 @@ using UnityEngine;
 public class FlatPlayerRoute : Route
 {
     //2.5D Test
-    private GameObject player;
     float currentClosestDistance = Mathf.Infinity;
     float tDistance = 0;
     Vector3 currentClosestPosition = Vector3.zero;
     [SerializeField] bool findClosest;
+    private Transform[] splinePoints;
+    private int splineNum;
+    private int pointPerSpline;
 
     private Vector3 gizmosPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        pointPerSpline = 4;
+        splineNum = 1;
+
+        for (int i = 0; i < pointPerSpline; i++)
+        {
+            splinePoints[i] = this.gameObject.transform.GetChild(0).gameObject.transform.GetChild(i);
+        }
     }
 
     // Update is called once per frame
@@ -25,19 +33,17 @@ public class FlatPlayerRoute : Route
         
     }
 
-   private void FindClosest(int routeNum)
+    private void FindClosest()
     {
-        Vector3 p0 = routes[routeNum].GetChild(0).position;
-        Vector3 p1 = routes[routeNum].GetChild(1).position;
-        Vector3 p2 = routes[routeNum].GetChild(2).position;
-        Vector3 p3 = routes[routeNum].GetChild(3).position;
+        
+
 
         //2.5D Test
         if (findClosest)
         {
             for (float t = 0; t <= 1; t += 0.04f)
             {
-                gizmosPosition = Mathf.Pow(1 - t, 3) * p0 + 3 * Mathf.Pow(1 - t, 2) * t * p1 + 3 * (1 - t) * Mathf.Pow(t, 2) * p2 + Mathf.Pow(t, 3) * p3;
+                gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
 
                 //Gizmos.DrawSphere(gizmosPosition, 0.25f);
 
@@ -60,16 +66,19 @@ public class FlatPlayerRoute : Route
 
 
             }
+            //Line to Player
             Gizmos.DrawLine(currentClosestPosition, player.transform.position);
         }
 
-        Gizmos.DrawLine(new Vector3(p0.x, p0.y, p0.z), new Vector3(p1.x, p1.y, p1.z));
-        Gizmos.DrawLine(new Vector3(p2.x, p2.y, p2.z), new Vector3(p3.x, p3.y, p3.z));
-       
+        //anchors
+        Gizmos.DrawLine(new Vector3(splinePoints[0].position.x, splinePoints[0].position.y, splinePoints[0].position.z), new Vector3(splinePoints[1].position.x, splinePoints[1].position.y, splinePoints[1].position.z));
+        Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));
+
     }
 
     private void OnDrawGizmos()
     {
-        FindClosest(routeToGo);
+        //FindClosest();
     }
 }
+
