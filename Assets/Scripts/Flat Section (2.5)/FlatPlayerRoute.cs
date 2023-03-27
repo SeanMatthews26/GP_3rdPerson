@@ -12,14 +12,23 @@ public class FlatPlayerRoute : Route
     private Transform[] splinePoints;
     private int splineNum;
     private int pointPerSpline;
+    private GameObject[] spline;
 
     private Vector3 gizmosPosition;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         pointPerSpline = 4;
         splineNum = 1;
+
+        //Init Splines
+        for (int i = 0; i < this.gameObject.transform.childCount; i++)
+        {
+            spline[i] = this.gameObject.transform.GetChild(i).gameObject;
+        }
 
         for (int i = 0; i < pointPerSpline; i++)
         {
@@ -30,25 +39,16 @@ public class FlatPlayerRoute : Route
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     private void FindClosest()
     {
-        
-
-
-        //2.5D Test
-        if (findClosest)
+       for(int i = 0; i < spline.Length; i++)
         {
             for (float t = 0; t <= 1; t += 0.04f)
             {
                 gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
-
-                //Gizmos.DrawSphere(gizmosPosition, 0.25f);
-
-                //currentClosest = (gizmosPosition - player.transform.position).sqrMagnitude;
-
                 tDistance = (player.transform.position - gizmosPosition).sqrMagnitude;
 
                 //Check if this is closest
@@ -63,22 +63,10 @@ public class FlatPlayerRoute : Route
                     currentClosestPosition = gizmosPosition;
                     Debug.Log(t);
                 }
-
-
             }
-            //Line to Player
-            Gizmos.DrawLine(currentClosestPosition, player.transform.position);
         }
-
-        //anchors
-        Gizmos.DrawLine(new Vector3(splinePoints[0].position.x, splinePoints[0].position.y, splinePoints[0].position.z), new Vector3(splinePoints[1].position.x, splinePoints[1].position.y, splinePoints[1].position.z));
-        Gizmos.DrawLine(new Vector3(splinePoints[2].position.x, splinePoints[2].position.y, splinePoints[2].position.z), new Vector3(splinePoints[3].position.x, splinePoints[3].position.y, splinePoints[3].position.z));
-
     }
 
-    private void OnDrawGizmos()
-    {
-        //FindClosest();
-    }
+   
 }
 

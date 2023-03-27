@@ -39,7 +39,7 @@ public class Spline : MonoBehaviour
             Gizmos.DrawSphere(gizmosPosition, 0.25f);
         }
 
-        FindClosestSplinePoint();
+        //FindClosestSplinePoint();
 
        if(findClosest)
         {
