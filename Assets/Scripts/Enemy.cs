@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     private bool attacked;
 
     //States
-    enum State {wander, Chase, Attack};
+    enum State {wander, chase, attack};
     State currentState;
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentState= State.wander;
+        currentState = State.wander;
 
         playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -41,7 +41,19 @@ public class Enemy : MonoBehaviour
         if(playerInSightRange)
         {
             Debug.Log("PlayerSpotted");
+            currentState = State.chase;
         }
+
+        //States
+        if(currentState == State.chase)
+        {
+            Chase();
+        }
+    }
+
+    void Chase()
+    {
+        agent.destination = playerTrans.position;
     }
 
     private void OnDrawGizmos()
