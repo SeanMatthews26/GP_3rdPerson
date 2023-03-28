@@ -13,21 +13,28 @@ public class Enemy : MonoBehaviour
     public Vector3 walkPoint;
     private bool walkPointSet;
     public float walkPointRange;
+    private Vector3 startPos;
+    [SerializeField] float wanderRange;
+    private Vector3 wanderDestination;
 
     //Attacking
     public float timeBetweenAttacks;
     private bool attacked;
 
     //States
-    enum State {wander, chase, attack};
+    enum State { wander, chase, attack };
     State currentState;
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+    //Combat
+    [SerializeField] private float health;
 
     // Start is called before the first frame update
     void Start()
     {
         currentState = State.wander;
+        startPos= transform.position;
 
         playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -38,14 +45,12 @@ public class Enemy : MonoBehaviour
     {
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
 
-        if(playerInSightRange)
-        {
-            Debug.Log("PlayerSpotted");
-            currentState = State.chase;
-        }
-
         //States
-        if(currentState == State.chase)
+        if(currentState == State.wander)
+        {
+            Wander();
+        }
+        if (currentState == State.chase)
         {
             Chase();
         }
@@ -59,5 +64,19 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    private void Wander()
+    {
+        if (playerInSightRange)
+        {
+            Debug.Log("PlayerSpotted");
+            currentState = State.chase;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Hit");
     }
 }

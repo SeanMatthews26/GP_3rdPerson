@@ -29,6 +29,10 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector] public bool speedBoosted;
     [SerializeField] float boostedMaxSpeed;
 
+    //Attack
+    [Header("---Attack---")]
+    [SerializeField] GameObject sword;
+
 
     //Jump
     [Header("---Jump---")]
@@ -261,11 +265,12 @@ public class PlayerControls : MonoBehaviour
 
     private void DoAttack(InputAction.CallbackContext obj)
     {
-        if(!attacking)
+        if(attacking)
         {
-            attackPressed = true;
-            attacking = true;
+            return;
         }
+        attackPressed = true;
+        attacking = true;
     }
 
     private void DoLockOn(InputAction.CallbackContext obj)
