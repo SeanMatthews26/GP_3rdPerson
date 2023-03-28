@@ -12,17 +12,12 @@ public class MovingPlatform : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Vector3 lastPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Velocity
-        Vector3 platVelo = rb.velocity;
 
-        
-        //Debug.Log(platVelo);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,7 +25,7 @@ public class MovingPlatform : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Platform");
-            other.transform.parent = transform;
+            //other.transform.parent = transform;
             other.GetComponent<PlayerControls>().onPlatform = true;
             other.GetComponent<PlayerControls>().currentPlat = this.gameObject;
         }
@@ -40,7 +35,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.transform.parent = null;
+            //other.transform.parent = null;
             other.GetComponent<PlayerControls>().onPlatform = false;
         }
     }

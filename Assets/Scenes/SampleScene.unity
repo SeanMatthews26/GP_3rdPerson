@@ -2698,11 +2698,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_Size.y
-      value: 1.0796999
+      value: 2.5649185
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
+      propertyPath: m_Size.z
+      value: 0.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_Center.y
-      value: 0.03985
+      value: 0.7824594
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_IsTrigger
@@ -2837,7 +2841,7 @@ PrefabInstance:
       objectReference: {fileID: 1100239650}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: jumpForce
-      value: 120
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: playerCam
@@ -2865,7 +2869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: movementSpeed
-      value: 0.8
+      value: 2.72
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: camSensitivity
@@ -2873,7 +2877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: normalMaxSpeed
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: strafeMaxSpeed
@@ -2881,7 +2885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: boostedMaxSpeed
-      value: 15
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: lockOnSphereRad

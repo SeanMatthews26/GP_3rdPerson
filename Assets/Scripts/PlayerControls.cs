@@ -17,6 +17,7 @@ public class PlayerControls : MonoBehaviour
     //movement
     private Rigidbody rb;
     [HideInInspector] public Vector3 forceDirection = Vector3.zero;
+    private Vector3 clampedVelo;
 
     [Header("---Movement---")]
     public float movementSpeed;
@@ -213,9 +214,22 @@ public class PlayerControls : MonoBehaviour
     {
         //Movement
         IsGrounded();
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity + forceDirection, maxSpeed);
+
+        //new movement
+        Vector2 horizontalVelo;
+        horizontalVelo = Vector2.ClampMagnitude(new Vector2(forceDirection.x, forceDirection.z), maxSpeed);
+        rb.velocity = new Vector3(horizontalVelo.x, rb.velocity.y, horizontalVelo.y);
+
+        //old movement
+        //rb.velocity = Vector3.ClampMagnitude(rb.velocity + forceDirection, maxSpeed); 
+
         rb.velocity += jumpDirection * Vector3.up;
-        
+
+        //Update current platform velocity
+        if (currentPlat != null)
+        {
+            currentPlatVelo = currentPlat.GetComponent<Rigidbody>().velocity;
+        }
 
         if (!onPlatform)
         {
@@ -224,7 +238,7 @@ public class PlayerControls : MonoBehaviour
         else
         {
             rb.velocity += currentPlatVelo;
-            rb.drag = onPlatDrag;;
+            rb.drag = onPlatDrag;
         }
 
         forceDirection = Vector3.zero;
@@ -236,15 +250,6 @@ public class PlayerControls : MonoBehaviour
             //rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime * extraGravity;
             rb.velocity += Vector3.down * extraGravity;
         }
-
-        Vector3 horizontalVelo = rb.velocity;
-        horizontalVelo.y = 0;
-
-        //MaxSpeed
-        /*if(horizontalVelo.sqrMagnitude > maxSpeed * maxSpeed)
-        {
-            rb.velocity = horizontalVelo.normalized * maxSpeed + Vector3.up * rb.velocity.y;
-        }*/
 
         LookAt();
     }
@@ -271,6 +276,11 @@ public class PlayerControls : MonoBehaviour
         }
         attackPressed = true;
         attacking = true;
+    }
+
+    private void Attacking()
+    {
+        //if(sword.GetComponent<Collider>().
     }
 
     private void DoLockOn(InputAction.CallbackContext obj)
@@ -300,12 +310,6 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        //Update current platform velocity
-        if(currentPlat != null)
-        {
-            currentPlatVelo = currentPlat.GetComponent<MovingPlatform>().platVelo;
-        }
-
         //Move Input
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
@@ -313,6 +317,11 @@ public class PlayerControls : MonoBehaviour
         playerToCamDirection = (transform.position - playerCam.transform.position).normalized;
         RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection);
 
+        //Attack
+        if(attacking)
+        {
+            Attacking();
+        }
  
 
         SetSpeed();
