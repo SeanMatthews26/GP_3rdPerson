@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements.Experimental;
+using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : MonoBehaviour
 {
@@ -63,8 +65,6 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log(currentState.ToString());
 
-        agent.destination = playerTrans.position;
-
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
@@ -81,6 +81,8 @@ public class Enemy : MonoBehaviour
         {
             Attack();
         }
+
+        Debug.Log(agent.speed);
     }
 
     private void Wander()
@@ -96,6 +98,7 @@ public class Enemy : MonoBehaviour
     void Chase()
     {
         agent.speed = enemySpeed;
+        agent.destination = playerTrans.position;
 
         if (playerInAttackRange)
         {
@@ -105,15 +108,16 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        agent.speed = attackSpeed;
-        rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
+        agent.speed = 0;
+        Invoke(nameof(Jump), 2f);
         currentState = State.WANDER;
     }
 
 
-    void ChangeStatesToWander()
+    void Jump()
     {
-        currentState = State.WANDER;
+        Vector3 direction = (playerTrans.position - transform.position).normalized;
+        rb.AddForce(direction * jumpForce, ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
