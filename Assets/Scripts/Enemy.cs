@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class Enemy : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
-    [HideInInspector] public Transform playerTrans;
+    [HideInInspector] public GameObject player;
     public LayerMask groundLayer, playerLayer;
     private Rigidbody rb;
 
@@ -32,7 +32,11 @@ public class Enemy : MonoBehaviour
     public bool playerInAttackRange;
     public float attackRange;
     [SerializeField] private float jumpForce;
+
+    //Projectile
     [SerializeField] GameObject projectile;
+    [SerializeField] float targetAbovePlayer;
+    [SerializeField] float projectileSpeed;
     
 
     //States
@@ -55,7 +59,7 @@ public class Enemy : MonoBehaviour
         currentState = State.WANDER;
         startPos= transform.position;
 
-        playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         agent.acceleration = 40;
         rb = GetComponent<Rigidbody>();
@@ -99,7 +103,7 @@ public class Enemy : MonoBehaviour
     void Chase()
     {
         agent.speed = enemySpeed;
-        agent.destination = playerTrans.position;
+        agent.destination = player.transform.position;
 
         if (playerInAttackRange)
         {
@@ -111,15 +115,14 @@ public class Enemy : MonoBehaviour
     {
         agent.SetDestination(transform.position);
 
-        //transform.LookAt(playerTrans.position);
+        transform.LookAt(player.transform.position);
 
         if(!attacked)
         {
             Debug.Log("Attack");
 
             attacked = true;
-            Vector3 target = playerTrans.position;
-
+            Shoot();
             Invoke(nameof(ResetAttack), 2f);
         }
 
@@ -132,15 +135,16 @@ public class Enemy : MonoBehaviour
 
     void Jump()
     {
-        Vector3 direction = (playerTrans.position - transform.position).normalized;
+        Vector3 direction = (player.transform.position - transform.position).normalized;
         rb.AddForce(direction * jumpForce, ForceMode.Impulse);
     }
 
     void Shoot()
     {
-        Vector3 target = playerTrans.position;
-        Instantiate(projectile, transform.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody>().velocity = projectile.transform.position - target;
+        Vector3 target = player.transform.position + (Vector3.up * targetAbovePlayer);
+        GameObject x = Instantiate(projectile, transform.position, Quaternion.identity);
+        x.GetComponent<Rigidbody>().velocity = (target - x.transform.position).normalized * projectileSpeed;
+        //x.transform.position = Vector3.MoveTowards(x.transform.position, target, 1f);
     }
 
     private void OnDrawGizmos()

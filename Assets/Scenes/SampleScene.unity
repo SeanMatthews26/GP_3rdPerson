@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  playerTrans: {fileID: 0}
+  player: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -436,6 +436,8 @@ MonoBehaviour:
   attackRange: 6
   jumpForce: 1
   projectile: {fileID: 4152574386239876851, guid: 86b02a62b479a714eb596b30bd57d440, type: 3}
+  targetAbovePlayer: 1
+  projectileSpeed: 10
   health: 0
 --- !u!195 &162443392
 NavMeshAgent:
