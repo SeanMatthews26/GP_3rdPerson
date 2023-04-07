@@ -28,10 +28,11 @@ public class Enemy : MonoBehaviour
     //Attacking
     [SerializeField] float attackSpeed;
     public float timeBetweenAttacks;
-    private bool attacked;
+    private bool attacked = false;
     public bool playerInAttackRange;
     public float attackRange;
     [SerializeField] private float jumpForce;
+    [SerializeField] GameObject projectile;
     
 
     //States
@@ -108,9 +109,24 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        agent.speed = 0;
-        Invoke(nameof(Jump), 2f);
-        currentState = State.WANDER;
+        agent.SetDestination(transform.position);
+
+        //transform.LookAt(playerTrans.position);
+
+        if(!attacked)
+        {
+            Debug.Log("Attack");
+
+            attacked = true;
+            Vector3 target = playerTrans.position;
+
+            Invoke(nameof(ResetAttack), 2f);
+        }
+
+        if(!playerInAttackRange)
+        {
+            currentState = State.CHASE;
+        }
     }
 
 
@@ -118,6 +134,13 @@ public class Enemy : MonoBehaviour
     {
         Vector3 direction = (playerTrans.position - transform.position).normalized;
         rb.AddForce(direction * jumpForce, ForceMode.Impulse);
+    }
+
+    void Shoot()
+    {
+        Vector3 target = playerTrans.position;
+        Instantiate(projectile, transform.position, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().velocity = projectile.transform.position - target;
     }
 
     private void OnDrawGizmos()
@@ -134,5 +157,10 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Hit");
+    }
+
+    private void ResetAttack()
+    {
+        attacked= false;
     }
 }

@@ -319,8 +319,6 @@ GameObject:
   - component: {fileID: 162443390}
   - component: {fileID: 162443392}
   - component: {fileID: 162443394}
-  - component: {fileID: 162443395}
-  - component: {fileID: 162443396}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Target
@@ -413,7 +411,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162443385}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dc74acc3e2ff9846b7698862ddd0b59, type: 3}
   m_Name: 
@@ -437,6 +435,7 @@ MonoBehaviour:
   playerInAttackRange: 0
   attackRange: 6
   jumpForce: 1
+  projectile: {fileID: 4152574386239876851, guid: 86b02a62b479a714eb596b30bd57d440, type: 3}
   health: 0
 --- !u!195 &162443392
 NavMeshAgent:
@@ -474,39 +473,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &162443395
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162443385}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 1
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 32
-  m_CollisionDetection: 0
---- !u!114 &162443396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162443385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50b65267310cd234ea57c0829e4792e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 622745607}
-  attackDistance: 20
-  moveSpeed: 3
-  jumpForce: 2000
-  jumpUpwardsForce: 1000
 --- !u!1 &190675387
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,11 +694,6 @@ MonoBehaviour:
 --- !u!1 &622745599 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6796439526535804059, guid: b95a45fd70886e64294baa66738986ff, type: 3}
-  m_PrefabInstance: {fileID: 6796439527013325014}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &622745607 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6796439526535375035, guid: b95a45fd70886e64294baa66738986ff, type: 3}
   m_PrefabInstance: {fileID: 6796439527013325014}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &686546863

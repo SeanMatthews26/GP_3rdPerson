@@ -17,6 +17,9 @@ public class DoorSwitch : MonoBehaviour
     GameObject doorCam;
     [SerializeField] float camSwitchDelay;
 
+    private bool opening = false;
+    [SerializeField] float shrinkSpeed;
+
 
     void Awake()
     {
@@ -56,6 +59,7 @@ public class DoorSwitch : MonoBehaviour
         playerControls.camEnabled = false;
         playerControls.playerCam.transform.position = switchCam.transform.position;
         playerControls.playerCam.transform.rotation = switchCam.transform.rotation;
+
         Invoke("SwitchToDoorCam", camSwitchDelay);
         Invoke("OpenOrClose", camSwitchDelay * 2);
         Invoke("ResetPlayer", camSwitchDelay * 3);

@@ -4,50 +4,42 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player;
-    public float attackDistance = 2f;
-    public float moveSpeed = 3f;
-    public float jumpForce = 10f;
-    public float jumpUpwardsForce = 5f; // added upwards force for the jump
-    private enum State { Idle, Chase }
-    private State state = State.Idle;
-    private Rigidbody rb;
-    private float lastJumpTime = 0f;
+    public Transform target; // The target to hop towards
+    public float hopInterval = 2f; // The time interval between hops
+    public float hopForce = 5f; // The force of the hop
+    public float upwardForce = 5f; // The upward force of the hop
+    public float forwardForce = 2f; // The forward force of the hop
 
-    void Start()
+    private Rigidbody rb;
+    private bool isHopping = false;
+    private float hopTimer = 0f;
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    private void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        switch (state)
+        if (!isHopping)
         {
-            case State.Idle:
-                if (distanceToPlayer < attackDistance)
-                {
-                    state = State.Chase;
-                }
-                break;
-
-            case State.Chase:
-                if (Time.time > lastJumpTime + 2f)
-                {
-                    Vector3 direction = (player.position - transform.position).normalized;
-                    // add upwards force to the jump by modifying the direction vector
-                    direction += Vector3.up * jumpUpwardsForce;
-                    rb.AddForce(direction.normalized * jumpForce, ForceMode.Impulse);
-                    lastJumpTime = Time.time;
-                }
-                transform.LookAt(player.position + (Vector3.up * 3));
-                //transform.position += transform.forward * moveSpeed * Time.deltaTime;
-                if (distanceToPlayer > attackDistance)
-                {
-                    state = State.Idle;
-                }
-                break;
+            hopTimer += Time.deltaTime;
+            if (hopTimer >= hopInterval)
+            {
+                isHopping = true;
+                hopTimer = 0f;
+                Hop();
+            }
         }
     }
+
+    private void Hop()
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 upwardDirection = Vector3.up;
+        Vector3 forwardDirection = transform.forward;
+        rb.AddForce((upwardDirection * upwardForce) + (forwardDirection * forwardForce) + (direction * hopForce), ForceMode.Impulse);
+        isHopping = false;
+    }
 }
+
