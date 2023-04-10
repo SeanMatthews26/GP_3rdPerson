@@ -108,20 +108,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (currentState == idle || currentState == strafe)
         {
-            if (playerSpeed < 0.2)
-            {
-                playerControls.attackPressed = false;
-                ChangeAnimation(attack1);
-                Invoke("ResetAttack", 1);
-                return;
-            }
-            else
-            {
-                playerControls.attackPressed = false;
-                ChangeAnimation(runAttack1);
-                Invoke("ResetAttack", 1);
-                return;
-            }
+            playerControls.playerActionAsset.Disable();
+            playerControls.attackPressed = false;
+            ChangeAnimation(attack1);
+            Invoke("ResetAttack", 0.65f);
+            return;
         }
         else
         {
@@ -144,6 +135,7 @@ public class PlayerAnimation : MonoBehaviour
     private void ResetAttack()
     {
         playerControls.attacking = false;
+        playerControls.playerActionAsset.Enable();
     }
 
     private void ResetInteract()

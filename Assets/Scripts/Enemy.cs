@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public GameObject player;
     public LayerMask groundLayer, playerLayer;
     private Rigidbody rb;
+    private PlayerControls playerControls;
 
     //Wander
     public Vector3 walkPoint;
@@ -25,13 +26,16 @@ public class Enemy : MonoBehaviour
     public bool playerInSightRange;
     public float sightRange;
 
-    //Attacking
+    //Attacking/Combat
     [SerializeField] float attackSpeed;
+    [SerializeField] int health;
     public float timeBetweenAttacks;
     private bool attacked = false;
     public bool playerInAttackRange;
     public float attackRange;
     [SerializeField] private float jumpForce;
+    private bool damageTaken = false;
+
 
     //Projectile
     [SerializeField] GameObject projectile;
@@ -49,10 +53,6 @@ public class Enemy : MonoBehaviour
 
     State currentState;
 
-
-    //Combat
-    [SerializeField] private float health;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -63,12 +63,12 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.acceleration = 40;
         rb = GetComponent<Rigidbody>();
+        playerControls = player.GetComponent<PlayerControls>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentState.ToString());
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
             Attack();
         }
 
-        Debug.Log(agent.speed);
+        Health();
     }
 
     private void Wander()
@@ -119,7 +119,6 @@ public class Enemy : MonoBehaviour
 
         if(!attacked)
         {
-            Debug.Log("Attack");
 
             attacked = true;
             Shoot();
@@ -158,13 +157,35 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private IEnumerator OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit");
+        if (damageTaken)
+        {
+            yield return null;
+        }
+
+        if (other.gameObject == playerControls.sword && playerControls.attacking)
+        {
+            damageTaken = true;
+            Debug.Log("Hit");
+            health--;
+
+            yield return new WaitForSeconds(0.5f);
+            damageTaken = false;
+        }
     }
 
     private void ResetAttack()
     {
         attacked= false;
     }
+
+    private void Health()
+    {
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

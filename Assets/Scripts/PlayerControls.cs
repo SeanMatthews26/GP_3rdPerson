@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class PlayerControls : MonoBehaviour
 
     //Attack
     [Header("---Attack---")]
-    [SerializeField] GameObject sword;
+    [SerializeField] public GameObject sword;
 
 
     //Jump
@@ -280,7 +281,7 @@ public class PlayerControls : MonoBehaviour
 
     private void Attacking()
     {
-        //if(sword.GetComponent<Collider>().
+
     }
 
     private void DoLockOn(InputAction.CallbackContext obj)
@@ -322,8 +323,8 @@ public class PlayerControls : MonoBehaviour
         {
             Attacking();
         }
- 
 
+        LoseTarget();
         SetSpeed();
     }
 
@@ -436,5 +437,13 @@ public class PlayerControls : MonoBehaviour
 
         //Regular Speed
         maxSpeed = normalMaxSpeed;
+    }
+
+    private void LoseTarget()
+    {
+        if(currentTarget == null)
+        {
+            lockedOn = false;
+        }
     }
 }

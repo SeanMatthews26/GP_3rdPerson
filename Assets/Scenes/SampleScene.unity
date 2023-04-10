@@ -431,6 +431,7 @@ MonoBehaviour:
   playerInSightRange: 0
   sightRange: 9.5
   attackSpeed: 5
+  health: 2
   timeBetweenAttacks: 0
   playerInAttackRange: 0
   attackRange: 6
@@ -438,7 +439,6 @@ MonoBehaviour:
   projectile: {fileID: 4152574386239876851, guid: 86b02a62b479a714eb596b30bd57d440, type: 3}
   targetAbovePlayer: 1
   projectileSpeed: 10
-  health: 0
 --- !u!195 &162443392
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -472,7 +472,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &190675387
@@ -1615,7 +1615,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300018, guid: 8a7b78e82902d1b4eba2923c6a4cf1c7, type: 3}
 --- !u!1 &1254453422
