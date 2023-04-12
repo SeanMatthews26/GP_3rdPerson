@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements.Experimental;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     public LayerMask groundLayer, playerLayer;
     private Rigidbody rb;
     private PlayerControls playerControls;
+    private Renderer renderer;
 
     //Wander
     public Vector3 walkPoint;
@@ -35,6 +37,8 @@ public class Enemy : MonoBehaviour
     public float attackRange;
     [SerializeField] private float jumpForce;
     private bool damageTaken = false;
+    [SerializeField] Material normalMat;
+    [SerializeField] Material damagedMat;
 
 
     //Projectile
@@ -63,6 +67,8 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.acceleration = 40;
         rb = GetComponent<Rigidbody>();
+        renderer = GetComponent<Renderer>();
+        renderer.material= normalMat;
         playerControls = player.GetComponent<PlayerControls>();
     }
 
@@ -166,6 +172,8 @@ public class Enemy : MonoBehaviour
 
         if (other.gameObject == playerControls.sword && playerControls.attacking)
         {
+            renderer.material = damagedMat;
+            Invoke(nameof(ResetColour), 0.2f);
             damageTaken = true;
             Debug.Log("Hit");
             health--;
@@ -186,6 +194,11 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void ResetColour()
+    {
+        renderer.material = normalMat;
     }
 
 }

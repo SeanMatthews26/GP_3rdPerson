@@ -436,6 +436,8 @@ MonoBehaviour:
   playerInAttackRange: 0
   attackRange: 6
   jumpForce: 1
+  normalMat: {fileID: 2100000, guid: 6329e6bcafba6dc41b5adb95bc2984c2, type: 2}
+  damagedMat: {fileID: 2100000, guid: 698bace210e9f29408ab47760cf09e76, type: 2}
   projectile: {fileID: 4152574386239876851, guid: 86b02a62b479a714eb596b30bd57d440, type: 3}
   targetAbovePlayer: 1
   projectileSpeed: 10
