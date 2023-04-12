@@ -30,7 +30,8 @@ public class Enemy : MonoBehaviour
 
     //Attacking/Combat
     [SerializeField] float attackSpeed;
-    [SerializeField] int health;
+    private int health;
+    [SerializeField] int startingHealth;
     public float timeBetweenAttacks;
     private bool attacked = false;
     public bool playerInAttackRange;
@@ -39,6 +40,7 @@ public class Enemy : MonoBehaviour
     private bool damageTaken = false;
     [SerializeField] Material normalMat;
     [SerializeField] Material damagedMat;
+    public int lives = 3;
 
 
     //Projectile
@@ -70,6 +72,7 @@ public class Enemy : MonoBehaviour
         renderer = GetComponent<Renderer>();
         renderer.material= normalMat;
         playerControls = player.GetComponent<PlayerControls>();
+        health = startingHealth;
     }
 
     // Update is called once per frame
@@ -137,13 +140,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-    void Jump()
-    {
-        Vector3 direction = (player.transform.position - transform.position).normalized;
-        rb.AddForce(direction * jumpForce, ForceMode.Impulse);
-    }
-
     void Shoot()
     {
         Vector3 target = player.transform.position + (Vector3.up * targetAbovePlayer);
@@ -192,7 +188,17 @@ public class Enemy : MonoBehaviour
     {
         if(health <= 0)
         {
-            Destroy(gameObject);
+            lives--;
+            if(lives <= 0)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            transform.position += Vector3.right * -2;
+            transform.localScale *= 0.7f;
+            health = startingHealth;
+            Instantiate(this, transform.position + Vector3.right * 2, Quaternion.identity);
         }
     }
 
