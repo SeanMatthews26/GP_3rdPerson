@@ -55,7 +55,8 @@ public class Enemy : MonoBehaviour
     {
         WANDER,
         CHASE,
-        ATTACK
+        ATTACK,
+        RETREAT
     };
 
     public State currentState;
@@ -68,7 +69,6 @@ public class Enemy : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
-        agent.acceleration = 40;
         rb = GetComponent<Rigidbody>();
         renderer = GetComponent<Renderer>();
         renderer.material= normalMat;
@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        agent.acceleration = enemySpeed;
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
@@ -101,6 +102,10 @@ public class Enemy : MonoBehaviour
         if(currentState == State.ATTACK) 
         {
             Attack();
+        }
+        if(currentState == State.RETREAT)
+        {
+            Retreat();
         }
 
         Health();
@@ -157,6 +162,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Retreat()
+    {
+        agent.transform.position = transform.position - (transform.forward * 4 * Time.deltaTime);
+
+        Invoke(nameof(ResetWander), 2f);
+    }
+
     public void SetAttacking(bool newAttacking)
     {
         attacking = newAttacking;
@@ -200,12 +212,19 @@ public class Enemy : MonoBehaviour
         if(other.gameObject == player)
         {
             Debug.Log("Yahoooo");
+            currentState = State.RETREAT;
+
         }
     }
 
     private void ResetAttack()
     {
         attacked= false;
+    }
+
+    private void ResetWander()
+    {
+        currentState= State.WANDER;
     }
 
     private void Health()

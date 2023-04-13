@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private Collider[] enemiesArray;
-    private List<GameObject> enemiesList;
+    public List<GameObject> enemiesList;
     private float range = 10;
 
     // Start is called before the first frame update
@@ -47,41 +46,5 @@ public class EnemyManager : MonoBehaviour
             }
         }
 
-    }
-    private void CheckEnemies()
-    {
-        enemiesArray = Physics.OverlapSphere(transform.position, range);
-
-        //Convert Array to List
-        foreach(Collider enemy in enemiesArray)
-        {
-            enemiesList.Add(enemy.gameObject);
-        }
-
-        //Remove Null
-        for (int i = 0; i < enemiesList.Count; i++)
-        {
-            if (enemiesList[i] == null)
-            {
-                enemiesList.Remove(enemiesList[i]);
-            }
-        }
-
-            //Set Attacking
-        for (int i = 0; i < enemiesList.Count; i++)
-        {
-            if(i == 0)
-            {
-                enemiesList[0].GetComponent<Enemy>().attacking = true;
-            }
-            else
-            {
-                enemiesList[0].GetComponent<Enemy>().attacking = false;
-            }
-
-            enemiesList[0].GetComponent<Enemy>().attacking = true;
-            Debug.Log("attack");
-
-        }
     }
 }
