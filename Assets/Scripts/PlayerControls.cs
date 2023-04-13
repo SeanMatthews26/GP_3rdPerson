@@ -286,6 +286,7 @@ public class PlayerControls : MonoBehaviour
 
     private void DoLockOn(InputAction.CallbackContext obj)
     {
+        //Lock On
         if(!lockedOn)
         {
             currentTarget = FindTarget();
@@ -300,6 +301,7 @@ public class PlayerControls : MonoBehaviour
             }
 
         }
+        //Lock Off
         else if(lockedOn)
         {
             pitch = playerCam.transform.eulerAngles.x;
@@ -443,6 +445,14 @@ public class PlayerControls : MonoBehaviour
     {
         if(currentTarget == null)
         {
+            currentTarget = FindTarget();
+        }
+
+        if(currentTarget == null)
+        {
+            pitch = playerCam.transform.eulerAngles.x;
+            yaw = playerCam.transform.eulerAngles.y;
+
             lockedOn = false;
         }
     }
