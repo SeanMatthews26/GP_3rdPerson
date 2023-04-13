@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Material normalMat;
     [SerializeField] Material damagedMat;
     public int lives = 3;
-    private bool attacking;
+    public bool attacking = true;
 
 
     //Projectile
@@ -51,14 +51,14 @@ public class Enemy : MonoBehaviour
     
 
     //States
-    enum State 
+    public enum State 
     {
         WANDER,
         CHASE,
         ATTACK
     };
 
-    State currentState;
+    public State currentState;
 
     // Start is called before the first frame update
     void Start()
@@ -141,10 +141,25 @@ public class Enemy : MonoBehaviour
             Invoke(nameof(ResetAttack), 2f);
         }*/
 
+        if(attacking)
+        {
+            agent.destination = player.transform.position;
+        }
+
+        if(!attacking)
+        {
+            agent.SetDestination(transform.position);
+        }
+
         if(!playerInAttackRange)
         {
             currentState = State.CHASE;
         }
+    }
+
+    public void SetAttacking(bool newAttacking)
+    {
+        attacking = newAttacking;
     }
 
     void Shoot()
