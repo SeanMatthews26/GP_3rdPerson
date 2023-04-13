@@ -431,7 +431,8 @@ MonoBehaviour:
   playerInSightRange: 0
   sightRange: 9.5
   attackSpeed: 5
-  startingHealth: 2
+  health: 0
+  startingHealth: 3
   timeBetweenAttacks: 0
   playerInAttackRange: 0
   attackRange: 6

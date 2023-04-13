@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     //Attacking/Combat
     [SerializeField] float attackSpeed;
-    private int health;
+    [SerializeField] private int health;
     [SerializeField] int startingHealth;
     public float timeBetweenAttacks;
     private bool attacked = false;
@@ -73,6 +73,12 @@ public class Enemy : MonoBehaviour
         renderer.material= normalMat;
         playerControls = player.GetComponent<PlayerControls>();
         health = startingHealth;
+    }
+
+    private IEnumerator Awake()
+    {
+        Invincibility();
+        yield return null;
     }
 
     // Update is called once per frame
@@ -159,7 +165,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    private IEnumerator OnTriggerEnter(Collider other)
+    IEnumerator OnTriggerEnter(Collider other)
     {
         if (damageTaken)
         {
@@ -170,12 +176,8 @@ public class Enemy : MonoBehaviour
         {
             renderer.material = damagedMat;
             Invoke(nameof(ResetColour), 0.2f);
-            damageTaken = true;
-            Debug.Log("Hit");
             health--;
-
-            yield return new WaitForSeconds(0.5f);
-            damageTaken = false;
+            Invincibility();
         }
     }
 
@@ -197,7 +199,9 @@ public class Enemy : MonoBehaviour
 
             transform.position += Vector3.right * -2;
             transform.localScale *= 0.7f;
+            startingHealth--;
             health = startingHealth;
+
             Instantiate(this, transform.position + Vector3.right * 2, Quaternion.identity);
         }
     }
@@ -207,4 +211,10 @@ public class Enemy : MonoBehaviour
         renderer.material = normalMat;
     }
 
+    private IEnumerator Invincibility()
+    {
+        damageTaken = true;
+        yield return new WaitForSeconds(0.5f);
+        damageTaken = false;
+    }
 }
