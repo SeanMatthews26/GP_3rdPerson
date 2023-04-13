@@ -139,7 +139,7 @@ public class Enemy : MonoBehaviour
             agent.destination = transform.position;
 
             Invoke(nameof(AttackLeap), 0.5f);
-            Invoke(nameof(ResetRetreat), 2f);
+            Invoke(nameof(ResetWander), 1.5f);
         }
 
         if(!attacking)
