@@ -134,21 +134,12 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        /*agent.SetDestination(transform.position);
-
-        transform.LookAt(player.transform.position);
-
-        if(!attacked)
-        {
-
-            attacked = true;
-            Shoot();
-            Invoke(nameof(ResetAttack), 2f);
-        }*/
-
         if(attacking)
         {
-            agent.destination = player.transform.position;
+            agent.destination = transform.position;
+
+            Invoke(nameof(AttackLeap), 0.5f);
+            Invoke(nameof(ResetRetreat), 2f);
         }
 
         if(!attacking)
@@ -162,6 +153,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void AttackLeap()
+    {
+        agent.transform.position = transform.position + (transform.forward * 5 * Time.deltaTime);
+    }
+
     private void Retreat()
     {
         agent.transform.position = transform.position - (transform.forward * 4 * Time.deltaTime);
@@ -172,14 +168,6 @@ public class Enemy : MonoBehaviour
     public void SetAttacking(bool newAttacking)
     {
         attacking = newAttacking;
-    }
-
-    void Shoot()
-    {
-        Vector3 target = player.transform.position + (Vector3.up * targetAbovePlayer);
-        GameObject x = Instantiate(projectile, transform.position, Quaternion.identity);
-        x.GetComponent<Rigidbody>().velocity = (target - x.transform.position).normalized * projectileSpeed;
-        //x.transform.position = Vector3.MoveTowards(x.transform.position, target, 1f);
     }
 
     private void OnDrawGizmos()
@@ -225,6 +213,11 @@ public class Enemy : MonoBehaviour
     private void ResetWander()
     {
         currentState= State.WANDER;
+    }
+
+    private void ResetRetreat()
+    {
+        currentState = State.RETREAT;
     }
 
     private void Health()
