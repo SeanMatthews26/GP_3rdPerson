@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Material normalMat;
     [SerializeField] Material damagedMat;
     public int lives = 3;
+    private bool attacking;
 
 
     //Projectile
@@ -128,7 +129,7 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        agent.SetDestination(transform.position);
+        /*agent.SetDestination(transform.position);
 
         transform.LookAt(player.transform.position);
 
@@ -138,7 +139,7 @@ public class Enemy : MonoBehaviour
             attacked = true;
             Shoot();
             Invoke(nameof(ResetAttack), 2f);
-        }
+        }*/
 
         if(!playerInAttackRange)
         {
@@ -178,6 +179,12 @@ public class Enemy : MonoBehaviour
             Invoke(nameof(ResetColour), 0.2f);
             health--;
             Invincibility();
+            yield return null;
+        }
+        
+        if(other.gameObject == player)
+        {
+            Debug.Log("Yahoooo");
         }
     }
 
