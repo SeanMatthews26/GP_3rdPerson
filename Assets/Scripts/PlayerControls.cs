@@ -366,7 +366,10 @@ public class PlayerControls : MonoBehaviour
 
                 freeCamPos = transform.position - (playerCam.transform.forward * dstToCam2D) + camTargetAbovePlayer;
 
+                Vector3 distance = freeCamPos - transform.position;
+
                 playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+                //playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
 
                 BlockedCamera();
             }
@@ -411,16 +414,14 @@ public class PlayerControls : MonoBehaviour
 
     private void BlockedCamera()
     {
-        //RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection, 12);
-
-        //Debug.Log(Physics.Linecast(playerCam.transform.position, transform.position + Vector3.up * headToFootDst, playerLayer));
-
         RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection, 12);
         if (hits[0].collider.gameObject.tag != "Player")
         {
             Debug.Log("Blocked");
+            //dstToCam2D = (hits[0].transform.position - transform.position).magnitude;
+
+            //playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, hits[0].transform.position + playerToCamDirection, camSwitchSpeed * Time.deltaTime);
         }
-        
     }
 
     private void OnDrawGizmos()
