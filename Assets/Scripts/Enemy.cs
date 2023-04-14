@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody rb;
     private PlayerControls playerControls;
     private Renderer renderer;
+    private EnemyManager enemyManager;
 
     //Wander
     public Vector3 walkPoint;
@@ -41,8 +42,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] Material normalMat;
     [SerializeField] Material damagedMat;
     public int lives = 3;
-    public bool attacking = true;
-
+    public bool attackingOne = true;
+    public bool canAttack = true;
 
     //Projectile
     [SerializeField] GameObject projectile;
@@ -74,6 +75,7 @@ public class Enemy : MonoBehaviour
         renderer.material= normalMat;
         playerControls = player.GetComponent<PlayerControls>();
         health = startingHealth;
+        enemyManager= FindObjectOfType<EnemyManager>();
     }
 
     private IEnumerator Awake()
@@ -125,6 +127,7 @@ public class Enemy : MonoBehaviour
     {
         agent.speed = enemySpeed;
         agent.destination = player.transform.position;
+        transform.LookAt(player.transform.position);
 
         if (playerInAttackRange)
         {
@@ -134,20 +137,22 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        if(attacking)
+        if(attackingOne && canAttack)
         {
             agent.destination = transform.position;
 
-            Invoke(nameof(AttackLeap), 0.5f);
-            Invoke(nameof(ResetWander), 1.5f);
+            Invoke(nameof(AttackLeap), 1f);
+            Invoke(nameof(ResetWander), 3f);
+            Invoke(nameof(SetCanAttackFalse), 3f);
+            Invoke(nameof(SetCanAttackTrue), 6f);
         }
 
-        if(!attacking)
+        if(!attackingOne)
         {
             agent.SetDestination(transform.position);
         }
 
-        if(!playerInAttackRange)
+        if(!playerInAttackRange && !canAttack)
         {
             currentState = State.CHASE;
         }
@@ -167,7 +172,7 @@ public class Enemy : MonoBehaviour
 
     public void SetAttacking(bool newAttacking)
     {
-        attacking = newAttacking;
+        attackingOne = newAttacking;
     }
 
     private void OnDrawGizmos()
@@ -250,5 +255,15 @@ public class Enemy : MonoBehaviour
         damageTaken = true;
         yield return new WaitForSeconds(0.5f);
         damageTaken = false;
+    }
+
+    private void SetCanAttackTrue()
+    {
+        canAttack= true;
+    }
+
+    private void SetCanAttackFalse()
+    {
+        canAttack = false;
     }
 }

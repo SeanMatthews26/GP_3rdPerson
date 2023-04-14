@@ -38,11 +38,11 @@ public class EnemyManager : MonoBehaviour
         {
             if (i == 0)
             {
-                enemiesList[0].GetComponent<Enemy>().attacking = true;
+                enemiesList[0].GetComponent<Enemy>().attackingOne = true;
             }
             else
             {
-                enemiesList[0].GetComponent<Enemy>().attacking = false;
+                enemiesList[0].GetComponent<Enemy>().attackingOne = false;
             }
         }
 

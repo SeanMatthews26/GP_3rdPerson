@@ -53,7 +53,11 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float dstToCam2D = 10f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
     [SerializeField] Vector3 camTargetAbovePlayer;
-    private Vector2 playerToCamDirection;
+    private Vector3 playerToCamVector;
+    private Vector3 playerToCamDirection;
+    [SerializeField] private float headToFootDst;
+    [SerializeField] private LayerMask playerLayer;
+
 
 
     //Animation
@@ -317,7 +321,8 @@ public class PlayerControls : MonoBehaviour
         forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
         forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
 
-        playerToCamDirection = (transform.position - playerCam.transform.position).normalized;
+        playerToCamVector = (transform.position + Vector3.up * headToFootDst - playerCam.transform.position);
+        playerToCamDirection = playerToCamVector.normalized;
         RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection);
 
         //Attack
@@ -362,6 +367,8 @@ public class PlayerControls : MonoBehaviour
                 freeCamPos = transform.position - (playerCam.transform.forward * dstToCam2D) + camTargetAbovePlayer;
 
                 playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
+
+                BlockedCamera();
             }
         }
     }
@@ -402,6 +409,20 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    private void BlockedCamera()
+    {
+        //RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection, 12);
+
+        //Debug.Log(Physics.Linecast(playerCam.transform.position, transform.position + Vector3.up * headToFootDst, playerLayer));
+
+        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection, 12);
+        if (hits[0].collider.gameObject.tag != "Player")
+        {
+            Debug.Log("Blocked");
+        }
+        
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -413,6 +434,8 @@ public class PlayerControls : MonoBehaviour
         //Gizmos.DrawWireSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
 
         //IsGrounded
+
+        Gizmos.DrawLine(playerCam.transform.position, transform.position + Vector3.up * headToFootDst);
 
     }
 
@@ -446,6 +469,7 @@ public class PlayerControls : MonoBehaviour
         if(currentTarget == null)
         {
             currentTarget = FindTarget();
+            return;
         }
 
         if(currentTarget == null)
