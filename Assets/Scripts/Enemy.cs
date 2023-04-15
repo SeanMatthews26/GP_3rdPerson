@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
     private bool damageTaken = false;
     [SerializeField] Material normalMat;
     [SerializeField] Material damagedMat;
+    [SerializeField] Material attackMat;
     public int lives = 3;
     public bool attackingOne = true;
     public bool canAttack = true;
@@ -99,7 +100,7 @@ public class Enemy : MonoBehaviour
         }
         if (currentState == State.CHASE)
         {
-            Chase();
+            Invoke(nameof(Chase), 0.5f);
         }
         if(currentState == State.ATTACK) 
         {
@@ -117,7 +118,7 @@ public class Enemy : MonoBehaviour
     {
         agent.speed = 0;
 
-        if (playerInSightRange)
+        if (playerInSightRange && canAttack)
         {
             currentState = State.CHASE;
         }
@@ -144,7 +145,7 @@ public class Enemy : MonoBehaviour
             Invoke(nameof(AttackLeap), 1f);
             Invoke(nameof(ResetWander), 3f);
             Invoke(nameof(SetCanAttackFalse), 3f);
-            Invoke(nameof(SetCanAttackTrue), 6f);
+            Invoke(nameof(SetCanAttackTrue), 4.5f);
         }
 
         if(!attackingOne)
