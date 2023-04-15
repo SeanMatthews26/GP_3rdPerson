@@ -113,6 +113,7 @@ public class PlayerControls : MonoBehaviour
         playerActionAsset = new ThirdPersonInput();
         speedBoostParticles.Stop();
         extraJumpParticles.Stop();
+        //extraJumpParticles.enableEmission = false;
     }
 
     private void Start()
@@ -121,6 +122,7 @@ public class PlayerControls : MonoBehaviour
 
         cameraDirection = transform.localPosition.normalized;
         cameraDistanceMinMax = new Vector2(0.5f, 12);
+
     }
 
     private void OnEnable()
