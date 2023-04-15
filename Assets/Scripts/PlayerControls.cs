@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem.HID;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -57,6 +58,12 @@ public class PlayerControls : MonoBehaviour
     private Vector3 playerToCamDirection;
     [SerializeField] private float headToFootDst;
     [SerializeField] private LayerMask playerLayer;
+    Vector3 camVector;
+    Vector3 camDir;
+    float camDistance;
+    ///Occlusion
+    Vector3 cameraDirection;
+    Vector2 cameraDistanceMinMax;
 
 
 
@@ -111,6 +118,9 @@ public class PlayerControls : MonoBehaviour
     private void Start()
     {
         movingPlatform = FindObjectOfType<MovingPlatform>();
+
+        cameraDirection = transform.localPosition.normalized;
+        cameraDistanceMinMax = new Vector2(0.5f, 12);
     }
 
     private void OnEnable()
@@ -333,6 +343,9 @@ public class PlayerControls : MonoBehaviour
 
         LoseTarget();
         SetSpeed();
+
+        float x = (transform.position - playerCam.transform.position).magnitude;
+        Debug.Log(x);
     }
 
     private void LateUpdate()
@@ -366,12 +379,13 @@ public class PlayerControls : MonoBehaviour
 
                 freeCamPos = transform.position - (playerCam.transform.forward * dstToCam2D) + camTargetAbovePlayer;
 
-                Vector3 distance = freeCamPos - transform.position;
+                camVector = freeCamPos - transform.position;
+                camDir = camVector.normalized;
+                camDistance = camVector.magnitude;
 
-                playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
                 //playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
-
-                BlockedCamera();
+                playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, transform.position + (camDir * camDistance), camSwitchSpeed * Time.deltaTime);
+                CamOcclusion();
             }
         }
     }
@@ -412,16 +426,33 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    private void BlockedCamera()
+    private void CamOcclusion()
     {
-        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection, 12);
-        if (hits[0].collider.gameObject.tag != "Player")
+        RaycastHit[] hit = Physics.RaycastAll(transform.position + Vector3.up * headToFootDst, -playerToCamDirection, 12);
+        if (hit[0].collider.gameObject.tag != "MainCamera")
         {
-            Debug.Log("Blocked");
-            //dstToCam2D = (hits[0].transform.position - transform.position).magnitude;
-
-            //playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, hits[0].transform.position + playerToCamDirection, camSwitchSpeed * Time.deltaTime);
+            if(hit[0].collider.gameObject.tag == "Player")
+            {
+                return;
+            }
+            else
+            {
+                Debug.Log("Blocked");
+                camDistance = Mathf.Clamp(hit[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
+                playerCam.transform.position = transform.position + (camDir * camDistance);
+            }
         }
+
+
+
+        /*if (hits[0].collider.gameObject.tag != "MainCamera")
+        {
+            camDistance = Mathf.Clamp(hits[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
+        }
+        else
+        {
+            camDistance = cameraDistanceMinMax.y;
+        }*/
     }
 
     private void OnDrawGizmos()
@@ -436,7 +467,8 @@ public class PlayerControls : MonoBehaviour
 
         //IsGrounded
 
-        Gizmos.DrawLine(playerCam.transform.position, transform.position + Vector3.up * headToFootDst);
+        //Gizmos.DrawLine(transform.position + Vector3.up * headToFootDst, playerCam.transform.position);
+        Debug.DrawRay(transform.position + Vector3.up * headToFootDst, -playerToCamDirection, Color.cyan);
 
     }
 
