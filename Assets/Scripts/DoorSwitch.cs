@@ -16,6 +16,7 @@ public class DoorSwitch : MonoBehaviour
     GameObject switchCam;
     GameObject doorCam;
     [SerializeField] float camSwitchDelay;
+    [SerializeField] GameObject sword;
 
     private bool opening = false;
     [SerializeField] float shrinkSpeed;
@@ -54,6 +55,7 @@ public class DoorSwitch : MonoBehaviour
         Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
         player.transform.position = newPos;
         player.transform.forward = -transform.right;
+        sword.GetComponent<Collider>().enabled = false;
 
         //Camera Pos
         playerControls.camEnabled = false;
@@ -87,6 +89,7 @@ public class DoorSwitch : MonoBehaviour
     {
         playerControls.camEnabled = true;
         playerControls.playerActionAsset.Enable();
+        sword.GetComponent<Collider>().enabled = true;
     }
 }
 
