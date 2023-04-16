@@ -442,6 +442,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.Log("Blocked");
                 camDistance = Mathf.Clamp(hit[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
                 playerCam.transform.position = transform.position + (camDir * camDistance);
+                playerCam.transform.forward = playerToCamDirection;
             }
         }
 
@@ -469,8 +470,7 @@ public class PlayerControls : MonoBehaviour
 
         //IsGrounded
 
-        //Gizmos.DrawLine(transform.position + Vector3.up * headToFootDst, playerCam.transform.position);
-        Debug.DrawRay(transform.position + Vector3.up * headToFootDst, -playerToCamDirection, Color.cyan);
+        Gizmos.DrawLine(playerCam.transform.position, playerCam.transform.position + (playerCam.transform.forward * 12));
 
     }
 
