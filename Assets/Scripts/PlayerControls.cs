@@ -504,7 +504,6 @@ public class PlayerControls : MonoBehaviour
         if(currentTarget == null)
         {
             currentTarget = FindTarget();
-            return;
         }
 
         if(currentTarget == null)
