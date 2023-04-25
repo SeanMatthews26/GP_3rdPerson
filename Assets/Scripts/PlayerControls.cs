@@ -107,6 +107,11 @@ public class PlayerControls : MonoBehaviour
     private const int normalDrag = 4;
     private const int onPlatDrag = 2;
 
+    //Health/Damage
+    [Header("---Health/Damage---")]
+    [SerializeField] int health;
+    public bool invincible = false;
+
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -521,11 +526,16 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void TakeDamage()
     {
-        if(other.gameObject.tag == "Target")
-        {
-            Debug.Log("Damage");
-        }
+        Debug.Log("Damage");
+        invincible = true;
+        health--;
+        Invoke(nameof(ResetInvincible), 2f);
+    }
+
+    void ResetInvincible()
+    {
+        invincible = false;
     }
 }

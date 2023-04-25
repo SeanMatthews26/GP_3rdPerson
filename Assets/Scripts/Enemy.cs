@@ -187,11 +187,11 @@ public class Enemy : MonoBehaviour
     }
 
 
-    IEnumerator OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (damageTaken)
         {
-            yield return null;
+            return;
         }
 
         if (other.gameObject == playerControls.sword && playerControls.attacking)
@@ -200,13 +200,19 @@ public class Enemy : MonoBehaviour
             Invoke(nameof(ResetColour), 0.2f);
             health--;
             Invincibility();
-            yield return null;
+            return;
         }
         
         if(other.gameObject == player)
         {
             currentState = State.RETREAT;
 
+            if (playerControls.invincible)
+            {
+                return;
+            }
+
+            playerControls.TakeDamage();
         }
     }
 

@@ -823,20 +823,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6796439526535375035, guid: b95a45fd70886e64294baa66738986ff, type: 3}
   m_PrefabInstance: {fileID: 6796439527013325014}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &622745624
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622745599}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.9
-  m_Height: 2.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!1 &686546863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,8 +1437,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6796439527013915015, guid: b95a45fd70886e64294baa66738986ff, type: 3}
   m_PrefabInstance: {fileID: 6796439527013325014}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &1100239654
-MeshCollider:
+--- !u!65 &1100239658
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1461,10 +1447,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300018, guid: 8a7b78e82902d1b4eba2923c6a4cf1c7, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.45359853, y: 0.3115369, z: 2.2272859}
+  m_Center: {x: -0.17672908, y: -0.102197625, z: 1.2302719}
 --- !u!1 &1254453422
 GameObject:
   m_ObjectHideFlags: 0
@@ -7460,6 +7445,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1100239650}
     - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: health
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477524607, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: jumpForce
       value: 24
       objectReference: {fileID: 0}
@@ -7551,6 +7540,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 2013127259939452960, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013127259939452960, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2013127259939452960, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2013127259942565048, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -7989,7 +7990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6796439526530511123, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_Radius
-      value: 0.45
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 6796439526530511123, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_IsTrigger
