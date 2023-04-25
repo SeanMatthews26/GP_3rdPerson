@@ -344,9 +344,6 @@ public class PlayerControls : MonoBehaviour
 
 
         SetSpeed();
-
-        float x = (transform.position - playerCam.transform.position).magnitude;
-        Debug.Log(x);
     }
 
     private void LateUpdate()
@@ -434,6 +431,12 @@ public class PlayerControls : MonoBehaviour
     private void CamOcclusion()
     {
         RaycastHit[] hit = Physics.RaycastAll(transform.position + Vector3.up * headToFootDst, -playerToCamDirection, 12);
+
+        if(hit.Length == 0)
+        {
+            return;
+        }
+
         if (hit[0].collider.gameObject.tag != "MainCamera")
         {
             if(hit[0].collider.gameObject.tag == "Player")
@@ -444,7 +447,6 @@ public class PlayerControls : MonoBehaviour
             {
                 //Debug.Log("Blocked");
                 camDistance = Mathf.Clamp(hit[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
-                Debug.Log(camDistance);
                 playerCam.transform.position = transform.position + (camDir * camDistance);
                 playerCam.transform.forward = playerToCamDirection;
             }
@@ -516,6 +518,14 @@ public class PlayerControls : MonoBehaviour
             yaw = playerCam.transform.eulerAngles.y;
 
             lockedOn = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Target")
+        {
+            Debug.Log("Damage");
         }
     }
 }

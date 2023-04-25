@@ -205,7 +205,6 @@ public class Enemy : MonoBehaviour
         
         if(other.gameObject == player)
         {
-            Debug.Log("Yahoooo");
             currentState = State.RETREAT;
 
         }
