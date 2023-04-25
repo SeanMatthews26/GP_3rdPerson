@@ -342,7 +342,7 @@ public class PlayerControls : MonoBehaviour
             Attacking();
         }
 
-        LoseTarget();
+
         SetSpeed();
 
         float x = (transform.position - playerCam.transform.position).magnitude;
@@ -366,6 +366,7 @@ public class PlayerControls : MonoBehaviour
                 var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
                 playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
 
+                //LoseTarget();
                 LockOnTarget();
             }
             else
