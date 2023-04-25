@@ -368,7 +368,7 @@ public class PlayerControls : MonoBehaviour
                 var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
                 playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
 
-                //LoseTarget();
+                LoseTarget();
                 LockOnTarget();
             }
             else
@@ -512,13 +512,15 @@ public class PlayerControls : MonoBehaviour
 
     private void LoseTarget()
     {
-        if(currentTarget == null)
+        if(FindTarget() == null)
         {
             currentTarget = FindTarget();
+            Debug.Log("1");
         }
 
-        if(currentTarget == null)
+        if(FindTarget() == null)
         {
+            Debug.Log("2");
             pitch = playerCam.transform.eulerAngles.x;
             yaw = playerCam.transform.eulerAngles.y;
 
@@ -528,7 +530,6 @@ public class PlayerControls : MonoBehaviour
 
     public void TakeDamage()
     {
-        Debug.Log("Damage");
         invincible = true;
         health--;
         Invoke(nameof(ResetInvincible), 2f);
