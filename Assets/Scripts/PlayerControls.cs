@@ -335,7 +335,6 @@ public class PlayerControls : MonoBehaviour
 
         playerToCamVector = (transform.position + Vector3.up * headToFootDst - playerCam.transform.position);
         playerToCamDirection = playerToCamVector.normalized;
-        RaycastHit[] hits = Physics.RaycastAll(playerCam.transform.position, playerToCamDirection);
 
         //Attack
         if(attacking)
@@ -375,6 +374,7 @@ public class PlayerControls : MonoBehaviour
                 yaw += look.ReadValue<Vector2>().x * camSensitivity;
                 pitch -= look.ReadValue<Vector2>().y * camSensitivity;
                 pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
+              
 
                 Vector3 targetRotation = new Vector3(pitch, yaw);
                 playerCam.transform.eulerAngles = targetRotation;
@@ -387,6 +387,8 @@ public class PlayerControls : MonoBehaviour
 
                 //playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, freeCamPos, camSwitchSpeed * Time.deltaTime);
                 playerCam.transform.position = Vector3.MoveTowards(playerCam.transform.position, transform.position + (camDir * camDistance), camSwitchSpeed * Time.deltaTime);
+                
+                
                 CamOcclusion();
             }
         }
@@ -439,8 +441,9 @@ public class PlayerControls : MonoBehaviour
             }
             else
             {
-                Debug.Log("Blocked");
+                //Debug.Log("Blocked");
                 camDistance = Mathf.Clamp(hit[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
+                Debug.Log(camDistance);
                 playerCam.transform.position = transform.position + (camDir * camDistance);
                 playerCam.transform.forward = playerToCamDirection;
             }
