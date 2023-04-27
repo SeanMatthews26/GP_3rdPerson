@@ -65,8 +65,6 @@ public class PlayerControls : MonoBehaviour
     Vector3 cameraDirection;
     Vector2 cameraDistanceMinMax;
 
-
-
     //Animation
     [HideInInspector] public bool attackPressed = false;
     [HideInInspector] public bool attacking = false;
@@ -368,7 +366,6 @@ public class PlayerControls : MonoBehaviour
                 var x = Quaternion.LookRotation(currentTarget.transform.position - playerCam.transform.position);
                 playerCam.transform.rotation = Quaternion.Slerp(playerCam.transform.rotation, x, 10 * Time.deltaTime);
 
-                LoseTarget();
                 LockOnTarget();
             }
             else
@@ -450,23 +447,11 @@ public class PlayerControls : MonoBehaviour
             }
             else
             {
-                //Debug.Log("Blocked");
                 camDistance = Mathf.Clamp(hit[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
                 playerCam.transform.position = transform.position + (camDir * camDistance);
                 playerCam.transform.forward = playerToCamDirection;
             }
         }
-
-
-
-        /*if (hits[0].collider.gameObject.tag != "MainCamera")
-        {
-            camDistance = Mathf.Clamp(hits[0].distance * 0.8f, cameraDistanceMinMax.x, cameraDistanceMinMax.y);
-        }
-        else
-        {
-            camDistance = cameraDistanceMinMax.y;
-        }*/
     }
 
     private void OnDrawGizmos()
@@ -478,8 +463,6 @@ public class PlayerControls : MonoBehaviour
 
         //Interact Sphere
         //Gizmos.DrawWireSphere(transform.position + transform.forward * interactSphereOffset, interactSphereRad);
-
-        //IsGrounded
 
         Gizmos.DrawLine(playerCam.transform.position, playerCam.transform.position + (playerCam.transform.forward * 12));
 
@@ -510,17 +493,12 @@ public class PlayerControls : MonoBehaviour
         maxSpeed = normalMaxSpeed;
     }
 
-    private void LoseTarget()
+    public void LostTarget()
     {
-        if(FindTarget() == null)
-        {
-            currentTarget = FindTarget();
-            Debug.Log("1");
-        }
+        currentTarget = FindTarget();
 
-        if(FindTarget() == null)
+        if (FindTarget() == null)
         {
-            Debug.Log("2");
             pitch = playerCam.transform.eulerAngles.x;
             yaw = playerCam.transform.eulerAngles.y;
 

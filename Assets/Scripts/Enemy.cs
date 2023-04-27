@@ -241,6 +241,7 @@ public class Enemy : MonoBehaviour
             lives--;
             if(lives <= 0)
             {
+                LockOff();
                 Destroy(gameObject);
                 return;
             }
@@ -294,5 +295,13 @@ public class Enemy : MonoBehaviour
     private void HealthbarRotation() 
     {
         canvas.transform.rotation = cam.transform.rotation;
+    }
+
+    private void LockOff()
+    {
+        if(playerControls.currentTarget == this.gameObject)
+        {
+            playerControls.lockedOn= false;
+        }
     }
 }
