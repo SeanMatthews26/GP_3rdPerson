@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.UIElements.Experimental;
 using static UnityEngine.GraphicsBuffer;
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     private PlayerControls playerControls;
     private Renderer renderer;
     private EnemyManager enemyManager;
+    private Camera cam;
 
     //Wander
     public Vector3 walkPoint;
@@ -31,8 +33,8 @@ public class Enemy : MonoBehaviour
 
     //Attacking/Combat
     [SerializeField] float attackSpeed;
-    [SerializeField] private int health;
-    [SerializeField] int startingHealth;
+    [SerializeField] private float health;
+    [SerializeField] float startingHealth;
     public float timeBetweenAttacks;
     private bool attacked = false;
     public bool playerInAttackRange;
@@ -45,6 +47,8 @@ public class Enemy : MonoBehaviour
     public int lives = 3;
     public bool attackingOne = true;
     public bool canAttack = true;
+    [SerializeField] Image healthBar;
+    [SerializeField] private Canvas canvas;
 
     //Projectile
     [SerializeField] GameObject projectile;
@@ -77,6 +81,7 @@ public class Enemy : MonoBehaviour
         playerControls = player.GetComponent<PlayerControls>();
         health = startingHealth;
         enemyManager= FindObjectOfType<EnemyManager>();
+        cam = Camera.main;
     }
 
     private IEnumerator Awake()
@@ -112,6 +117,7 @@ public class Enemy : MonoBehaviour
         }
 
         Health();
+        HealthbarRotation();
     }
 
     private void Wander()
@@ -196,10 +202,7 @@ public class Enemy : MonoBehaviour
 
         if (other.gameObject == playerControls.sword && playerControls.attacking)
         {
-            renderer.material = damagedMat;
-            Invoke(nameof(ResetColour), 0.2f);
-            health--;
-            Invincibility();
+            TakeDamage();
             return;
         }
         
@@ -246,6 +249,7 @@ public class Enemy : MonoBehaviour
             transform.localScale *= 0.7f;
             startingHealth--;
             health = startingHealth;
+            UpdateHealthbar();
 
             Instantiate(this, transform.position + Vector3.right * 2, Quaternion.identity);
         }
@@ -271,5 +275,24 @@ public class Enemy : MonoBehaviour
     private void SetCanAttackFalse()
     {
         canAttack = false;
+    }
+
+    private void TakeDamage()
+    {
+        renderer.material = damagedMat;
+        Invoke(nameof(ResetColour), 0.2f);
+        health--;
+        Invincibility();
+        UpdateHealthbar();
+    }
+
+    private void UpdateHealthbar()
+    {
+        healthBar.fillAmount = health / startingHealth;
+    }
+
+    private void HealthbarRotation() 
+    {
+        canvas.transform.rotation = cam.transform.rotation;
     }
 }

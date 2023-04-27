@@ -446,6 +446,8 @@ MonoBehaviour:
   lives: 3
   attackingOne: 1
   canAttack: 1
+  healthBar: {fileID: 945754051}
+  canvas: {fileID: 1416149562}
   projectile: {fileID: 4152574386239876851, guid: 86b02a62b479a714eb596b30bd57d440, type: 3}
   targetAbovePlayer: 1
   projectileSpeed: 10
