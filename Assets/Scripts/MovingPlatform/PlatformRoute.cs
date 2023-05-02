@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class PlatformRoute : Route
 {
-    [SerializeField] private GameObject obj;
+    private GameObject obj;
     [SerializeField] private float speedModifier;
 
     private Rigidbody rb;
     private Vector3 objectPosition;
     private bool coroutineAllowed;
+    public Vector3 movement;
+    private MovingPlatform movingPlatform;
+    private PlayerControls playerControls;
 
     // Start is called before the first frame update
     void Start()
     {
         coroutineAllowed = true;
 
+        obj = transform.GetChild(0).gameObject;
         rb = obj.GetComponent<Rigidbody>();
+        movingPlatform = obj.GetComponent<MovingPlatform>();
+        playerControls = player.GetComponent<PlayerControls>();
     }
 
     void FixedUpdate()
@@ -42,9 +48,20 @@ public class PlatformRoute : Route
 
             objectPosition = Mathf.Pow(1 - tParam, 3) * p0 + 3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 + 3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 + Mathf.Pow(tParam, 3) * p3;
 
-            //obj.transform.position = objectPosition;
-            //rb.AddForce(velocity, ForceMode.Impulse);
-            rb.MovePosition(objectPosition);
+            movement = objectPosition - obj.transform.position;
+
+            if (movingPlatform.playerOnPlat)
+            {
+                player.transform.position += movement;
+
+                //player.GetComponent<Rigidbody>().velocity += rb.velocity;
+            }
+            else
+            {
+               
+            }
+
+            obj.transform.position = objectPosition;
             yield return new WaitForEndOfFrame();
         }
 
@@ -58,5 +75,10 @@ public class PlatformRoute : Route
 
         coroutineAllowed = true;
 
+    }
+
+    public Vector3 GetMovement()
+    {
+        return movement;
     }
 }

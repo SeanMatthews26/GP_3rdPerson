@@ -17,7 +17,7 @@ public class PlayerControls : MonoBehaviour
     private InputAction look;
 
     //movement
-    private Rigidbody rb;
+    public Rigidbody rb;
     [HideInInspector] public Vector3 forceDirection = Vector3.zero;
     private Vector3 clampedVelo;
 
@@ -125,7 +125,6 @@ public class PlayerControls : MonoBehaviour
 
         cameraDirection = transform.localPosition.normalized;
         cameraDistanceMinMax = new Vector2(0.5f, 12);
-
     }
 
     private void OnEnable()
@@ -235,6 +234,7 @@ public class PlayerControls : MonoBehaviour
         //Movement
         IsGrounded();
 
+
         //new movement
         Vector2 horizontalVelo;
         horizontalVelo = Vector2.ClampMagnitude(new Vector2(forceDirection.x, forceDirection.z), maxSpeed);
@@ -251,15 +251,6 @@ public class PlayerControls : MonoBehaviour
             currentPlatVelo = currentPlat.GetComponent<Rigidbody>().velocity;
         }
 
-        if (!onPlatform)
-        {
-            rb.drag = normalDrag;
-        }
-        else
-        {
-            rb.velocity += currentPlatVelo;
-            rb.drag = onPlatDrag;
-        }
 
         forceDirection = Vector3.zero;
         jumpDirection = 0;
@@ -516,5 +507,10 @@ public class PlayerControls : MonoBehaviour
     void ResetInvincible()
     {
         invincible = false;
+    }
+
+    public void AddPlatformMovement(Vector3 platformMovement)
+    {
+        transform.position += platformMovement;
     }
 }

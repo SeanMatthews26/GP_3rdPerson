@@ -19,7 +19,11 @@ public class DoorSwitch : MonoBehaviour
     [SerializeField] GameObject sword;
 
     private bool opening = false;
-    [SerializeField] float shrinkSpeed;
+    private float shrinkTime = 1;
+    private float currentTime = 0;
+    private Vector3 scale;
+    private Vector3 originalDoorPos;
+    private Vector3 closedDoorPos;
 
 
     void Awake()
@@ -38,12 +42,28 @@ public class DoorSwitch : MonoBehaviour
         door = transform.GetChild(0).gameObject;
         switchCam = transform.GetChild(1).gameObject;
         doorCam = transform.GetChild(2).gameObject;
+        scale = door.transform.localScale;
+        originalDoorPos = door.transform.position;
+        closedDoorPos = originalDoorPos + Vector3.up * (100);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(opening)
+        {
+            currentTime += Time.deltaTime;
+            float shrinkLerp = currentTime / shrinkTime;
+            door.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, 0f, shrinkLerp));
+            //door.transform.position = new Vector3(originalDoorPos.x, originalDoorPos.y, Mathf.Lerp(originalDoorPos.z, closedDoorPos.z, shrinkLerp));
+            door.transform.position = Vector3.MoveTowards(originalDoorPos, closedDoorPos, shrinkLerp * 2.5f);
 
+            if (shrinkLerp >= 1f)
+            {
+                opening = false;
+                currentTime = 0f;
+            }
+        }
     }
 
     public void Switch()
@@ -71,7 +91,7 @@ public class DoorSwitch : MonoBehaviour
     {
         if (door.active)
         {
-            door.SetActive(false);
+            opening= true;
         }
         else
         {

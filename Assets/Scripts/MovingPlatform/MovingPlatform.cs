@@ -6,7 +6,8 @@ public class MovingPlatform : MonoBehaviour
 {
     Rigidbody rb;
     public Vector3 platVelo;
-    Vector3 lastPosition;
+    public bool playerOnPlat;
+    [SerializeField] GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -22,21 +23,21 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject == player)
         {
-            Debug.Log("Platform");
-            //other.transform.parent = transform;
-            other.GetComponent<PlayerControls>().onPlatform = true;
-            other.GetComponent<PlayerControls>().currentPlat = this.gameObject;
+            playerOnPlat= true;
+            player.GetComponent<PlayerControls>().onPlatform = true;
+            //player.transform.parent = transform;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject == player)
         {
-            //other.transform.parent = null;
-            other.GetComponent<PlayerControls>().onPlatform = false;
+            playerOnPlat= false;
+            player.GetComponent<PlayerControls>().onPlatform = false;
+            //player.transform.parent = null;
         }
     }
 }
