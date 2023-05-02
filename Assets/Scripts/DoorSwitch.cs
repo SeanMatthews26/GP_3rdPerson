@@ -18,12 +18,13 @@ public class DoorSwitch : MonoBehaviour
     [SerializeField] float camSwitchDelay;
     [SerializeField] GameObject sword;
 
-    private bool opening = false;
+    private bool animating = false;
     private float shrinkTime = 1;
     private float currentTime = 0;
     private Vector3 scale;
     private Vector3 originalDoorPos;
     private Vector3 closedDoorPos;
+    bool open = false;
 
 
     void Awake()
@@ -50,18 +51,16 @@ public class DoorSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(opening)
+        if(animating)
         {
-            currentTime += Time.deltaTime;
-            float shrinkLerp = currentTime / shrinkTime;
-            door.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, 0f, shrinkLerp));
-            //door.transform.position = new Vector3(originalDoorPos.x, originalDoorPos.y, Mathf.Lerp(originalDoorPos.z, closedDoorPos.z, shrinkLerp));
-            door.transform.position = Vector3.MoveTowards(originalDoorPos, closedDoorPos, shrinkLerp * 2.5f);
 
-            if (shrinkLerp >= 1f)
+            if(!open)
             {
-                opening = false;
-                currentTime = 0f;
+                DoorAnimation(scale.z, 0f, originalDoorPos, closedDoorPos);
+            }
+            else
+            {
+                DoorAnimation(0f, scale.z, closedDoorPos, originalDoorPos);
             }
         }
     }
@@ -87,16 +86,24 @@ public class DoorSwitch : MonoBehaviour
         Invoke("ResetPlayer", camSwitchDelay * 3);
     }
 
+    private void DoorAnimation(float startingScale, float endScale, Vector3 startPos, Vector3 endPos)
+    {
+        currentTime += Time.deltaTime;
+        float shrinkLerp = currentTime / shrinkTime;
+        door.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(startingScale, endScale, shrinkLerp));
+        door.transform.position = Vector3.MoveTowards(startPos, endPos, shrinkLerp * 2.5f);
+
+        if (shrinkLerp >= 1f)
+        {
+            animating = false;
+            currentTime = 0f;
+        }
+    }
+
     private void OpenOrClose()
     {
-        if (door.active)
-        {
-            opening= true;
-        }
-        else
-        {
-            door.SetActive(true);
-        }
+        animating= true;
+        open = !open;
     }
 
     void SwitchToDoorCam()
