@@ -11,7 +11,7 @@ public class Spline : MonoBehaviour
     private GameObject player;
     float currentClosestDistance = Mathf.Infinity;
     float tDistance = 0;
-    Vector3 currentClosestPosition = Vector3.zero;
+    public Vector3 currentClosestPosition = Vector3.zero;
     [SerializeField] bool findClosest;
 
     private Vector3 gizmosPosition;
@@ -39,7 +39,7 @@ public class Spline : MonoBehaviour
             Gizmos.DrawSphere(gizmosPosition, 0.25f);
         }
 
-        //FindClosestSplinePoint();
+        FindClosestSplinePoint();
 
        if(findClosest)
         {
@@ -73,7 +73,6 @@ public class Spline : MonoBehaviour
                 {
                     currentClosestDistance = tDistance;
                     currentClosestPosition = gizmosPosition;
-                    Debug.Log(t);
                 }
             }
         }
