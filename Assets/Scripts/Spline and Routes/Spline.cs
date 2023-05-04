@@ -7,19 +7,10 @@ public class Spline : MonoBehaviour
     [SerializeField] public Transform[] splinePoints;
     private int pointCount;
 
-    //2.5D Test
-    private GameObject player;
-    float currentClosestDistance = Mathf.Infinity;
-    float tDistance = 0;
-    public Vector3 currentClosestPosition = Vector3.zero;
-    [SerializeField] bool findClosest;
-
     private Vector3 gizmosPosition;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-
         pointCount = transform.childCount;
 
         for (int i = 0; i < pointCount; i++)
@@ -28,23 +19,13 @@ public class Spline : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    public virtual void OnDrawGizmos()
     {
-
-
         for (float t = 0; t <= 1; t += 0.04f)
         {
             gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
 
             Gizmos.DrawSphere(gizmosPosition, 0.25f);
-        }
-
-        FindClosestSplinePoint();
-
-       if(findClosest)
-        {
-            //Find closest line
-            Gizmos.DrawLine(currentClosestPosition, player.transform.position);
         }
 
         //Anchors
@@ -53,30 +34,6 @@ public class Spline : MonoBehaviour
 
     }
 
-    private void FindClosestSplinePoint()
-    {
-        //2.5D Test
-        if (findClosest)
-        {
-            for (float t = 0; t <= 1; t += 0.04f)
-            {
-                gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
-                tDistance = (player.transform.position - gizmosPosition).sqrMagnitude;
-
-                //Check if this is closest
-                if (gizmosPosition == currentClosestPosition)
-                {
-                    currentClosestDistance = tDistance;
-                }
-
-                if (currentClosestDistance > tDistance)
-                {
-                    currentClosestDistance = tDistance;
-                    currentClosestPosition = gizmosPosition;
-                }
-            }
-        }
-    }
 
     private void Update()
     {
