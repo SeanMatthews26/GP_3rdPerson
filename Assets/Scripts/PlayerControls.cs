@@ -107,8 +107,10 @@ public class PlayerControls : MonoBehaviour
 
     //Health/Damage
     [Header("---Health/Damage---")]
-    [SerializeField] int health;
+    [SerializeField] int startingHealth;
+    private int health;
     public bool invincible = false;
+    [SerializeField] Image healthBar;
 
     private void Awake()
     {
@@ -116,7 +118,7 @@ public class PlayerControls : MonoBehaviour
         playerActionAsset = new ThirdPersonInput();
         speedBoostParticles.Stop();
         extraJumpParticles.Stop();
-        //extraJumpParticles.enableEmission = false;
+        health = startingHealth;
     }
 
     private void Start()
@@ -336,7 +338,7 @@ public class PlayerControls : MonoBehaviour
             Attacking();
         }
 
-
+        UpdateHealthbar();
         SetSpeed();
     }
 
@@ -512,5 +514,10 @@ public class PlayerControls : MonoBehaviour
     public void AddPlatformMovement(Vector3 platformMovement)
     {
         transform.position += platformMovement;
+    }
+
+    private void UpdateHealthbar()
+    {
+        healthBar.fillAmount = health / startingHealth;
     }
 }

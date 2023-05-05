@@ -11,6 +11,7 @@ public class FlatSpline : Spline
     float tDistance = 0;
     public Vector3 currentClosestPosition = Vector3.zero;
     Vector3 gizmosPosition;
+    private float spacing = 0.004f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,7 @@ public class FlatSpline : Spline
     private void FindClosestSplinePoint()
     {
         //2.5D Test
-        for (float t = 0; t <= 1; t += 0.04f)
+        for (float t = 0; t <= 1; t += spacing)
         {
             gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
             tDistance = (player.transform.position - gizmosPosition).sqrMagnitude;

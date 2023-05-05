@@ -6,6 +6,7 @@ public class Spline : MonoBehaviour
 {
     [SerializeField] public Transform[] splinePoints;
     private int pointCount;
+    private float gizmoSpacing = 0.04f;
 
     private Vector3 gizmosPosition;
 
@@ -21,7 +22,7 @@ public class Spline : MonoBehaviour
 
     public virtual void OnDrawGizmos()
     {
-        for (float t = 0; t <= 1; t += 0.04f)
+        for (float t = 0; t <= 1; t += gizmoSpacing)
         {
             gizmosPosition = Mathf.Pow(1 - t, 3) * splinePoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * splinePoints[1].position + 3 * (1 - t) * Mathf.Pow(t, 2) * splinePoints[2].position + Mathf.Pow(t, 3) * splinePoints[3].position;
 
