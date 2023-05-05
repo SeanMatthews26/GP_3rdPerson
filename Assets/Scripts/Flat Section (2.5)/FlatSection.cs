@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class FlatSection : MonoBehaviour
 {
-    //[SerializeField] Transform[] splines;
-    [SerializeField] GameObject mainSpline;
     [SerializeField] GameObject camSpline;
-
+    [SerializeField] GameObject cam;
+    [SerializeField] GameObject player;
+    private PlayerControls playerControls;
+    private FlatSpline flatSpline;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        playerControls = player.GetComponent<PlayerControls>();
+        flatSpline = camSpline.GetComponent<FlatSpline>();
     }
 
     // Update is called once per frame
@@ -21,11 +23,28 @@ public class FlatSection : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerControls.camEnabled = false;
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Entered");
+            cam.transform.position = Vector3.MoveTowards(cam.transform.position, flatSpline.currentClosestPosition, 0.1f);
+            cam.transform.LookAt(player.transform.position);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerControls.camEnabled = true;
         }
     }
 }
