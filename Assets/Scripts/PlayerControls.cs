@@ -240,7 +240,7 @@ public class PlayerControls : MonoBehaviour
         //Add Platform Movement
         if(onPlatform)
         {
-            //rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
+            rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
         }
 
 
