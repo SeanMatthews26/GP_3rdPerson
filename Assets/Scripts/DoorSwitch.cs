@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -18,13 +19,14 @@ public class DoorSwitch : MonoBehaviour
     [SerializeField] float camSwitchDelay;
     [SerializeField] GameObject sword;
 
-    private bool animating = false;
+    private bool opening = false;
+    private bool closing = false;
+    private bool isOpen = false;
     private float shrinkTime = 1;
     private float currentTime = 0;
     private Vector3 scale;
     private Vector3 originalDoorPos;
     private Vector3 closedDoorPos;
-    bool open = false;
 
 
     void Awake()
@@ -51,18 +53,31 @@ public class DoorSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(animating)
+        if (opening)
         {
+            currentTime += Time.deltaTime;
+            float shrinkLerp = currentTime / shrinkTime;
+            door.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(scale.z, 0f, shrinkLerp));
+            //door.transform.position = new Vector3(originalDoorPos.x, originalDoorPos.y, Mathf.Lerp(originalDoorPos.z, closedDoorPos.z, shrinkLerp));
+            door.transform.position = Vector3.MoveTowards(originalDoorPos, closedDoorPos, shrinkLerp * 2.5f);
 
-            if(!open)
+            if (shrinkLerp >= 1f)
             {
-                DoorAnimation(scale.z, 0f, originalDoorPos, closedDoorPos);
-            }
-            else
-            {
-                DoorAnimation(0f, scale.z, closedDoorPos, originalDoorPos);
+                opening = false;
+                isOpen = true;
+                currentTime = 0f;
             }
         }
+
+        if(closing )
+        {
+            door.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+            door.transform.position = originalDoorPos;
+
+            closing = false;
+            isOpen = false;
+        }
+
     }
 
     public void Switch()
@@ -72,6 +87,7 @@ public class DoorSwitch : MonoBehaviour
 
         //Change Player Pos
         Vector3 newPos = new Vector3(playerSwitchPos.x, player.transform.position.y, playerSwitchPos.z);
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         player.transform.position = newPos;
         player.transform.forward = -transform.right;
         sword.GetComponent<Collider>().enabled = false;
@@ -86,24 +102,16 @@ public class DoorSwitch : MonoBehaviour
         Invoke("ResetPlayer", camSwitchDelay * 3);
     }
 
-    private void DoorAnimation(float startingScale, float endScale, Vector3 startPos, Vector3 endPos)
-    {
-        currentTime += Time.deltaTime;
-        float shrinkLerp = currentTime / shrinkTime;
-        door.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Lerp(startingScale, endScale, shrinkLerp));
-        door.transform.position = Vector3.MoveTowards(startPos, endPos, shrinkLerp * 2.5f);
-
-        if (shrinkLerp >= 1f)
-        {
-            animating = false;
-            currentTime = 0f;
-        }
-    }
-
     private void OpenOrClose()
     {
-        animating= true;
-        open = !open;
+        if (!isOpen)
+        {
+            opening = true;
+        }
+        else
+        {
+            closing = true;
+        }
     }
 
     void SwitchToDoorCam()
@@ -119,4 +127,5 @@ public class DoorSwitch : MonoBehaviour
         sword.GetComponent<Collider>().enabled = true;
     }
 }
+
 

@@ -2587,6 +2587,10 @@ PrefabInstance:
       propertyPath: sword
       value: 
       objectReference: {fileID: 1100239650}
+    - target: {fileID: 7363804071066136139, guid: 5503fcc8e73ca764db96e138bb9cbb02, type: 3}
+      propertyPath: originalDoorPosObj
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7363804072381138706, guid: 5503fcc8e73ca764db96e138bb9cbb02, type: 3}
       propertyPath: m_RootOrder
       value: 10

@@ -61,7 +61,6 @@ public class PlatformRoute : Route
 
             //obj.transform.position = objectPosition;
             obj.GetComponent<Rigidbody>().Move(objectPosition, transform.rotation);
-            Debug.Log(obj.GetComponent<Rigidbody>().velocity);
             yield return new WaitForEndOfFrame();
         }
 
