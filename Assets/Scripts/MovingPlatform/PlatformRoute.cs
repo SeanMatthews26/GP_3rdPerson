@@ -50,15 +50,6 @@ public class PlatformRoute : Route
 
             movement = (objectPosition - obj.transform.position) * Time.deltaTime;
 
-            if (movingPlatform.playerOnPlat)
-            {
-                //playerControls.AddPlatformMovement(movement);
-            }
-            else
-            {
-               
-            }
-
             //obj.transform.position = objectPosition;
             obj.GetComponent<Rigidbody>().Move(objectPosition, transform.rotation);
             yield return new WaitForEndOfFrame();

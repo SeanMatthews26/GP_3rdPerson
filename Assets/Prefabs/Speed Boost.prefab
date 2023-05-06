@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
 --- !u!33 &5460401900784830579
 MeshFilter:
@@ -134,4 +134,4 @@ MonoBehaviour:
   pd: 0
   rotation: {x: 0, y: 30, z: 0}
   powerDuration: 10
-  boostedSpeed: 9
+  boostedSpeed: 3

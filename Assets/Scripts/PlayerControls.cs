@@ -112,6 +112,7 @@ public class PlayerControls : MonoBehaviour
     private float health;
     public bool invincible = false;
     [SerializeField] Image healthBar;
+    Vector3 startingPos;
 
     private void Awake()
     {
@@ -128,6 +129,8 @@ public class PlayerControls : MonoBehaviour
 
         cameraDirection = transform.localPosition.normalized;
         cameraDistanceMinMax = new Vector2(0.5f, 12);
+
+        startingPos = transform.localPosition;
     }
 
     private void OnEnable()
@@ -250,9 +253,6 @@ public class PlayerControls : MonoBehaviour
         {
             rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
         }
-
-
-
 
         forceDirection = Vector3.zero;
         jumpDirection = 0;
@@ -504,6 +504,7 @@ public class PlayerControls : MonoBehaviour
         invincible = true;
         health--;
         Invoke(nameof(ResetInvincible), 2f);
+        CheckHealth();
         UpdateHealthbar();
     }
 
@@ -520,5 +521,14 @@ public class PlayerControls : MonoBehaviour
     private void UpdateHealthbar()
     {
         healthBar.fillAmount = health / startingHealth;
+    }
+
+    private void CheckHealth()
+    {
+        if(health <= 0)
+        {
+            transform.position = startingPos;
+            health = startingHealth;
+        }
     }
 }

@@ -9705,6 +9705,10 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5400000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
@@ -9724,6 +9728,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 13681452, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 420869a4ce1fc3545af8028126c48c6f, type: 2}
     - target: {fileID: 629156792, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -10327,6 +10335,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &622745608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796439526535804059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0552d88b4fa1e1541bbc670cdb27cd30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesList: []
 --- !u!114 &1477524607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10348,6 +10369,7 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  rb: {fileID: 0}
   forceDirection: {x: 0, y: 0, z: 0}
   movementSpeed: 2.72
   normalMovementSpeed: 0.3
@@ -10390,8 +10412,9 @@ MonoBehaviour:
   interactSphereRad: 3
   onPlatform: 0
   currentPlat: {fileID: 0}
-  health: 3
+  startingHealth: 3
   invincible: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1477524612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10404,49 +10427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f1047fa4079604f8e9fec5ff8540d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1477524617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6796439526535804059}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 1d63d7482220066418cd5bd5949baf84, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerActions
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &622745608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6796439526535804059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0552d88b4fa1e1541bbc670cdb27cd30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemiesList: []
 --- !u!1 &6796439527013915015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 629156792, guid: b1cc94d26cd016d479aa5b522d88da0a, type: 3}
