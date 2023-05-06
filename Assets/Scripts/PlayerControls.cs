@@ -107,8 +107,8 @@ public class PlayerControls : MonoBehaviour
 
     //Health/Damage
     [Header("---Health/Damage---")]
-    [SerializeField] int startingHealth;
-    private int health;
+    [SerializeField] float startingHealth;
+    private float health;
     public bool invincible = false;
     [SerializeField] Image healthBar;
 
@@ -338,7 +338,7 @@ public class PlayerControls : MonoBehaviour
             Attacking();
         }
 
-        UpdateHealthbar();
+        //UpdateHealthbar();
         SetSpeed();
     }
 
@@ -504,6 +504,7 @@ public class PlayerControls : MonoBehaviour
         invincible = true;
         health--;
         Invoke(nameof(ResetInvincible), 2f);
+        UpdateHealthbar();
     }
 
     void ResetInvincible()
