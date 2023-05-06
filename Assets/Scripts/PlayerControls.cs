@@ -104,6 +104,7 @@ public class PlayerControls : MonoBehaviour
     Vector3 currentPlatVelo;
     private const int normalDrag = 4;
     private const int onPlatDrag = 2;
+    private Vector3 addedPlatMovement;
 
     //Health/Damage
     [Header("---Health/Damage---")]
@@ -236,14 +237,17 @@ public class PlayerControls : MonoBehaviour
         //Movement
         IsGrounded();
 
+        //Add Platform Movement
+        if(onPlatform)
+        {
+            //rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
+        }
+
 
         //new movement
         Vector2 horizontalVelo;
         horizontalVelo = Vector2.ClampMagnitude(new Vector2(forceDirection.x, forceDirection.z), maxSpeed);
         rb.velocity = new Vector3(horizontalVelo.x, rb.velocity.y, horizontalVelo.y);
-
-        //old movement
-        //rb.velocity = Vector3.ClampMagnitude(rb.velocity + forceDirection, maxSpeed); 
 
         rb.velocity += jumpDirection * Vector3.up;
 
@@ -514,7 +518,7 @@ public class PlayerControls : MonoBehaviour
 
     public void AddPlatformMovement(Vector3 platformMovement)
     {
-        transform.position += platformMovement;
+        addedPlatMovement += platformMovement;
     }
 
     private void UpdateHealthbar()

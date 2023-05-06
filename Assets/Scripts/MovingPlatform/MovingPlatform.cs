@@ -27,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
         {
             playerOnPlat= true;
             player.GetComponent<PlayerControls>().onPlatform = true;
-            //player.transform.parent = transform;
+            player.GetComponent<PlayerControls>().currentPlat = this.gameObject;
         }
     }
 
@@ -37,7 +37,7 @@ public class MovingPlatform : MonoBehaviour
         {
             playerOnPlat= false;
             player.GetComponent<PlayerControls>().onPlatform = false;
-            //player.transform.parent = null;
+            player.GetComponent<PlayerControls>().currentPlat = null;
         }
     }
 }

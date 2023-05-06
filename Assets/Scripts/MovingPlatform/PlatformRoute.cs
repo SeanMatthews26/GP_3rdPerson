@@ -48,20 +48,20 @@ public class PlatformRoute : Route
 
             objectPosition = Mathf.Pow(1 - tParam, 3) * p0 + 3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 + 3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 + Mathf.Pow(tParam, 3) * p3;
 
-            movement = objectPosition - obj.transform.position;
+            movement = (objectPosition - obj.transform.position) * Time.deltaTime;
 
             if (movingPlatform.playerOnPlat)
             {
-                player.transform.position += movement;
-
-                //player.GetComponent<Rigidbody>().velocity += rb.velocity;
+                //playerControls.AddPlatformMovement(movement);
             }
             else
             {
                
             }
 
-            obj.transform.position = objectPosition;
+            //obj.transform.position = objectPosition;
+            obj.GetComponent<Rigidbody>().Move(objectPosition, transform.rotation);
+            Debug.Log(obj.GetComponent<Rigidbody>().velocity);
             yield return new WaitForEndOfFrame();
         }
 

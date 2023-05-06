@@ -2347,7 +2347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_Size.y
-      value: 2.5649185
+      value: 5.039458
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_Size.z
@@ -2355,7 +2355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_Center.y
-      value: 0.7824594
+      value: 2.0197291
       objectReference: {fileID: 0}
     - target: {fileID: 4932902823246473518, guid: 50a426ffd38b1084b9cebfccea26f63c, type: 3}
       propertyPath: m_IsTrigger
@@ -2507,6 +2507,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 6796439526530511123, guid: b95a45fd70886e64294baa66738986ff, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 420869a4ce1fc3545af8028126c48c6f, type: 2}
     - target: {fileID: 6796439526535375035, guid: b95a45fd70886e64294baa66738986ff, type: 3}
       propertyPath: m_RootOrder
       value: 0
