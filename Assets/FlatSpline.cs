@@ -22,7 +22,7 @@ public class FlatSpline : Spline
     // Update is called once per frame
     void Update()
     {
-        
+        FindClosestSplinePoint();
     }
 
     private void FindClosestSplinePoint()
@@ -53,6 +53,6 @@ public class FlatSpline : Spline
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        FindClosestSplinePoint();
+        
     }
 }
