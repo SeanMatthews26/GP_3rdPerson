@@ -2118,7 +2118,7 @@ MonoBehaviour:
   camSpline: {fileID: 1770977853}
   cam: {fileID: 963194225}
   player: {fileID: 622745599}
-  camSpeed: 5
+  camSpeed: 20
 --- !u!1 &2045813986
 GameObject:
   m_ObjectHideFlags: 0
