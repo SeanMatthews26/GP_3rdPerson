@@ -237,13 +237,7 @@ public class PlayerControls : MonoBehaviour
         //Movement
         IsGrounded();
 
-        //Add Platform Movement
-        if(onPlatform)
-        {
-            rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
-        }
-
-
+       
         //new movement
         Vector2 horizontalVelo;
         horizontalVelo = Vector2.ClampMagnitude(new Vector2(forceDirection.x, forceDirection.z), maxSpeed);
@@ -251,11 +245,13 @@ public class PlayerControls : MonoBehaviour
 
         rb.velocity += jumpDirection * Vector3.up;
 
-        //Update current platform velocity
-        if (currentPlat != null)
+        //Add Platform Movement
+        if (onPlatform)
         {
-            currentPlatVelo = currentPlat.GetComponent<Rigidbody>().velocity;
+            rb.velocity = rb.velocity + currentPlat.GetComponent<Rigidbody>().velocity;
         }
+
+
 
 
         forceDirection = Vector3.zero;
