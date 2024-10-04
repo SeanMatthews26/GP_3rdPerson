@@ -47,7 +47,7 @@ public class FlatSpline : Spline
         }
 
         //Find closest line
-        Gizmos.DrawLine(currentClosestPosition, player.transform.position);
+        //Gizmos.DrawLine(currentClosestPosition, player.transform.position);
     }
 
     public override void OnDrawGizmos()

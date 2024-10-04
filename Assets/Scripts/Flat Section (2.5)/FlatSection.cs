@@ -36,7 +36,7 @@ public class FlatSection : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            cam.transform.position = Vector3.MoveTowards(cam.transform.position, flatSpline.currentClosestPosition, camSpeed * Time.deltaTime);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, flatSpline.currentClosestPosition, camSpeed * Time.deltaTime);
             cam.transform.LookAt(player.transform.position);
         }
     }

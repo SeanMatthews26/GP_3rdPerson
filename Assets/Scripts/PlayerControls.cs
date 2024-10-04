@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerControls : MonoBehaviour
     public ThirdPersonInput playerActionAsset;
     public InputAction move;
     private InputAction look;
+    private InputControl lookControl;
 
     //movement
     public Rigidbody rb;
@@ -24,6 +26,7 @@ public class PlayerControls : MonoBehaviour
     [Header("---Movement---")]
     public float movementSpeed;
     [SerializeField] public float normalMovementSpeed;
+    [SerializeField] public float boostedMovementSpeed;
     [SerializeField] private float normalMaxSpeed;
     [SerializeField] private float strafeMaxSpeed;
     [SerializeField] public float maxSpeed;
@@ -50,7 +53,9 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector] public bool camEnabled = true;
     private float pitch;
     private float yaw;
-    [SerializeField] private float camSensitivity = 1f;
+    private float camSensitivity;
+    [SerializeField] private float camSensitivityGamePad;
+    [SerializeField] private float camSensitivityMouse;
     [SerializeField] private float dstToCam2D = 10f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-40, 85);
     [SerializeField] Vector3 camTargetAbovePlayer;
@@ -237,6 +242,19 @@ public class PlayerControls : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Move Input
+        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
+        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
+
+        playerToCamVector = (transform.position + Vector3.up * headToFootDst - playerCam.transform.position);
+        playerToCamDirection = playerToCamVector.normalized;
+
+        //Attack
+        if (attacking)
+        {
+            Attacking();
+        }
+
         //Movement
         IsGrounded();
 
@@ -265,6 +283,7 @@ public class PlayerControls : MonoBehaviour
         }
 
         LookAt();
+        SetSpeed();
     }
 
     private Vector3 GetCameraForward(Camera playerCam)
@@ -325,26 +344,30 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        //Move Input
-        forceDirection += move.ReadValue<Vector2>().x * GetCameraRight(playerCam) * movementSpeed;
-        forceDirection += move.ReadValue<Vector2>().y * GetCameraForward(playerCam) * movementSpeed;
-
-        playerToCamVector = (transform.position + Vector3.up * headToFootDst - playerCam.transform.position);
-        playerToCamDirection = playerToCamVector.normalized;
-
-        //Attack
-        if(attacking)
-        {
-            Attacking();
-        }
+        
 
         //UpdateHealthbar();
-        SetSpeed();
+        
     }
 
     private void LateUpdate()
     {
-        if(camEnabled)
+        lookControl = look.activeControl;
+
+        if(lookControl != null )
+        {
+            if (lookControl.device == Gamepad.current)
+            {
+                camSensitivity = camSensitivityGamePad;
+            }
+
+            if (lookControl.device == Mouse.current)
+            {
+                camSensitivity = camSensitivityMouse;
+            }
+        }
+
+        if (camEnabled)
         {
             //Camera Stuff
             if (lockedOn)
@@ -364,8 +387,8 @@ public class PlayerControls : MonoBehaviour
             else
             {
                 targetImage.enabled = false;
-                yaw += look.ReadValue<Vector2>().x * camSensitivity;
-                pitch -= look.ReadValue<Vector2>().y * camSensitivity;
+                yaw += look.ReadValue<Vector2>().x * camSensitivity * Time.deltaTime;
+                pitch -= look.ReadValue<Vector2>().y * camSensitivity * Time.deltaTime;
                 pitch = Mathf.Clamp(pitch, pitchLimits.x, pitchLimits.y);
               
 
@@ -471,6 +494,7 @@ public class PlayerControls : MonoBehaviour
         //Speed Boosted
         if(speedBoosted)
         {
+            movementSpeed = boostedMovementSpeed;
             maxSpeed = boostedMaxSpeed;
             return;
         }
@@ -478,12 +502,14 @@ public class PlayerControls : MonoBehaviour
         //Strafing
         if(lockedOn)
         {
+            movementSpeed = normalMovementSpeed;
             maxSpeed = strafeMaxSpeed;
             return;
         }
 
         //Regular Speed
         maxSpeed = normalMaxSpeed;
+        movementSpeed = normalMovementSpeed;
     }
 
     public void LostTarget()

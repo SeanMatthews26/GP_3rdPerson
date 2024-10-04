@@ -9,20 +9,21 @@ public class ExtraJump : Collectable
     [SerializeField] int normalExtraJumps = 0;
     PlayerControls playerControls;
 
-    public void Awake()
+    protected override void Start()
     {
+        base.Start();
         pd = powerDuration;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        playerControls = player.GetComponent<PlayerControls>();
+        playerControls = GameObject.FindObjectOfType<PlayerControls>();
     }
 
-    private void Update()
+    protected override void Update()
     {
         Rotate();
         Power();
     }
 
-    private void Power()
+    protected void Power()
     {
         if(activated)
         {

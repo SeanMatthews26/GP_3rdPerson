@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -38,7 +37,7 @@ public class DoorSwitch : MonoBehaviour
     void Start()
     {
         playerControls = FindObjectOfType<PlayerControls>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = playerControls.gameObject;
         playerSwitchPos = transform.position + (transform.right * offset);
         playerAnimation = FindObjectOfType<PlayerAnimation>();
         col = GetComponent<Collider>();

@@ -13,7 +13,7 @@ public class Collectable : MonoBehaviour
     [SerializeField] Vector3 rotation;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
@@ -22,12 +22,17 @@ public class Collectable : MonoBehaviour
     }
 
     // Update is called once per frame
+    protected virtual void Update()
+    {
+
+    }
+
     public void Rotate()
     {
         rb.transform.Rotate(rotation * Time.deltaTime);
     }
 
-     private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         activated = true;
 

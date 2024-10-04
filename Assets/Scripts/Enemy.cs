@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 {
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public GameObject player;
-    public LayerMask groundLayer, playerLayer;
+    public LayerMask playerLayer;
     private Rigidbody rb;
     private PlayerControls playerControls;
     private Renderer renderer;
@@ -78,17 +78,13 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         renderer = GetComponent<Renderer>();
         renderer.material= normalMat;
-        playerControls = player.GetComponent<PlayerControls>();
+        playerControls = GameObject.FindObjectOfType<PlayerControls>();
         health = startingHealth;
         enemyManager= FindObjectOfType<EnemyManager>();
         cam = Camera.main;
     }
 
-    private IEnumerator Awake()
-    {
-        Invincibility();
-        yield return null;
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -193,7 +189,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (damageTaken)
         {
@@ -206,7 +202,7 @@ public class Enemy : MonoBehaviour
             return;
         }
         
-        if(other.gameObject == player)
+        if(other.CompareTag("Player"))
         {
             currentState = State.RETREAT;
 
